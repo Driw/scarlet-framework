@@ -1,0 +1,8 @@
+# Mega
+*/Rubbish
+
+# Java Binary Builds
+/scarlet-context/target
+/scarlet-core/target
+/scarlet-logger/target
+/scarlet-stream/target
