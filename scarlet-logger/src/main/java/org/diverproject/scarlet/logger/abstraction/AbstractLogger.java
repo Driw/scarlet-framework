@@ -40,7 +40,7 @@ public abstract class AbstractLogger implements Logger {
 	public AbstractLogger(String name, LoggerSubject loggerOutputSubject) {
 		this.setName(name);
 		this.setSimpleDateFormat(DEFAULT_SIMPLE_DATE_FORMAT);
-		this.setDate(date);
+		this.setDate(new Date());
 		this.setLoggerOutputSubject(loggerOutputSubject);
 	}
 
