@@ -10,7 +10,7 @@ import org.diverproject.scarlet.logger.LoggerSubject;
 public class DefaultLoggerLanguage extends AbstractLogger implements LoggerLanguage {
 
 	public DefaultLoggerLanguage(String name) {
-		this(name, (LoggerSubject) null);
+		this(name, new DefaultLoggerSubject());
 	}
 
 	public DefaultLoggerLanguage(String name, String pathname) {
