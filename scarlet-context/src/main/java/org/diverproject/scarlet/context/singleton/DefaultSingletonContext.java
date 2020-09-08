@@ -70,14 +70,14 @@ public class DefaultSingletonContext implements SingletonContext {
 		return (T) singletonInstance;
 	}
 
-	private Set<Class<?>> getSingletonImplementations() {
+	protected Set<Class<?>> getSingletonImplementations() {
 		Set<Class<?>> singletonImplementations = ReflectionAnnotationUtils.getAllAnnotatedBy(Singleton.class);
 		this.removeDuplicatedSingletonImplementations(singletonImplementations);
 
 		return singletonImplementations;
 	}
 
-	private void removeDuplicatedSingletonImplementations(Set<Class<?>> singletonImplementations) {
+	protected void removeDuplicatedSingletonImplementations(Set<Class<?>> singletonImplementations) {
 		Queue<Class<?>> queue = new LinkedList<>(singletonImplementations);
 
 		while (!queue.isEmpty()) {
@@ -89,14 +89,14 @@ public class DefaultSingletonContext implements SingletonContext {
 		}
 	}
 
-	private boolean hasDuplicatedSingletonImplementationOf(Set<Class<?>> singletonImplementations, Class<?> singletonImplementation) {
+	protected boolean hasDuplicatedSingletonImplementationOf(Set<Class<?>> singletonImplementations, Class<?> singletonImplementation) {
 		return ReflectionUtils.getAllInheritances(singletonImplementation)
 			.stream()
 			.filter(singletonImplementations::contains)
 			.count() > 1;
 	}
 
-	private <T> void registerSingletonInstance(String singletonKey, T singletonInstance) {
+	protected <T> void registerSingletonInstance(String singletonKey, T singletonInstance) {
 		Optional.ofNullable(this.getSingletons().put(singletonKey, singletonInstance))
 			.ifPresentOrElse(
 				oldSingletonInstance -> logger.warn(REPLACING_OLD_SINGLETON_INSTANCE, singletonKey, nameOf(oldSingletonInstance), nameOf(singletonInstance)),
@@ -113,7 +113,7 @@ public class DefaultSingletonContext implements SingletonContext {
 			.orElseThrow(() -> SingletonError.notASingletonClass(singletonClass));
 	}
 
-	private Optional<Class<?>> getClassWithSingletonAnnotation(Class<?> singletonClass) {
+	protected Optional<Class<?>> getClassWithSingletonAnnotation(Class<?> singletonClass) {
 		if (Objects.nonNull(singletonClass.getAnnotation(Singleton.class))) {
 			return Optional.of(singletonClass);
 		}
