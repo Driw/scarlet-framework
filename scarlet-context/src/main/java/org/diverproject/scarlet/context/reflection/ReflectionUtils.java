@@ -4,8 +4,13 @@ import org.diverproject.scarlet.context.Priority;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 public class ReflectionUtils {
 
@@ -47,5 +52,42 @@ public class ReflectionUtils {
 		} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
 			throw ReflectionExceptionFactory.failureOnCreateAInstance(classType);
 		}
+	}
+
+	public static Set<Class<?>> getAllInheritancesClasses(Class<?> targetClass) {
+		Set<Class<?>> inheritances = new HashSet<>();
+		Class<?> currentClass = targetClass.getSuperclass();
+
+		while (!Objects.isNull(currentClass) && !Objects.equals(currentClass, Object.class)) {
+			inheritances.add(currentClass);
+			currentClass = currentClass.getSuperclass();
+		}
+
+		return inheritances;
+	}
+
+	public static Set<Class<?>> getAllInheritancesInterfaces(Class<?> targetClass) {
+		Set<Class<?>> inheritances = new HashSet<>();
+		Arrays.stream(targetClass.getInterfaces())
+			.filter(Class::isInterface)
+			.peek(inheritances::add)
+			.forEach(inheritanceClass -> Arrays.stream(inheritanceClass.getInterfaces())
+				.peek(inheritances::add)
+				.filter(Class::isInterface)
+				.forEach(superInterfaceClass -> inheritances.addAll(getAllInheritancesInterfaces(superInterfaceClass))));
+
+		return inheritances;
+	}
+
+	public static Set<Class<?>> getAllInheritances(Class<?> targetClass) {
+		Set<Class<?>> inheritancesClasses = getAllInheritancesClasses(targetClass);
+		inheritancesClasses.addAll(getAllInheritancesInterfaces(targetClass));
+
+		return inheritancesClasses;
+	}
+
+	public static <T> boolean isInstanceOf(Object object, Class<T> targetClass) {
+		return getAllInheritances(object.getClass())
+			.contains(targetClass);
 	}
 }

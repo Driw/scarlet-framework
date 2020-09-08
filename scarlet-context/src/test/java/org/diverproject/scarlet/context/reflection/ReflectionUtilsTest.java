@@ -1,15 +1,19 @@
 package org.diverproject.scarlet.context.reflection;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.diverproject.scarlet.context.Priority;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -63,6 +67,75 @@ public class ReflectionUtilsTest {
 		assertThrows(ReflectionException.class, () -> ReflectionUtils.createInstanceOfEmptyConstructor(NonEmptyConstructor.class));
 	}
 
+	@Test
+	@DisplayName("Get All Inheritances Classes")
+	public void getAllInheritancesClasses() {
+		Set<Class<?>> inheritances;
+
+		assertTrue(ReflectionUtils.getAllInheritancesClasses(NonExtendedClass.class).isEmpty());
+		assertTrue(ReflectionUtils.getAllInheritancesClasses(NonExtendedClassWithInterface.class).isEmpty());
+		assertTrue(ReflectionUtils.getAllInheritancesClasses(ThirdChildClass.class).isEmpty());
+
+		assertNotNull(inheritances = ReflectionUtils.getAllInheritancesClasses(SecondChildClass.class));
+		assertEquals(1, inheritances.size());
+		assertTrue(inheritances.contains(ThirdChildClass.class));
+		assertFalse(inheritances.contains(SecondChildClass.class));
+		assertFalse(inheritances.contains(FirstChildClass.class));
+
+		assertNotNull(inheritances = ReflectionUtils.getAllInheritancesClasses(FirstChildClass.class));
+		assertEquals(2, inheritances.size());
+		assertTrue(inheritances.containsAll(Arrays.asList(ThirdChildClass.class, SecondChildClass.class)));
+		assertFalse(inheritances.contains(FirstChildClass.class));
+
+		assertTrue(ReflectionUtils.getAllInheritancesClasses(DoubleInterfaceImplementation.class).isEmpty());
+	}
+
+	@Test
+	@DisplayName("Get All Inheritances Interfaces")
+	public void getAllInheritancesInterfaces() {
+		Set<Class<?>> inheritances;
+
+		assertTrue(ReflectionUtils.getAllInheritancesInterfaces(NonExtendedInterface.class).isEmpty());
+		assertTrue(ReflectionUtils.getAllInheritancesInterfaces(ThirdChildInterface.class).isEmpty());
+
+		assertNotNull(inheritances = ReflectionUtils.getAllInheritancesInterfaces(SecondChildInterface.class));
+		assertEquals(1, inheritances.size());
+		assertTrue(inheritances.contains(ThirdChildInterface.class));
+
+		assertNotNull(inheritances = ReflectionUtils.getAllInheritancesInterfaces(FirstChildInterface.class));
+		assertEquals(2, inheritances.size());
+		assertTrue(inheritances.containsAll(Arrays.asList(SecondChildInterface.class, ThirdChildInterface.class)));
+
+		assertTrue(ReflectionUtils.getAllInheritancesInterfaces(FirstDoubleInterface.class).isEmpty());
+		assertTrue(ReflectionUtils.getAllInheritancesInterfaces(SecondDoubleInterface.class).isEmpty());
+
+		assertNotNull(inheritances = ReflectionUtils.getAllInheritancesInterfaces(DoubleInterfaceExtended.class));
+		assertEquals(2, inheritances.size());
+		assertTrue(inheritances.containsAll(Arrays.asList(FirstDoubleInterface.class, SecondDoubleInterface.class)));
+
+		assertTrue(ReflectionUtils.getAllInheritancesInterfaces(NonExtendedClass.class).isEmpty());
+
+		assertNotNull(inheritances = ReflectionUtils.getAllInheritancesInterfaces(NonExtendedClassWithInterface.class));
+		assertEquals(1, inheritances.size());
+		assertTrue(inheritances.contains(NonExtendedInterface.class));
+
+		assertNotNull(inheritances = ReflectionUtils.getAllInheritancesInterfaces(ThirdChildClass.class));
+		assertEquals(1, inheritances.size());
+		assertTrue(inheritances.contains(ThirdChildInterface.class));
+
+		assertNotNull(inheritances = ReflectionUtils.getAllInheritancesInterfaces(SecondChildClass.class));
+		assertEquals(2, inheritances.size());
+		assertTrue(inheritances.containsAll(Arrays.asList(SecondChildInterface.class, ThirdChildInterface.class)));
+
+		assertNotNull(inheritances = ReflectionUtils.getAllInheritancesInterfaces(FirstChildClass.class));
+		assertEquals(3, inheritances.size());
+		assertTrue(inheritances.containsAll(Arrays.asList(FirstChildInterface.class, SecondChildInterface.class, ThirdChildInterface.class)));
+
+		assertNotNull(inheritances = ReflectionUtils.getAllInheritancesInterfaces(DoubleInterfaceImplementation.class));
+		assertEquals(3, inheritances.size());
+		assertTrue(inheritances.containsAll(Arrays.asList(DoubleInterfaceExtended.class, FirstDoubleInterface.class, SecondDoubleInterface.class)));
+	}
+
 	@Priority(1)
 	private static class FirstPriority {
 	}
@@ -98,5 +171,44 @@ public class ReflectionUtilsTest {
 	private static class NonEmptyConstructor {
 		public NonEmptyConstructor(Object... args) {
 		}
+	}
+
+	private static interface NonExtendedInterface {
+	}
+
+	private static interface ThirdChildInterface {
+	}
+
+	private static interface SecondChildInterface extends ThirdChildInterface {
+	}
+
+	private static interface FirstChildInterface extends SecondChildInterface {
+	}
+
+	private static class NonExtendedClass {
+	}
+
+	private static class NonExtendedClassWithInterface implements NonExtendedInterface {
+	}
+
+	private static class ThirdChildClass implements ThirdChildInterface {
+	}
+
+	private static class SecondChildClass extends ThirdChildClass implements SecondChildInterface {
+	}
+
+	private static class FirstChildClass extends SecondChildClass implements FirstChildInterface {
+	}
+
+	private static interface FirstDoubleInterface {
+	}
+
+	private static interface SecondDoubleInterface {
+	}
+
+	private static interface DoubleInterfaceExtended extends FirstDoubleInterface, SecondDoubleInterface {
+	}
+
+	private static class DoubleInterfaceImplementation implements DoubleInterfaceExtended {
 	}
 }

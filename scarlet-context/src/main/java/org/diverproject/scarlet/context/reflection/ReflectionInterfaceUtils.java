@@ -1,6 +1,6 @@
 package org.diverproject.scarlet.context.reflection;
 
-import org.reflections.Reflections;
+import static org.diverproject.scarlet.context.reflection.ReflectionConfig.getReflections;
 
 import java.util.Optional;
 import java.util.Set;
@@ -8,14 +8,12 @@ import java.util.stream.Collectors;
 
 public class ReflectionInterfaceUtils {
 
-	private static final Reflections REFLECTIONS = new Reflections("");
-
 	public static <I> Set<Class<? extends I>> getAllImplementationsOf(Class<I> interfaceClass) {
 		if (!interfaceClass.isInterface()) {
 			throw ReflectionInterfaceExceptionFactory.classIsNotAInterface(interfaceClass);
 		}
 
-		return REFLECTIONS.getSubTypesOf(interfaceClass)
+		return getReflections().getSubTypesOf(interfaceClass)
 			.stream()
 			.filter(aClass -> !aClass.isInterface())
 			.collect(Collectors.toSet());
