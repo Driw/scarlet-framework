@@ -38,6 +38,11 @@
 			<artifactId>scarlet-core</artifactId>
 			<version>${scarlet.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.diverproject</groupId>
+			<artifactId>scarlet-logger</artifactId>
+			<version>${scarlet.version}</version>
+		</dependency>
 		<!-- Others -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
