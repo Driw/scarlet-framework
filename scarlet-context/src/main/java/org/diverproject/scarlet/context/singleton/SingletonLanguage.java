@@ -6,11 +6,6 @@ import org.diverproject.scarlet.language.Language;
 
 public enum SingletonLanguage implements Language {
 
-	// -- Loggers
-
-	REPLACING_OLD_SINGLETON_INSTANCE		("replacing a new singleton instance for '%s' singleton key (oldInstance: %s, newInstance: %s)"),
-	SINGLETON_INSTANCE_REGISTERED			("singleton instance created and registered with successfully (singletonKey: %s, singletonInstance: %s)"),
-
 	// -- Exceptions
 
 	SINGLETON_NOT_FOUND						("singleton not found (key: %s, className: %s)"),

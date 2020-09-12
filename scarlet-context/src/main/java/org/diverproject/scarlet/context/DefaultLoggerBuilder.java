@@ -1,8 +1,5 @@
 package org.diverproject.scarlet.context;
 
-import org.diverproject.scarlet.logger.LoggerLanguage;
-import org.diverproject.scarlet.logger.abstraction.DefaultLoggerLanguage;
-
 public class DefaultLoggerBuilder implements LoggerBuilder {
 
 	@Override
@@ -11,7 +8,7 @@ public class DefaultLoggerBuilder implements LoggerBuilder {
 	}
 
 	@Override
-	public Class<? extends LoggerLanguage> generateLoggerClass(Class<?> aClass) {
-		return DefaultLoggerLanguage.class;
+	public Class<? extends Logger> generateLoggerClass(Class<?> aClass) {
+		return DefaultLoggerContext.class;
 	}
 }

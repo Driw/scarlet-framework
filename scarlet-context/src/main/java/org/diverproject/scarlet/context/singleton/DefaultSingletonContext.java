@@ -1,10 +1,9 @@
 package org.diverproject.scarlet.context.singleton;
 
-import static org.diverproject.scarlet.context.singleton.SingletonLanguage.REPLACING_OLD_SINGLETON_INSTANCE;
-import static org.diverproject.scarlet.context.singleton.SingletonLanguage.SINGLETON_INSTANCE_REGISTERED;
-import static org.diverproject.scarlet.util.ScarletUtils.nameOf;
-
 import lombok.Data;
+import lombok.ToString;
+import org.diverproject.scarlet.context.DefaultInstanceEntry;
+import org.diverproject.scarlet.context.InstanceEntry;
 import org.diverproject.scarlet.context.LoggerFactory;
 import org.diverproject.scarlet.context.ScarletContext;
 import org.diverproject.scarlet.context.reflection.ReflectionAnnotationUtils;
@@ -15,31 +14,31 @@ import org.diverproject.scarlet.logger.LoggerLanguage;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
-import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 @Data
 public class DefaultSingletonContext implements SingletonContext {
 
 	private static final LoggerLanguage logger = LoggerFactory.get(SingletonContext.class);
 
-	private Map<String, Object> singletons;
+	@ToString.Exclude
+	private ScarletContext scarletContext;
 
-	public DefaultSingletonContext() {
-		this.setSingletons(new TreeMap<>());
+	@Override
+	public Map<String, Object> initialize(ScarletContext scarletContext) {
+		this.setScarletContext(scarletContext);
+
+		return this.getSingletonImplementations()
+			.stream()
+			.map(this::createInstanceAndRegister)
+			.collect(Collectors.toMap(InstanceEntry::getKey, InstanceEntry::getValue));
 	}
 
 	@Override
-	public void initialize(ScarletContext scarletContext) {
-		this.getSingletonImplementations()
-			.forEach(this::createInstanceAndRegister);
-	}
-
-	@Override
-	public <T> T createInstanceAndRegister(Class<T> singletonClass) {
-		if (this.getClassWithSingletonAnnotation(singletonClass).isEmpty()) {
+	public <T> InstanceEntry<String, T> createInstanceAndRegister(Class<T> singletonClass) {
+		if (!this.hasSingletonAnnotation(singletonClass)) {
 			throw SingletonError.singletonClassNotAnnotated(singletonClass);
 		}
 
@@ -48,16 +47,14 @@ public class DefaultSingletonContext implements SingletonContext {
 			ReflectionInterfaceUtils.getInstanceOf(singletonClass) :
 			ReflectionUtils.createInstanceOfEmptyConstructor(singletonClass);
 
-		this.registerSingletonInstance(singletonKey, singletonInstance);
-
-		return singletonInstance;
+		return new DefaultInstanceEntry<>(singletonKey, singletonInstance);
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T get(Class<T> singletonClass) {
 		String key = this.generateKeyFor(singletonClass);
-		Object singletonInstance = this.getSingletons().get(key);
+		Object singletonInstance = this.getScarletContext().getInstance(key);
 
 		if (Objects.isNull(singletonInstance)) {
 			throw SingletonError.singletonNotFound(key, singletonClass);
@@ -96,31 +93,11 @@ public class DefaultSingletonContext implements SingletonContext {
 			.count() > 1;
 	}
 
-	protected <T> void registerSingletonInstance(String singletonKey, T singletonInstance) {
-		Optional.ofNullable(this.getSingletons().put(singletonKey, singletonInstance))
-			.ifPresentOrElse(
-				oldSingletonInstance -> logger.warn(REPLACING_OLD_SINGLETON_INSTANCE, singletonKey, nameOf(oldSingletonInstance), nameOf(singletonInstance)),
-				() -> logger.notice(SINGLETON_INSTANCE_REGISTERED, singletonKey, nameOf(singletonInstance))
-			);
+	protected boolean hasSingletonAnnotation(Class<?> singletonClass) {
+		return !ReflectionAnnotationUtils.getClassWithAnnotation(singletonClass, Singleton.class).isEmpty();
 	}
 
-	protected String generateKeyFor(Class<?> singletonClass) {
-		// TODO - use configuration value as singleton name if the config exist
-		Optional<Class<?>> optional = this.getClassWithSingletonAnnotation(singletonClass);
-
-		return optional.map(singletonClassAnnotated -> singletonClassAnnotated.getAnnotation(Singleton.class))
-			.map(singleton -> singleton.key().isEmpty() ? optional.get().getName() : singleton.key())
-			.orElseThrow(() -> SingletonError.notASingletonClass(singletonClass));
-	}
-
-	protected Optional<Class<?>> getClassWithSingletonAnnotation(Class<?> singletonClass) {
-		if (Objects.nonNull(singletonClass.getAnnotation(Singleton.class))) {
-			return Optional.of(singletonClass);
-		}
-
-		return ReflectionUtils.getAllInheritances(singletonClass)
-			.stream()
-			.filter(aClass -> Objects.nonNull(aClass.getAnnotation(Singleton.class)))
-			.findFirst();
+	private <T> String generateKeyFor(Class<T> singletonClass) {
+		return this.getScarletContext().getContextNameGenerator().generateKeyFor(singletonClass);
 	}
 }

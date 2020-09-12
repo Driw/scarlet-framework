@@ -7,9 +7,15 @@ public class LoggerFactory {
 
 	private static LoggerBuilder loggerBuilder = new DefaultLoggerBuilder();
 
-	public static LoggerLanguage get(Class<?> aClass) {
+	public static Logger get(Class<?> aClass) {
 		if (ScarletLoggers.getInstance().contains(aClass.getName())) {
-			return ScarletLoggers.getInstance().get(aClass.getName());
+			LoggerLanguage loggerLanguage = ScarletLoggers.getInstance().get(aClass.getName());
+
+			if (loggerLanguage instanceof Logger) {
+				return (Logger) loggerLanguage;
+			}
+
+			throw ScarletContextError.loggerInstanceOfAtGetLogger(loggerLanguage, aClass);
 		}
 
 		return ScarletLoggers.getInstance().add(loggerBuilder.generateKey(aClass), loggerBuilder.generateLoggerClass(aClass));

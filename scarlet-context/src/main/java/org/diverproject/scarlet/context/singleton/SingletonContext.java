@@ -1,9 +1,12 @@
 package org.diverproject.scarlet.context.singleton;
 
+import org.diverproject.scarlet.context.InstanceEntry;
 import org.diverproject.scarlet.context.ScarletContext;
 
+import java.util.Map;
+
 public interface SingletonContext {
-	void initialize(ScarletContext scarletContext);
-	<T> T createInstanceAndRegister(Class<T> singletonClass);
+	Map<String, Object> initialize(ScarletContext scarletContext);
+	<T> InstanceEntry<String, T> createInstanceAndRegister(Class<T> singletonClass);
 	<T> T get(Class<T> singletonClass);
 }

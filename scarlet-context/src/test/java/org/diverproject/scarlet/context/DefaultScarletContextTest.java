@@ -30,6 +30,7 @@ public class DefaultScarletContextTest {
 		assertTrue(singletonExtendedInterface instanceof SingletonExtendedImplementation);
 	}
 
+	@Named
 	@Singleton
 	public static interface SingletonInterface {
 	}

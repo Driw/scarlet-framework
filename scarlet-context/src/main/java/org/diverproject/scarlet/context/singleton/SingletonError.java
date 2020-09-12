@@ -14,10 +14,6 @@ public class SingletonError {
 		return new SingletonException(SingletonLanguage.CANNOT_CAST_SINGLETON, nameOf(singletonInstance), nameOf(singletonClass));
 	}
 
-	public static SingletonException notASingletonClass(Class<?> singletonClass) {
-		return new SingletonException(SingletonLanguage.NOT_A_SINGLETON_CLASS, nameOf(singletonClass));
-	}
-
 	public static SingletonException singletonClassNotAnnotated(Class<?> singletonClass) {
 		return new SingletonException(SingletonLanguage.SINGLETON_CLASS_NOT_ANNOTATED, nameOf(singletonClass));
 	}
