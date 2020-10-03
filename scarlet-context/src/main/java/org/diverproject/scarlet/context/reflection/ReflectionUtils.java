@@ -87,7 +87,7 @@ public class ReflectionUtils {
 	}
 
 	public static <T> boolean isInstanceOf(Object object, Class<T> targetClass) {
-		return getAllInheritances(object.getClass())
+		return object.getClass().equals(targetClass) || getAllInheritances(object.getClass())
 			.contains(targetClass);
 	}
 }
