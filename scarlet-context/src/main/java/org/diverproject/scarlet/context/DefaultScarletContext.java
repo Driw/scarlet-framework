@@ -1,13 +1,11 @@
 package org.diverproject.scarlet.context;
 
-import static org.diverproject.scarlet.context.ScarletContextLanguage.REPLACING_OLD_SINGLETON_INSTANCE;
-import static org.diverproject.scarlet.context.ScarletContextLanguage.SINGLETON_INSTANCE_REGISTERED;
-
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.diverproject.scarlet.context.reflection.ReflectionInterfaceUtils;
 import org.diverproject.scarlet.context.reflection.ReflectionUtils;
 import org.diverproject.scarlet.context.singleton.SingletonContext;
+import org.diverproject.scarlet.language.Language;
 
 import java.util.Map;
 import java.util.Objects;
@@ -19,18 +17,24 @@ public class DefaultScarletContext implements ScarletContext {
 
 	private static final Logger logger = LoggerFactory.get(ScarletContext.class);
 
+	private Map<String, Object> instances;
 	private SingletonContext singletonContext;
 	private ContextNameGenerator contextNameGenerator;
-	private Map<String, Object> instances;
+	private boolean initialized;
 
 	public DefaultScarletContext() {
 		this.setInstances(new TreeMap<>());
+		this.setSingletonContext(ReflectionInterfaceUtils.getInstanceOf(SingletonContext.class));
+		this.setContextNameGenerator(ReflectionInterfaceUtils.getInstanceOf(ContextNameGenerator.class));
 	}
 
 	@Override
 	public void initialize(String[] args) {
-		this.setSingletonContext(ReflectionInterfaceUtils.getInstanceOf(SingletonContext.class));
-		this.setContextNameGenerator(ReflectionInterfaceUtils.getInstanceOf(ContextNameGenerator.class));
+		if (this.isInitialized()) {
+			throw ScarletContextError.alreadyInitialized();
+		}
+
+		this.setInitialized(true);
 		this.getSingletonContext().initialize(this).forEach(this::registerSingleton);
 	}
 
@@ -48,20 +52,24 @@ public class DefaultScarletContext implements ScarletContext {
 			return null;
 		}
 
-		if (!ReflectionUtils.isInstanceOf(instance, classType)) {
-			throw ScarletContextError.getInstanceCannotCast(key, instance, classType);
+		if (ReflectionUtils.isInstanceOf(instance, classType)) {
+			return (T) instance;
 		}
 
-		return (T) instance;
+		throw ScarletContextError.getInstanceCannotCast(key, instance, classType);
 	}
 
-	private void registerSingleton(String key, Object singletonInstance) {
-		Object oldInstance = this.getInstances().put(key, singletonInstance);
+	public void registerSingleton(String key, Object singletonInstance) {
+		this.contextInstanceRegister(key, singletonInstance, ScarletContextLanguage.SINGLETON_INSTANCE_REGISTERED);
+	}
+
+	public void contextInstanceRegister(String key, Object contextInstance, Language successfullyMessage) {
+		Object oldInstance = this.getInstances().put(key, contextInstance);
 
 		if (Objects.isNull(oldInstance)) {
-			logger.notice(SINGLETON_INSTANCE_REGISTERED, key, singletonInstance);
+			logger.notice(successfullyMessage, key, contextInstance);
 		} else {
-			logger.warn(REPLACING_OLD_SINGLETON_INSTANCE, key, oldInstance, singletonInstance);
+			logger.warn(ScarletContextLanguage.REPLACING_CONTEXT_INSTANCE, key, oldInstance, contextInstance);
 		}
 	}
 }

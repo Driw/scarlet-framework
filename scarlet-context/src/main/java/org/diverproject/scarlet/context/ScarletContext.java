@@ -8,7 +8,10 @@ public interface ScarletContext {
 	void initialize(String[] args);
 	Object getInstance(String key);
 	<T> T getInstance(Class<T> classType, String key);
+
+	SingletonContext getSingletonContext();
 	ContextNameGenerator getContextNameGenerator();
+	boolean isInitialized();
 
 	public static ScarletContext start(String[] args) {
 		ScarletContext scarletContext = ReflectionInterfaceUtils.getInstanceOf(ScarletContext.class);
@@ -16,6 +19,4 @@ public interface ScarletContext {
 
 		return scarletContext;
 	}
-
-	SingletonContext getSingletonContext();
 }

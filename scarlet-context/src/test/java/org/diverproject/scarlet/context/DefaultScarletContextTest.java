@@ -1,46 +1,47 @@
 package org.diverproject.scarlet.context;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.diverproject.scarlet.context.singleton.Singleton;
-import org.junit.Before;
-import org.junit.Test;
+import org.diverproject.scarlet.ScarletRuntimeException;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class DefaultScarletContextTest {
 
-	@Before
-	public void init() {
+	@BeforeAll
+	public static void init() {
 		TestUtils.setReflectionPackageByClass(DefaultScarletContextTest.class);
+		TestUtils.mockDefaultImplementations();
 	}
 
 	@Test
 	@DisplayName("Initialize")
-	public void initialize() {
+	public void Test01_Initialize() {
+		String[] args = TestUtils.contextArguments();
 		DefaultScarletContext scarletContext = new DefaultScarletContext();
-		scarletContext.initialize(new String[0]);
-
-		SingletonInterface singletonInterface = scarletContext.getSingletonContext().get(SingletonInterface.class);
-		assertNotNull(singletonInterface);
-		assertTrue(singletonInterface instanceof SingletonExtendedImplementation);
-
-		SingletonExtendedInterface singletonExtendedInterface = scarletContext.getSingletonContext().get(SingletonExtendedInterface.class);
-		assertNotNull(singletonExtendedInterface);
-		assertTrue(singletonExtendedInterface instanceof SingletonExtendedImplementation);
+		scarletContext.initialize(args);
+		assertTrue(scarletContext.isInitialized());
+		assertThrows(ScarletRuntimeException.class, () -> scarletContext.initialize(args));
 	}
 
-	@Named
-	@Singleton
-	public static interface SingletonInterface {
-	}
+	@Test
+	@DisplayName("Register and Get Singleton")
+	public void Test02_RegisterSingleton() {
+		String[] args = TestUtils.contextArguments();
+		DefaultScarletContext scarletContext = new DefaultScarletContext();
+		scarletContext.initialize(args);
+		assertNull(scarletContext.getInstance("aKey"));
 
-	public static interface SingletonExtendedInterface extends SingletonInterface {
-	}
-
-	public static class SingletonImplementation implements SingletonInterface {
-	}
-
-	public static class SingletonExtendedImplementation implements SingletonExtendedInterface {
+		Object object = new Object();
+		scarletContext.registerSingleton("aKey", object);
+		assertEquals(object, scarletContext.getInstance("aKey"));
+		assertEquals(object, scarletContext.getInstance(Object.class, "aKey"));
 	}
 }

@@ -8,6 +8,10 @@ public class ScarletContextError {
 
 	private ScarletContextError() { }
 
+	public static ScarletRuntimeContextException alreadyInitialized() {
+		return new ScarletRuntimeContextException(ScarletContextLanguage.ALREADY_INITIALIZED);
+	}
+
 	public static ScarletRuntimeContextException loggerInstanceOfAtGetLogger(LoggerLanguage loggerLanguage, Class<?> aClass) {
 		return new ScarletRuntimeContextException(ScarletContextLanguage.LOGGER_INSTANCE_OF_AT_GET_LOGGER, nameOf(loggerLanguage), nameOf(aClass));
 	}

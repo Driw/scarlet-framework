@@ -27,4 +27,5 @@ public class DefaultContextNameGenerator implements ContextNameGenerator {
 			.filter(aClass -> Objects.nonNull(aClass.getAnnotation(Named.class)))
 			.findFirst();
 	}
+
 }

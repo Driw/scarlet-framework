@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 
 public class ReflectionInterfaceUtils {
 
+	private ReflectionInterfaceUtils() {
+	}
+
 	public static <I> Set<Class<? extends I>> getAllImplementationsOf(Class<I> interfaceClass) {
 		if (!interfaceClass.isInterface()) {
 			throw ReflectionInterfaceExceptionFactory.classIsNotAInterface(interfaceClass);
