@@ -20,7 +20,9 @@ public class ScarletLoggers implements Loggers<LoggerLanguage> {
 
 	public <T extends LoggerLanguage> T add(String name, Class<T> loggerClass) {
 		try {
-			return loggerClass.getConstructor(String.class).newInstance(name);
+			T logger = loggerClass.getConstructor(String.class).newInstance(name);
+			this.mapLogger.add(logger);
+			return logger;
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			throw LoggerExceptionError.newLoggerInstanceAtAdd(e, loggerClass);
 		}
