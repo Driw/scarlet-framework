@@ -2,8 +2,6 @@ package org.diverproject.scarlet.context.reflection;
 
 import static org.diverproject.scarlet.context.reflection.ReflectionConfig.getReflections;
 
-import org.diverproject.scarlet.context.singleton.Singleton;
-
 import java.lang.annotation.Annotation;
 import java.util.Objects;
 import java.util.Optional;
