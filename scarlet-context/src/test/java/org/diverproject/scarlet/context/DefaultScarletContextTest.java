@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.diverproject.scarlet.ScarletRuntimeException;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -14,12 +13,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class DefaultScarletContextTest {
-
-	@BeforeAll
-	public static void init() {
-		TestUtils.setReflectionPackageByClass(DefaultScarletContextTest.class);
-		TestUtils.mockDefaultImplementations();
-	}
 
 	@Test
 	@DisplayName("Initialize")

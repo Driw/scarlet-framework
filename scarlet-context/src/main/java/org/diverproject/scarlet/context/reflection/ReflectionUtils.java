@@ -13,6 +13,9 @@ import java.util.Set;
 
 public class ReflectionUtils {
 
+	private ReflectionUtils() {
+	}
+
 	public static Comparator<Class<?>> compareByPriorityAnnotation() {
 		Comparator<Class<?>> comparator = Comparator.comparing(
 			aClass -> Optional.ofNullable(aClass.getAnnotation(Priority.class))

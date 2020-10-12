@@ -3,20 +3,13 @@ package org.diverproject.scarlet.context.reflection;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.diverproject.scarlet.context.TestUtils;
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Set;
 
 public class ReflectionAnnotationUtilsTest {
-
-	@Before
-	public void init() {
-		TestUtils.setReflectionPackageByClass(ReflectionAnnotationUtilsTest.class);
-	}
 
 	@Test
 	@DisplayName("Get All Annotated By")
