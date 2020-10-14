@@ -13,8 +13,7 @@ import java.util.Set;
 
 public class ReflectionUtils {
 
-	private ReflectionUtils() {
-	}
+	private ReflectionUtils() { }
 
 	public static Comparator<Class<?>> compareByPriorityAnnotation() {
 		Comparator<Class<?>> comparator = Comparator.comparing(

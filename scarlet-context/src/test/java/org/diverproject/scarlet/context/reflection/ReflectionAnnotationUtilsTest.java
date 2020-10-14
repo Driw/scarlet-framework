@@ -16,29 +16,24 @@ public class ReflectionAnnotationUtilsTest {
 	public void getAllAnnotatedBy() {
 		Set<Class<?>> annotatedClasses = ReflectionAnnotationUtils.getAllAnnotatedBy(TheAnnotation.class);
 		assertEquals(4, annotatedClasses.size());
-		assertTrue(annotatedClasses.containsAll(Arrays.asList(ClassWithTheAnnotation.class, ExtendedClassWithTheAnnotation.class, InterfaceWithTheAnnotation.class, ExtendedInterfaceWithTheAnnotation.class)));
+		assertTrue(annotatedClasses.containsAll(Arrays.asList(
+			ClassWithTheAnnotation.class,
+			ExtendedClassWithTheAnnotation.class,
+			InterfaceWithTheAnnotation.class,
+			ExtendedInterfaceWithTheAnnotation.class)
+		));
 	}
 
-	private static @interface TheAnnotation {
-	}
-
-	private static class ClassWithoutTheAnnotation {
-	}
-
-	@TheAnnotation
-	private static class ClassWithTheAnnotation {
-	}
-
-	private static class ExtendedClassWithTheAnnotation extends ClassWithTheAnnotation {
-	}
-
-	private static interface InterfaceWithoutTheAnnotation {
-	}
+	private static @interface TheAnnotation { }
+	private static class ClassWithoutTheAnnotation { }
 
 	@TheAnnotation
-	private static interface InterfaceWithTheAnnotation {
-	}
+	private static class ClassWithTheAnnotation { }
+	private static class ExtendedClassWithTheAnnotation extends ClassWithTheAnnotation { }
+	private static interface InterfaceWithoutTheAnnotation { }
 
-	private static interface ExtendedInterfaceWithTheAnnotation extends InterfaceWithTheAnnotation {
-	}
+	@TheAnnotation
+	private static interface InterfaceWithTheAnnotation { }
+	private static interface ExtendedInterfaceWithTheAnnotation extends InterfaceWithTheAnnotation { }
+
 }

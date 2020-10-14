@@ -137,78 +137,27 @@ public class ReflectionUtilsTest {
 	}
 
 	@Priority(1)
-	private static class FirstPriority {
-	}
+	private static class FirstPriority { }
 
 	@Priority(2)
-	private static class SecondPriority {
-	}
-
-	private static class NonConstructor {
-	}
-
-	private static class PackageConstructor {
-		PackageConstructor() {
-		}
-
-	}
-	private static class PrivateConstructor {
-		private PrivateConstructor() {
-		}
-
-	}
-	private static class ProtectedConstructor {
-		protected ProtectedConstructor() {
-		}
-
-	}
-	private static class PublicConstructor {
-		public PublicConstructor() {
-		}
-
-	}
-
-	private static class NonEmptyConstructor {
-		public NonEmptyConstructor(Object... args) {
-		}
-	}
-
-	private static interface NonExtendedInterface {
-	}
-
-	private static interface ThirdChildInterface {
-	}
-
-	private static interface SecondChildInterface extends ThirdChildInterface {
-	}
-
-	private static interface FirstChildInterface extends SecondChildInterface {
-	}
-
-	private static class NonExtendedClass {
-	}
-
-	private static class NonExtendedClassWithInterface implements NonExtendedInterface {
-	}
-
-	private static class ThirdChildClass implements ThirdChildInterface {
-	}
-
-	private static class SecondChildClass extends ThirdChildClass implements SecondChildInterface {
-	}
-
-	private static class FirstChildClass extends SecondChildClass implements FirstChildInterface {
-	}
-
-	private static interface FirstDoubleInterface {
-	}
-
-	private static interface SecondDoubleInterface {
-	}
-
-	private static interface DoubleInterfaceExtended extends FirstDoubleInterface, SecondDoubleInterface {
-	}
-
-	private static class DoubleInterfaceImplementation implements DoubleInterfaceExtended {
-	}
+	private static class SecondPriority { }
+	private static class NonConstructor { }
+	private static class PackageConstructor { PackageConstructor() { } }
+	private static class PrivateConstructor { private PrivateConstructor() { } }
+	private static class ProtectedConstructor { protected ProtectedConstructor() { } }
+	private static class PublicConstructor { public PublicConstructor() { } }
+	private static class NonEmptyConstructor { public NonEmptyConstructor(Object... args) { } }
+	private static interface NonExtendedInterface { }
+	private static interface ThirdChildInterface { }
+	private static interface SecondChildInterface extends ThirdChildInterface { }
+	private static interface FirstChildInterface extends SecondChildInterface { }
+	private static class NonExtendedClass { }
+	private static class NonExtendedClassWithInterface implements NonExtendedInterface { }
+	private static class ThirdChildClass implements ThirdChildInterface { }
+	private static class SecondChildClass extends ThirdChildClass implements SecondChildInterface { }
+	private static class FirstChildClass extends SecondChildClass implements FirstChildInterface { }
+	private static interface FirstDoubleInterface { }
+	private static interface SecondDoubleInterface { }
+	private static interface DoubleInterfaceExtended extends FirstDoubleInterface, SecondDoubleInterface { 	}
+	private static class DoubleInterfaceImplementation implements DoubleInterfaceExtended {	}
 }

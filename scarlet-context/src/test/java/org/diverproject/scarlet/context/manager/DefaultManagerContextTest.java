@@ -23,8 +23,7 @@ public class DefaultManagerContextTest {
 	private DefaultManagerContext managerContext;
 
 	@BeforeAll
-	public static void beforeAll() {
-	}
+	public static void beforeAll() { }
 
 	@BeforeEach
 	public void beforeEach() {
@@ -75,29 +74,18 @@ public class DefaultManagerContextTest {
 		assertThrows(ManagerContextException.class, () -> this.managerContext.get(DuplicatedFirstManager.class));
 	}
 
-	private static class FirstManager extends DefaultManager {
-		public FirstManager() {
+	private static class FirstManager extends DefaultManager { public FirstManager() {
 			this.setOrder(1);
-		}
-	}
-
-	private static class SecondManager extends DefaultManager {
-		public SecondManager() {
+		} }
+	private static class SecondManager extends DefaultManager { public SecondManager() {
 			this.setOrder(2);
-		}
-	}
-
-	private static class ThirdManager extends DefaultManager {
-		public ThirdManager() {
+		} }
+	private static class ThirdManager extends DefaultManager { public ThirdManager() {
 			this.setOrder(3);
-		}
-	}
-
-	private static class ThirdManagerExtended extends ThirdManager {
-		public ThirdManagerExtended() {
+		} }
+	private static class ThirdManagerExtended extends ThirdManager { public ThirdManagerExtended() {
 			this.setOrder(4);
-		}
-	}
+		} }
 
 	@Priority(-1)
 	@Named("org.diverproject.scarlet.context.manager.DefaultManagerContextTest$FirstManager")

@@ -37,4 +37,5 @@ public class DefaultScarletContextTest {
 		assertEquals(object, scarletContext.getInstance("aKey"));
 		assertEquals(object, scarletContext.getInstance(Object.class, "aKey"));
 	}
+
 }

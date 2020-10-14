@@ -35,17 +35,11 @@ public class ContextNameGeneratorTest {
 		assertEquals(optional.get(), NamedClass.class);
 	}
 
-	private static class NoNameClass {
-	}
-
-	private static class NoNameExtendedClass extends NoNameClass {
-	}
+	private static class NoNameClass { }
+	private static class NoNameExtendedClass extends NoNameClass { }
 
 	@Named("ANamedClass")
-	private static class NamedClass {
-	}
-
-	private static class NamedExtendedClass extends NamedClass {
-	}
+	private static class NamedClass { }
+	private static class NamedExtendedClass extends NamedClass { }
 
 }

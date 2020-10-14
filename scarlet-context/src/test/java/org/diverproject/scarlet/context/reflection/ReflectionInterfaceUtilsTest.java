@@ -43,28 +43,20 @@ public class ReflectionInterfaceUtilsTest {
 		assertThrows(ReflectionInterfaceException.class, () -> ReflectionInterfaceUtils.getInstanceOf(InterfaceNotImplemented.class));
 	}
 
-	public interface TheInterface {
-	}
+	public interface TheInterface { }
 
 	@Priority(1)
-	public static class TheInterfaceConcrete implements TheInterface {
-	}
+	public static class TheInterfaceConcrete implements TheInterface { }
 
 	@Priority(2)
-	public abstract static class TheInterfaceAbstract implements TheInterface {
-	}
+	public abstract static class TheInterfaceAbstract implements TheInterface { }
 
 	@Priority(3)
-	public static class TheInterfaceExtendedClass extends TheInterfaceAbstract {
-	}
-
-	public interface TheInterfaceExtended extends TheInterface {
-	}
+	public static class TheInterfaceExtendedClass extends TheInterfaceAbstract { }
+	public interface TheInterfaceExtended extends TheInterface { }
 
 	@Priority(4)
-	public static class TheInterfaceExtendedInterface implements TheInterfaceExtended {
-	}
+	public static class TheInterfaceExtendedInterface implements TheInterfaceExtended { }
+	public static interface InterfaceNotImplemented { }
 
-	public static interface InterfaceNotImplemented {
-	}
 }

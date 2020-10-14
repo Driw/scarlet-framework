@@ -7,8 +7,7 @@ import java.util.stream.Collectors;
 
 public class TestUtils {
 
-	private TestUtils() {
-	}
+	private TestUtils() { }
 
 	public static String[] contextArguments() {
 		return new String[] { "managerContextParalleled" };

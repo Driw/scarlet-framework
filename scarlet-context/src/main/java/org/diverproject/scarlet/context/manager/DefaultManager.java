@@ -84,18 +84,10 @@ public class DefaultManager implements Manager {
 		return Integer.compare(this.getOrder(), manager.getOrder());
 	}
 
-	public void onStarting() {
-	}
+	public void onStarting() { }
+	public void onRunning() { }
+	public void onRestarting() { }
+	public void onStop() { }
+	public void onFinish() { }
 
-	public void onRunning() {
-	}
-
-	public void onRestarting() {
-	}
-
-	public void onStop() {
-	}
-
-	public void onFinish() {
-	}
 }
