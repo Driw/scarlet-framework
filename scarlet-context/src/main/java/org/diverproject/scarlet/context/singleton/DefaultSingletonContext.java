@@ -2,19 +2,19 @@ package org.diverproject.scarlet.context.singleton;
 
 import lombok.Data;
 import lombok.ToString;
+import org.diverproject.scarlet.context.ContextNameGenerator;
 import org.diverproject.scarlet.context.DefaultInstanceEntry;
 import org.diverproject.scarlet.context.InstanceEntry;
 import org.diverproject.scarlet.context.LoggerFactory;
 import org.diverproject.scarlet.context.ScarletContext;
+import org.diverproject.scarlet.context.reflection.ClassUtils;
 import org.diverproject.scarlet.context.reflection.ReflectionAnnotationUtils;
 import org.diverproject.scarlet.context.reflection.ReflectionInterfaceUtils;
 import org.diverproject.scarlet.context.reflection.ReflectionUtils;
 import org.diverproject.scarlet.logger.LoggerLanguage;
 
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Queue;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -69,28 +69,9 @@ public class DefaultSingletonContext implements SingletonContext {
 
 	protected Set<Class<?>> getSingletonImplementations() {
 		Set<Class<?>> singletonImplementations = ReflectionAnnotationUtils.getAllAnnotatedBy(Singleton.class);
-		this.removeDuplicatedSingletonImplementations(singletonImplementations);
+		ClassUtils.removeDuplicatedImplementations(singletonImplementations);
 
 		return singletonImplementations;
-	}
-
-	protected void removeDuplicatedSingletonImplementations(Set<Class<?>> singletonImplementations) {
-		Queue<Class<?>> queue = new LinkedList<>(singletonImplementations);
-
-		while (!queue.isEmpty()) {
-			Class<?> singletonImplementation = queue.poll();
-
-			if (!this.hasDuplicatedSingletonImplementationOf(singletonImplementations, singletonImplementation)) {
-				singletonImplementations.remove(singletonImplementation);
-			}
-		}
-	}
-
-	protected boolean hasDuplicatedSingletonImplementationOf(Set<Class<?>> singletonImplementations, Class<?> singletonImplementation) {
-		return ReflectionUtils.getAllInheritances(singletonImplementation)
-			.stream()
-			.filter(singletonImplementations::contains)
-			.count() > 1;
 	}
 
 	protected boolean hasSingletonAnnotation(Class<?> singletonClass) {
@@ -98,6 +79,6 @@ public class DefaultSingletonContext implements SingletonContext {
 	}
 
 	private <T> String generateKeyFor(Class<T> singletonClass) {
-		return this.getScarletContext().getContextNameGenerator().generateKeyFor(singletonClass);
+		return ContextNameGenerator.generateKeyFor(singletonClass);
 	}
 }

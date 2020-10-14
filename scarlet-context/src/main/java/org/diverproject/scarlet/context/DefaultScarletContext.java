@@ -19,13 +19,11 @@ public class DefaultScarletContext implements ScarletContext {
 
 	private Map<String, Object> instances;
 	private SingletonContext singletonContext;
-	private ContextNameGenerator contextNameGenerator;
 	private boolean initialized;
 
 	public DefaultScarletContext() {
 		this.setInstances(new TreeMap<>());
 		this.setSingletonContext(ReflectionInterfaceUtils.getInstanceOf(SingletonContext.class));
-		this.setContextNameGenerator(ReflectionInterfaceUtils.getInstanceOf(ContextNameGenerator.class));
 	}
 
 	@Override

@@ -32,7 +32,7 @@ public class ReflectionInterfaceUtils {
 	@SuppressWarnings("unchecked")
 	public static <I> I getInstanceOf(Class<I> interfaceClass) {
 		return (I) getImplementationOf(interfaceClass)
-				.map(ReflectionUtils::createInstanceOfEmptyConstructor)
-				.orElseThrow(() -> ReflectionInterfaceExceptionFactory.getInstanceOfUnimplementedInterface(interfaceClass));
+			.map(ReflectionUtils::createInstanceOfEmptyConstructor)
+			.orElseThrow(() -> ReflectionInterfaceExceptionFactory.getInstanceOfUnimplementedInterface(interfaceClass));
 	}
 }

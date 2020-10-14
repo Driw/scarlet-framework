@@ -10,7 +10,6 @@ public interface ScarletContext {
 	<T> T getInstance(Class<T> classType, String key);
 
 	SingletonContext getSingletonContext();
-	ContextNameGenerator getContextNameGenerator();
 	boolean isInitialized();
 
 	public static ScarletContext start(String[] args) {
