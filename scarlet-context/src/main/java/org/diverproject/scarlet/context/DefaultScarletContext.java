@@ -2,6 +2,7 @@ package org.diverproject.scarlet.context;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.diverproject.scarlet.context.manager.ManagerContext;
 import org.diverproject.scarlet.context.reflection.ReflectionInterfaceUtils;
 import org.diverproject.scarlet.context.reflection.ReflectionUtils;
 import org.diverproject.scarlet.context.singleton.SingletonContext;
@@ -19,6 +20,7 @@ public class DefaultScarletContext implements ScarletContext {
 
 	private Map<String, Object> instances;
 	private SingletonContext singletonContext;
+	private ManagerContext managerContext;
 	private boolean initialized;
 
 	public DefaultScarletContext() {
@@ -34,6 +36,7 @@ public class DefaultScarletContext implements ScarletContext {
 
 		this.setInitialized(true);
 		this.getSingletonContext().initialize(this).forEach(this::registerSingleton);
+		this.getManagerContext().initialize().forEach(this::registerManager);
 	}
 
 	@Override
@@ -59,6 +62,10 @@ public class DefaultScarletContext implements ScarletContext {
 
 	public void registerSingleton(String key, Object singletonInstance) {
 		this.contextInstanceRegister(key, singletonInstance, ScarletContextLanguage.SINGLETON_INSTANCE_REGISTERED);
+	}
+
+	public void registerManager(String key, Object managerInstance) {
+		this.contextInstanceRegister(key, managerInstance, ScarletContextLanguage.MANAGER_INSTANCE_REGISTERED);
 	}
 
 	public void contextInstanceRegister(String key, Object contextInstance, Language successfullyMessage) {

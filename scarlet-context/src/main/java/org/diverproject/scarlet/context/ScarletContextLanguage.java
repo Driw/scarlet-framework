@@ -12,6 +12,7 @@ public enum ScarletContextLanguage implements Language {
 
 	REPLACING_CONTEXT_INSTANCE					("replacing a new context instance of '%s' (oldInstance: %s, newInstance: %s)"),
 	SINGLETON_INSTANCE_REGISTERED				("singleton instance created and registered with successfully (key: %s, singletonInstance: %s)"),
+	MANAGER_INSTANCE_REGISTERED					("manager instance created and registered with successfully (key: %s, managerInstance: %s)"),
 
 	// -- Exception
 
