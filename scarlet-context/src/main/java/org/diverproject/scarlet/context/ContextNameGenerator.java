@@ -13,7 +13,7 @@ public class ContextNameGenerator {
 
 	@Getter
 	@Setter
-	private static ContextNameGeneratorInterceptor contextNameGeneratorInterceptor;
+	private static NameGenerator nameGenerator;
 
 	public static String generateKeyFor(Object object) {
 		Objects.requireNonNull(object);
@@ -22,8 +22,8 @@ public class ContextNameGenerator {
 	}
 
 	public static String generateKeyFor(Class<?> targetClass) {
-		if (Objects.nonNull(getContextNameGeneratorInterceptor())) {
-			return getContextNameGeneratorInterceptor().generateKeyFor(targetClass);
+		if (Objects.nonNull(getNameGenerator())) {
+			return getNameGenerator().generateKeyFor(targetClass);
 		}
 
 		Optional<Class<?>> optional = getClassWithNamedAnnotation(targetClass); // TODO - use configuration value as singleton name if the config exist
