@@ -2,20 +2,19 @@ package org.diverproject.scarlet.context.utils;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 public class ContextCollectionUtils {
 
-	public static final int NOT_FOUND = -1;
-
 	private ContextCollectionUtils() { }
 
-	public static <T> Optional<Pair<Integer, T>> search(List<T> list, Function<T, Boolean> searchBy) {
+	public static <T> Optional<Integer> searchOrderIndex(List<T> list, BiFunction<T, T, Boolean> orderBy) {
 		for (int i = 0; i < list.size(); i++) {
-			T element = list.get(i);
+			T next = list.get(i);
+			T previous = i == 0 ? null : list.get(i - 1);
 
-			if (searchBy.apply(element)) {
-				return Optional.of(new Pair<>(i, element));
+			if (orderBy.apply(previous, next)) {
+				return Optional.of(i);
 			}
 		}
 
