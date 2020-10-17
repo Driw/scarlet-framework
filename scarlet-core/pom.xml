@@ -17,7 +17,7 @@
 	<version>0.1.0</version>
 	<packaging>jar</packaging>
 
-	<name>Scarlet Context</name>
+	<name>Scarlet Core</name>
 	<description>Scarlet Core</description>
 	<url>http://scarlet.diverproject.org/core</url>
 
@@ -89,6 +89,15 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.sonarsource.scanner.maven</groupId>
+					<artifactId>sonar-maven-plugin</artifactId>
+					<version>3.7.0.1746</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<testSourceDirectory>src/test/java</testSourceDirectory>
 		<testResources>
