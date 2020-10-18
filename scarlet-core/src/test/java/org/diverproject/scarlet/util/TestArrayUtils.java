@@ -530,7 +530,7 @@ public class TestArrayUtils
 	}
 
 	@SafeVarargs
-	private <D> D[] array(D... values)
+	private final <D> D[] array(D... values)
 	{
 		return values;
 	}

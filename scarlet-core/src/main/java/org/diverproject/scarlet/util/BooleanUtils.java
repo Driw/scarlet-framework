@@ -19,7 +19,7 @@ public class BooleanUtils {
 
 	public static boolean parseBoolean(String str) {
 		return Optional.ofNullable(parseBoolean(str, null))
-			.orElseThrow();
+			.orElseThrow(IllegalArgumentException::new);
 	}
 
 	public static Boolean parseBoolean(String str, Boolean failValue) {

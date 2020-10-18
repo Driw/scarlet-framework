@@ -19,7 +19,7 @@ public class LanguageUnloaderTest {
 	public void testAutoUnloadNotSeparated() {
 		this.resetLanguageMessages();
 
-		Set<Wini> winis = LanguageUnloader.autoUnload(null, false, true, this.getClass().getPackageName());
+		Set<Wini> winis = LanguageUnloader.autoUnload(null, false, true, this.getClass().getPackage().getName());
 		assertEquals(1, winis.size());
 
 		Wini wini = this.search(winis, AnotherLanguageTestIni.class.getName());
@@ -48,7 +48,7 @@ public class LanguageUnloaderTest {
 	public void testAutoUnloadSepareted() {
 		this.resetLanguageMessages();
 
-		Set<Wini> winis = LanguageUnloader.autoUnload(null, true, true, this.getClass().getPackageName());
+		Set<Wini> winis = LanguageUnloader.autoUnload(null, true, true, this.getClass().getPackage().getName());
 		assertEquals(2, winis.size());
 
 		Wini wini = this.search(winis, AnotherLanguageTestIni.class.getName());
