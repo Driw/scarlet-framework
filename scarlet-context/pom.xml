@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<properties>
-		<java.version>11</java.version>
+		<java.version>8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.jupiter.versions>5.4.0</junit.jupiter.versions>
 		<junit.platform.versions>1.4.1</junit.platform.versions>
@@ -45,11 +45,18 @@
 			<version>${scarlet.version}</version>
 		</dependency>
 		<!-- Others -->
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>1.18.12</version>
 			<scope>provided</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
+		<dependency>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+			<version>1.27</version>
 		</dependency>
 		<!-- JUnit -->
 		<dependency>
@@ -117,4 +124,12 @@
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<testSourceDirectory>src/test/java</testSourceDirectory>
 	</build>
+
+	<repositories>
+		<repository>
+			<id>github-diverproject</id>
+			<name>github-diverproject</name>
+			<url>http://localhost:33003/repository/github-diverproject/</url>
+		</repository>
+	</repositories>
 </project>

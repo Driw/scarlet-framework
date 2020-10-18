@@ -23,7 +23,7 @@
 	</issueManagement>
 
 	<properties>
-		<java.version>10</java.version>
+		<java.version>8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.jupiter.versions>5.4.0</junit.jupiter.versions>
 		<junit.platform.versions>1.4.1</junit.platform.versions>
@@ -79,7 +79,24 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.sonarsource.scanner.maven</groupId>
+					<artifactId>sonar-maven-plugin</artifactId>
+					<version>3.7.0.1746</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<testSourceDirectory>src/test/java</testSourceDirectory>
 	</build>
+
+	<repositories>
+		<repository>
+			<id>github-diverproject</id>
+			<name>github-diverproject</name>
+			<url>http://localhost:33003/repository/github-diverproject/</url>
+		</repository>
+	</repositories>
 </project>
