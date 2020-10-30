@@ -13,25 +13,23 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 
 @DisplayName("Array Utils")
-public class TestArrayUtils
-{
+public class TestArrayUtils {
+
 	@Test
 	@DisplayName("Join")
-	public void testJoin()
-	{
-		String[] items = new String[] { "a", "b", "c", "d", "e" };
+	public void testJoin() {
+		String[] items = new String[]{"a", "b", "c", "d", "e"};
 
-		assertEquals(ArrayUtils.join(items), "a, b, c, d, e");
-		assertEquals(ArrayUtils.join(";", items), "a;b;c;d;e");
-		assertEquals(ArrayUtils.join(Arrays.asList(items).iterator()), "a, b, c, d, e");
-		assertEquals(ArrayUtils.join(Arrays.asList(items).iterator(), ";"), "a;b;c;d;e");
+		assertEquals("a, b, c, d, e", ArrayUtils.join(items));
+		assertEquals("a;b;c;d;e", ArrayUtils.join(";", items));
+		assertEquals("a, b, c, d, e", ArrayUtils.join(Arrays.asList(items).iterator()));
+		assertEquals("a;b;c;d;e", ArrayUtils.join(Arrays.asList(items).iterator(), ";"));
 	}
 
 	@Test
 	@DisplayName("In array")
-	public void testIn()
-	{
-		String[] items = new String[] { "a", "b", "c", "d", "e" };
+	public void testIn() {
+		String[] items = new String[]{"a", "b", "c", "d", "e"};
 
 		assertTrue(ArrayUtils.in("a", items));
 		assertTrue(ArrayUtils.in("b", items));
@@ -43,9 +41,8 @@ public class TestArrayUtils
 
 	@Test
 	@DisplayName("Has index")
-	public void testHasIndex()
-	{
-		String[] items = new String[] { "a", "b" };
+	public void testHasIndex() {
+		String[] items = new String[]{"a", "b"};
 
 		assertFalse(ArrayUtils.hasArrayIndex(items, -1));
 		assertTrue(ArrayUtils.hasArrayIndex(items, 0));
@@ -55,128 +52,119 @@ public class TestArrayUtils
 
 	@Test
 	@DisplayName("Sub array (generic)")
-	public void testSubArrayGeneric()
-	{
-		String[] array = new String[] { "a", "b", "c", "d", "e" };
+	public void testSubArrayGeneric() {
+		String[] array = new String[]{"a", "b", "c", "d", "e"};
 
-		assertArrayEquals(ArrayUtils.subArray(array, 0, 1), new String[] { "a" });
-		assertArrayEquals(ArrayUtils.subArray(array, 0, 3), new String[] { "a", "b", "c" });
-		assertArrayEquals(ArrayUtils.subArray(array, 2, 1), new String[] { "c" });
-		assertArrayEquals(ArrayUtils.subArray(array, 2, 3), new String[] { "c", "d", "e" });
+		assertArrayEquals(new String[]{"a"}, ArrayUtils.subArray(array, 0, 1));
+		assertArrayEquals(new String[]{"a", "b", "c"}, ArrayUtils.subArray(array, 0, 3));
+		assertArrayEquals(new String[]{"c"}, ArrayUtils.subArray(array, 2, 1));
+		assertArrayEquals(new String[]{"c", "d", "e"}, ArrayUtils.subArray(array, 2, 3));
 
-		assertThrows(ArrayUtilsRuntimeException.class, () -> { ArrayUtils.subArray(array, -1, 1); });
-		assertThrows(ArrayUtilsRuntimeException.class, () -> { ArrayUtils.subArray(array, 0, 0); });
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, -1, 1));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, 0, 0));
 	}
 
 	@Test
 	@DisplayName("Sub array (primitive char)")
-	public void testSubArrayChar()
-	{
-		char[] array = new char[] { 0x01, 0x02, 0x03, 0x04, 0x05 };
+	public void testSubArrayChar() {
+		char[] array = new char[]{0x01, 0x02, 0x03, 0x04, 0x05};
 
-		assertArrayEquals(ArrayUtils.subArray(array, 0, 1), new char[] { 0x01 });
-		assertArrayEquals(ArrayUtils.subArray(array, 0, 3), new char[] { 0x01, 0x02, 0x03 });
-		assertArrayEquals(ArrayUtils.subArray(array, 2, 1), new char[] { 0x03 });
-		assertArrayEquals(ArrayUtils.subArray(array, 2, 3), new char[] { 0x03, 0x04, 0x05 });
+		assertArrayEquals(new char[]{0x01}, ArrayUtils.subArray(array, 0, 1));
+		assertArrayEquals(new char[]{0x01, 0x02, 0x03}, ArrayUtils.subArray(array, 0, 3));
+		assertArrayEquals(new char[]{0x03}, ArrayUtils.subArray(array, 2, 1));
+		assertArrayEquals(new char[]{0x03, 0x04, 0x05}, ArrayUtils.subArray(array, 2, 3));
 
-		assertThrows(ArrayUtilsRuntimeException.class, () -> { ArrayUtils.subArray(array, -1, 1); });
-		assertThrows(ArrayUtilsRuntimeException.class, () -> { ArrayUtils.subArray(array, 0, 0); });
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, -1, 1));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, 0, 0));
 	}
 
 	@Test
 	@DisplayName("Sub array (primitive byte)")
-	public void testSubArrayByte()
-	{
-		byte[] array = new byte[] { 0x01, 0x02, 0x03, 0x04, 0x05 };
+	public void testSubArrayByte() {
+		byte[] array = new byte[]{0x01, 0x02, 0x03, 0x04, 0x05};
 
-		assertArrayEquals(ArrayUtils.subArray(array, 0, 1), new byte[] { 0x01 });
-		assertArrayEquals(ArrayUtils.subArray(array, 0, 3), new byte[] { 0x01, 0x02, 0x03 });
-		assertArrayEquals(ArrayUtils.subArray(array, 2, 1), new byte[] { 0x03 });
-		assertArrayEquals(ArrayUtils.subArray(array, 2, 3), new byte[] { 0x03, 0x04, 0x05 });
+		assertArrayEquals(new byte[]{0x01}, ArrayUtils.subArray(array, 0, 1));
+		assertArrayEquals(new byte[]{0x01, 0x02, 0x03}, ArrayUtils.subArray(array, 0, 3));
+		assertArrayEquals(new byte[]{0x03}, ArrayUtils.subArray(array, 2, 1));
+		assertArrayEquals(new byte[]{0x03, 0x04, 0x05}, ArrayUtils.subArray(array, 2, 3));
 
-		assertThrows(ArrayUtilsRuntimeException.class, () -> { ArrayUtils.subArray(array, -1, 1); });
-		assertThrows(ArrayUtilsRuntimeException.class, () -> { ArrayUtils.subArray(array, 0, 0); });
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, -1, 1));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, 0, 0));
 	}
 
 	@Test
 	@DisplayName("Sub array (primitive short)")
-	public void testSubArrayShort()
-	{
-		short[] array = new short[] { 0x01, 0x02, 0x03, 0x04, 0x05 };
+	public void testSubArrayShort() {
+		short[] array = new short[]{0x01, 0x02, 0x03, 0x04, 0x05};
 
-		assertArrayEquals(ArrayUtils.subArray(array, 0, 1), new short[] { 0x01 });
-		assertArrayEquals(ArrayUtils.subArray(array, 0, 3), new short[] { 0x01, 0x02, 0x03 });
-		assertArrayEquals(ArrayUtils.subArray(array, 2, 1), new short[] { 0x03 });
-		assertArrayEquals(ArrayUtils.subArray(array, 2, 3), new short[] { 0x03, 0x04, 0x05 });
+		assertArrayEquals(new short[]{0x01}, ArrayUtils.subArray(array, 0, 1));
+		assertArrayEquals(new short[]{0x01, 0x02, 0x03}, ArrayUtils.subArray(array, 0, 3));
+		assertArrayEquals(new short[]{0x03}, ArrayUtils.subArray(array, 2, 1));
+		assertArrayEquals(new short[]{0x03, 0x04, 0x05}, ArrayUtils.subArray(array, 2, 3));
 
-		assertThrows(ArrayUtilsRuntimeException.class, () -> { ArrayUtils.subArray(array, -1, 1); });
-		assertThrows(ArrayUtilsRuntimeException.class, () -> { ArrayUtils.subArray(array, 0, 0); });
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, -1, 1));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, 0, 0));
 	}
 
 	@Test
 	@DisplayName("Sub array (primitive int)")
-	public void testSubArrayInt()
-	{
-		int[] array = new int[] { 0x01, 0x02, 0x03, 0x04, 0x05 };
+	public void testSubArrayInt() {
+		int[] array = new int[]{0x01, 0x02, 0x03, 0x04, 0x05};
 
-		assertArrayEquals(ArrayUtils.subArray(array, 0, 1), new int[] { 0x01 });
-		assertArrayEquals(ArrayUtils.subArray(array, 0, 3), new int[] { 0x01, 0x02, 0x03 });
-		assertArrayEquals(ArrayUtils.subArray(array, 2, 1), new int[] { 0x03 });
-		assertArrayEquals(ArrayUtils.subArray(array, 2, 3), new int[] { 0x03, 0x04, 0x05 });
+		assertArrayEquals(new int[]{0x01}, ArrayUtils.subArray(array, 0, 1));
+		assertArrayEquals(new int[]{0x01, 0x02, 0x03}, ArrayUtils.subArray(array, 0, 3));
+		assertArrayEquals(new int[]{0x03}, ArrayUtils.subArray(array, 2, 1));
+		assertArrayEquals(new int[]{0x03, 0x04, 0x05}, ArrayUtils.subArray(array, 2, 3));
 
-		assertThrows(ArrayUtilsRuntimeException.class, () -> { ArrayUtils.subArray(array, -1, 1); });
-		assertThrows(ArrayUtilsRuntimeException.class, () -> { ArrayUtils.subArray(array, 0, 0); });
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, -1, 1));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, 0, 0));
 	}
 
 	@Test
 	@DisplayName("Sub array (primitive long)")
-	public void testSubArrayLong()
-	{
-		long[] array = new long[] { 0x01, 0x02, 0x03, 0x04, 0x05 };
+	public void testSubArrayLong() {
+		long[] array = new long[]{0x01, 0x02, 0x03, 0x04, 0x05};
 
-		assertArrayEquals(ArrayUtils.subArray(array, 0, 1), new long[] { 0x01 });
-		assertArrayEquals(ArrayUtils.subArray(array, 0, 3), new long[] { 0x01, 0x02, 0x03 });
-		assertArrayEquals(ArrayUtils.subArray(array, 2, 1), new long[] { 0x03 });
-		assertArrayEquals(ArrayUtils.subArray(array, 2, 3), new long[] { 0x03, 0x04, 0x05 });
+		assertArrayEquals(new long[]{0x01}, ArrayUtils.subArray(array, 0, 1));
+		assertArrayEquals(new long[]{0x01, 0x02, 0x03}, ArrayUtils.subArray(array, 0, 3));
+		assertArrayEquals(new long[]{0x03}, ArrayUtils.subArray(array, 2, 1));
+		assertArrayEquals(new long[]{0x03, 0x04, 0x05}, ArrayUtils.subArray(array, 2, 3));
 
-		assertThrows(ArrayUtilsRuntimeException.class, () -> { ArrayUtils.subArray(array, -1, 1); });
-		assertThrows(ArrayUtilsRuntimeException.class, () -> { ArrayUtils.subArray(array, 0, 0); });
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, -1, 1));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, 0, 0));
 	}
 
 	@Test
 	@DisplayName("Sub array (primitive float)")
-	public void testSubArrayFloat()
-	{
-		float[] array = new float[] { 0x01, 0x02, 0x03, 0x04, 0x05 };
+	public void testSubArrayFloat() {
+		float[] array = new float[]{0x01, 0x02, 0x03, 0x04, 0x05};
 
-		assertArrayEquals(ArrayUtils.subArray(array, 0, 1), new float[] { 0x01 });
-		assertArrayEquals(ArrayUtils.subArray(array, 0, 3), new float[] { 0x01, 0x02, 0x03 });
-		assertArrayEquals(ArrayUtils.subArray(array, 2, 1), new float[] { 0x03 });
-		assertArrayEquals(ArrayUtils.subArray(array, 2, 3), new float[] { 0x03, 0x04, 0x05 });
+		assertArrayEquals(new float[]{0x01}, ArrayUtils.subArray(array, 0, 1));
+		assertArrayEquals(new float[]{0x01, 0x02, 0x03}, ArrayUtils.subArray(array, 0, 3));
+		assertArrayEquals(new float[]{0x03}, ArrayUtils.subArray(array, 2, 1));
+		assertArrayEquals(new float[]{0x03, 0x04, 0x05}, ArrayUtils.subArray(array, 2, 3));
 
-		assertThrows(ArrayUtilsRuntimeException.class, () -> { ArrayUtils.subArray(array, -1, 1); });
-		assertThrows(ArrayUtilsRuntimeException.class, () -> { ArrayUtils.subArray(array, 0, 0); });
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, -1, 1));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, 0, 0));
 	}
 
 	@Test
 	@DisplayName("Sub array (primitive double)")
-	public void testSubArrayDouble()
-	{
-		double[] array = new double[] { 0x01, 0x02, 0x03, 0x04, 0x05 };
+	public void testSubArrayDouble() {
+		double[] array = new double[]{0x01, 0x02, 0x03, 0x04, 0x05};
 
-		assertArrayEquals(ArrayUtils.subArray(array, 0, 1), new double[] { 0x01 });
-		assertArrayEquals(ArrayUtils.subArray(array, 0, 3), new double[] { 0x01, 0x02, 0x03 });
-		assertArrayEquals(ArrayUtils.subArray(array, 2, 1), new double[] { 0x03 });
-		assertArrayEquals(ArrayUtils.subArray(array, 2, 3), new double[] { 0x03, 0x04, 0x05 });
+		assertArrayEquals(new double[]{0x01}, ArrayUtils.subArray(array, 0, 1));
+		assertArrayEquals(new double[]{0x01, 0x02, 0x03}, ArrayUtils.subArray(array, 0, 3));
+		assertArrayEquals(new double[]{0x03}, ArrayUtils.subArray(array, 2, 1));
+		assertArrayEquals(new double[]{0x03, 0x04, 0x05}, ArrayUtils.subArray(array, 2, 3));
 
-		assertThrows(ArrayUtilsRuntimeException.class, () -> { ArrayUtils.subArray(array, -1, 1); });
-		assertThrows(ArrayUtilsRuntimeException.class, () -> { ArrayUtils.subArray(array, 0, 0); });
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, -1, 1));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, 0, 0));
 	}
 
 	@Test
 	@DisplayName("Reallocate data")
-	public void testReallocate()
-	{
+	public void testReallocate() {
 		assertArrayEquals(array("0"), ArrayUtils.reallocate(array("0", "1", "2", "3"), 1));
 		assertArrayEquals(array("0", "1"), ArrayUtils.reallocate(array("0", "1", "2", "3"), 2));
 		assertArrayEquals(array("0", "1", "2"), ArrayUtils.reallocate(array("0", "1", "2", "3"), 3));
@@ -288,15 +276,14 @@ public class TestArrayUtils
 
 	@Test
 	@DisplayName("Copy")
-	public void testCopy()
-	{
-		String[] stringSource = new String[] { "ABC", "DEF", "GHI", "JKL", "MNO" };
+	public void testCopy() {
+		String[] stringSource = new String[]{"ABC", "DEF", "GHI", "JKL", "MNO"};
 		String[] stringDestination = new String[stringSource.length];
 		{
 			ArrayUtils.copy(stringSource, stringDestination);
 			assertArrayEquals(stringSource, stringDestination);
 
-			assertThrows(IndexOutOfBoundsException.class, () -> { ArrayUtils.copy(stringSource, new String[stringSource.length], -1); });
+			assertThrows(IndexOutOfBoundsException.class, () -> ArrayUtils.copy(stringSource, new String[stringSource.length], -1));
 
 			ArrayUtils.copy(stringSource, stringDestination, 0);
 			assertArrayEquals(stringSource, stringDestination);
@@ -317,7 +304,7 @@ public class TestArrayUtils
 			assertArrayEquals(array(null, "DEF", "GHI", "JKL", "MNO", null), stringDestination);
 		}
 
-		byte[] byteSource = new byte[] { 0, 1, 2, 3, 4 };
+		byte[] byteSource = new byte[]{0, 1, 2, 3, 4};
 		byte[] byteDestination = new byte[byteSource.length];
 		{
 			byte zero = 0;
@@ -329,7 +316,7 @@ public class TestArrayUtils
 			ArrayUtils.copy(byteSource, byteDestination);
 			assertArrayEquals(byteSource, byteDestination);
 
-			assertThrows(IndexOutOfBoundsException.class, () -> { ArrayUtils.copy(byteSource, new byte[byteSource.length], -1); });
+			assertThrows(IndexOutOfBoundsException.class, () -> ArrayUtils.copy(byteSource, new byte[byteSource.length], -1));
 
 			ArrayUtils.copy(byteSource, byteDestination, 0);
 			assertArrayEquals(byteSource, byteDestination);
@@ -350,7 +337,7 @@ public class TestArrayUtils
 			assertArrayEquals(bytes(zero, one, two, three, four, zero), byteDestination);
 		}
 
-		short[] shortSource = new short[] { 0, 1, 2, 3, 4 };
+		short[] shortSource = new short[]{0, 1, 2, 3, 4};
 		short[] shortDestination = new short[shortSource.length];
 		{
 			short zero = 0;
@@ -378,7 +365,7 @@ public class TestArrayUtils
 			assertArrayEquals(shorts(zero, one, two, three, four, zero), shortDestination);
 		}
 
-		int[] intSource = new int[] { 0, 1, 2, 3, 4 };
+		int[] intSource = new int[]{0, 1, 2, 3, 4};
 		int[] intDestination = new int[intSource.length];
 		{
 			ArrayUtils.copy(intSource, intDestination);
@@ -403,7 +390,7 @@ public class TestArrayUtils
 			assertArrayEquals(ints(0, 1, 2, 3, 4, 0), intDestination);
 		}
 
-		long[] longSource = new long[] { 0L, 1L, 2L, 3L, 4L };
+		long[] longSource = new long[]{0L, 1L, 2L, 3L, 4L};
 		long[] longDestination = new long[longSource.length];
 		{
 			ArrayUtils.copy(longSource, longDestination);
@@ -428,7 +415,7 @@ public class TestArrayUtils
 			assertArrayEquals(longs(0, 1, 2, 3, 4, 0), longDestination);
 		}
 
-		float[] floatSource = new float[] { 0F, 1F, 2F, 3F, 4F };
+		float[] floatSource = new float[]{0F, 1F, 2F, 3F, 4F};
 		float[] floatDestination = new float[floatSource.length];
 		{
 			ArrayUtils.copy(floatSource, floatDestination);
@@ -453,7 +440,7 @@ public class TestArrayUtils
 			assertArrayEquals(floats(0, 1, 2, 3, 4, 0), floatDestination);
 		}
 
-		double[] doubleSource = new double[] { 0D, 1D, 2D, 3D, 4D };
+		double[] doubleSource = new double[]{0D, 1D, 2D, 3D, 4D};
 		double[] doubleDestination = new double[doubleSource.length];
 		{
 			ArrayUtils.copy(doubleSource, doubleDestination);
@@ -478,7 +465,7 @@ public class TestArrayUtils
 			assertArrayEquals(doubles(0, 1, 2, 3, 4, 0), doubleDestination);
 		}
 
-		char[] charSource = new char[] { 0, 1, 2, 3, 4 };
+		char[] charSource = new char[]{0, 1, 2, 3, 4};
 		char[] charDestination = new char[charSource.length];
 		{
 			char zero = 0;
@@ -506,7 +493,7 @@ public class TestArrayUtils
 			assertArrayEquals(chars(zero, one, two, three, four, zero), charDestination);
 		}
 
-		boolean[] booleanSource = new boolean[] { true, false, true, false, true };
+		boolean[] booleanSource = new boolean[]{true, false, true, false, true};
 		boolean[] booleanDestination = new boolean[booleanSource.length];
 		{
 			ArrayUtils.copy(booleanSource, booleanDestination);
@@ -530,48 +517,39 @@ public class TestArrayUtils
 	}
 
 	@SafeVarargs
-	private final <D> D[] array(D... values)
-	{
+	private final <D> D[] array(D... values) {
 		return values;
 	}
 
-	private byte[] bytes(byte... values)
-	{
+	private byte[] bytes(byte... values) {
 		return values;
 	}
 
-	private short[] shorts(short... values)
-	{
+	private short[] shorts(short... values) {
 		return values;
 	}
 
-	private int[] ints(int... values)
-	{
+	private int[] ints(int... values) {
 		return values;
 	}
 
-	private long[] longs(long... values)
-	{
+	private long[] longs(long... values) {
 		return values;
 	}
 
-	private float[] floats(float... values)
-	{
+	private float[] floats(float... values) {
 		return values;
 	}
 
-	private double[] doubles(double... values)
-	{
+	private double[] doubles(double... values) {
 		return values;
 	}
 
-	private char[] chars(char... values)
-	{
+	private char[] chars(char... values) {
 		return values;
 	}
 
-	private boolean[] booleans(boolean... values)
-	{
+	private boolean[] booleans(boolean... values) {
 		return values;
 	}
 }

@@ -2,6 +2,8 @@ package org.diverproject.scarlet.util;
 
 public class StatisticUtils {
 
+	private StatisticUtils() { }
+
 	public static int percentage(int complete, int total) {
 		return (complete * 100) / total;
 	}
@@ -17,4 +19,5 @@ public class StatisticUtils {
 	public static double percentage(double complete, double total) {
 		return (complete * 100) / total;
 	}
+
 }

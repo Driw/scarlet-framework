@@ -19,8 +19,6 @@ public enum BinaryUtilsLanguage implements Language {
 	NEW_LONG_NULL("cannot make new long from none bytes"),
 	NEW_LONG_SIZE("a long number need 1-%d bytes (receive: %d)"),
 
-	UNKNOWN("unknown number utils error")
-
 	;
 
 	@Getter

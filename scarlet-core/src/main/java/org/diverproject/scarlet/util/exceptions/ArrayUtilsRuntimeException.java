@@ -10,19 +10,4 @@ public class ArrayUtilsRuntimeException extends ScarletUtilRuntimeException {
 		super(language);
 	}
 
-	public ArrayUtilsRuntimeException(Language language, Object... args) {
-		super(language, args);
-	}
-
-	public ArrayUtilsRuntimeException(Exception e) {
-		super(e);
-	}
-
-	public ArrayUtilsRuntimeException(Exception e, Language language) {
-		super(e, language);
-	}
-
-	public ArrayUtilsRuntimeException(Exception e, Language language, Object... args) {
-		super(e, language, args);
-	}
 }

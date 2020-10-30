@@ -2,6 +2,7 @@ package org.diverproject.scarlet.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -51,108 +52,80 @@ class TestLongUtils {
 	@Test
 	@DisplayName("Parse string to long")
 	public void testParseLong() {
-		assertEquals(LongUtils.parseLong("-9223372036854775808"), -9223372036854775808L);
-		assertEquals(LongUtils.parseLong("-1"), -1L);
-		assertEquals(LongUtils.parseLong("0"), 0L);
-		assertEquals(LongUtils.parseLong("1"), 1L);
-		assertEquals(LongUtils.parseLong("+9223372036854775807"), 9223372036854775807L);
+		assertEquals(-9223372036854775808L, LongUtils.parseLong("-9223372036854775808"));
+		assertEquals(-1L, LongUtils.parseLong("-1"));
+		assertEquals(0L, LongUtils.parseLong("0"));
+		assertEquals(1L, LongUtils.parseLong("1"));
+		assertEquals(9223372036854775807L, LongUtils.parseLong("+9223372036854775807"));
 
-		assertEquals(LongUtils.parseLong("-9223372036854775809", 0L), 0L);
-		assertEquals(LongUtils.parseLong("9223372036854775808", 0L), 0L);
-		assertEquals(LongUtils.parseLong(" 1", 0L), 0L);
-		assertEquals(LongUtils.parseLong("A", 0L), 0L);
-		assertEquals(LongUtils.parseLong("1A", 0L), 0L);
-		assertEquals(LongUtils.parseLong("A1", 0L), 0L);
+		assertEquals(0L, LongUtils.parseLong("-9223372036854775809", 0L));
+		assertEquals(0L, LongUtils.parseLong("9223372036854775808", 0L));
+		assertEquals(0L, LongUtils.parseLong(" 1", 0L));
+		assertEquals(0L, LongUtils.parseLong("A", 0L));
+		assertEquals(0L, LongUtils.parseLong("1A", 0L));
+		assertEquals(0L, LongUtils.parseLong("A1", 0L));
 
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			LongUtils.parseLong(null);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			LongUtils.parseLong("");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			LongUtils.parseLong("-9223372036854775809");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			LongUtils.parseLong("9223372036854775808");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			LongUtils.parseLong(" 1");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			LongUtils.parseLong("A");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			LongUtils.parseLong("1A");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			LongUtils.parseLong("A1");
-		});
+		assertThrows(NumberUtilsRuntimeException.class, () -> LongUtils.parseLong(null));
+		assertThrows(NumberUtilsRuntimeException.class, () -> LongUtils.parseLong(""));
+		assertThrows(NumberUtilsRuntimeException.class, () -> LongUtils.parseLong("-9223372036854775809"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> LongUtils.parseLong("9223372036854775808"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> LongUtils.parseLong(" 1"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> LongUtils.parseLong("A"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> LongUtils.parseLong("1A"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> LongUtils.parseLong("A1"));
 	}
 
 	@Test
 	@DisplayName("Parse string to long object")
 	public void testParseLongObject() {
-		assertEquals(LongUtils.parseLongObject(null), null);
-		assertEquals(LongUtils.parseLongObject(""), null);
-		assertEquals(LongUtils.parseLongObject("-9223372036854775808"), -9223372036854775808L);
-		assertEquals(LongUtils.parseLongObject("-1"), -1L);
-		assertEquals(LongUtils.parseLongObject("0"), 0L);
-		assertEquals(LongUtils.parseLongObject("1"), 1L);
-		assertEquals(LongUtils.parseLongObject("+9223372036854775807"), 9223372036854775807L);
+		assertNull(LongUtils.parseLongObject(null));
+		assertNull(LongUtils.parseLongObject(""));
+		assertEquals(-9223372036854775808L, LongUtils.parseLongObject("-9223372036854775808"));
+		assertEquals(-1L, LongUtils.parseLongObject("-1"));
+		assertEquals(0L, LongUtils.parseLongObject("0"));
+		assertEquals(1L, LongUtils.parseLongObject("1"));
+		assertEquals(9223372036854775807L, LongUtils.parseLongObject("+9223372036854775807"));
 
-		assertEquals(LongUtils.parseLongObject("-9223372036854775809", 0L), 0L);
-		assertEquals(LongUtils.parseLongObject("9223372036854775808", 0L), 0L);
-		assertEquals(LongUtils.parseLongObject(" 1", 0L), 0L);
-		assertEquals(LongUtils.parseLongObject("A", 0L), 0L);
-		assertEquals(LongUtils.parseLongObject("1A", 0L), 0L);
-		assertEquals(LongUtils.parseLongObject("A1", 0L), 0L);
+		assertEquals(0L, LongUtils.parseLongObject("-9223372036854775809", 0L));
+		assertEquals(0L, LongUtils.parseLongObject("9223372036854775808", 0L));
+		assertEquals(0L, LongUtils.parseLongObject(" 1", 0L));
+		assertEquals(0L, LongUtils.parseLongObject("A", 0L));
+		assertEquals(0L, LongUtils.parseLongObject("1A", 0L));
+		assertEquals(0L, LongUtils.parseLongObject("A1", 0L));
 
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			LongUtils.parseLongObject("-9223372036854775809");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			LongUtils.parseLongObject("9223372036854775808");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			LongUtils.parseLongObject(" 1");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			LongUtils.parseLongObject("A");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			LongUtils.parseLongObject("1A");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			LongUtils.parseLongObject("A1");
-		});
+		assertThrows(NumberUtilsRuntimeException.class, () -> LongUtils.parseLongObject("-9223372036854775809"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> LongUtils.parseLongObject("9223372036854775808"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> LongUtils.parseLongObject(" 1"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> LongUtils.parseLongObject("A"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> LongUtils.parseLongObject("1A"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> LongUtils.parseLongObject("A1"));
 	}
 
 	@Test
 	@DisplayName("Parse unsigned byte")
 	public void testParseUnsignedByte() {
-		assertEquals(LongUtils.parseUnsignedByte((byte) 0x00), 0x00L);
-		assertEquals(LongUtils.parseUnsignedByte((byte) 0x7F), 0x7FL);
-		assertEquals(LongUtils.parseUnsignedByte((byte) 0x80), 0x80L);
-		assertEquals(LongUtils.parseUnsignedByte((byte) 0xFF), 0xFFL);
+		assertEquals(0x00L, LongUtils.parseUnsignedByte((byte) 0x00));
+		assertEquals(0x7FL, LongUtils.parseUnsignedByte((byte) 0x7F));
+		assertEquals(0x80L, LongUtils.parseUnsignedByte((byte) 0x80));
+		assertEquals(0xFFL, LongUtils.parseUnsignedByte((byte) 0xFF));
 	}
 
 	@Test
 	@DisplayName("Parse unsigned short")
 	public void testParseUnsignedShort() {
-		assertEquals(LongUtils.parseUnsignedShort((short) 0x0000), 0x0000L);
-		assertEquals(LongUtils.parseUnsignedShort((short) 0x7FFF), 0x7FFFL);
-		assertEquals(LongUtils.parseUnsignedShort((short) 0x8000), 0x8000L);
-		assertEquals(LongUtils.parseUnsignedShort((short) 0xFFFF), 0xFFFFL);
+		assertEquals(0x0000L, LongUtils.parseUnsignedShort((short) 0x0000));
+		assertEquals(0x7FFFL, LongUtils.parseUnsignedShort((short) 0x7FFF));
+		assertEquals(0x8000L, LongUtils.parseUnsignedShort((short) 0x8000));
+		assertEquals(0xFFFFL, LongUtils.parseUnsignedShort((short) 0xFFFF));
 	}
 
 	@Test
 	@DisplayName("Parse unsigned int")
 	public void testParseUnsignedInt() {
-		assertEquals(LongUtils.parseUnsignedInteger(0x00000000), 0x00000000L);
-		assertEquals(LongUtils.parseUnsignedInteger(0x7FFFFFFF), 0x7FFFFFFFL);
-		assertEquals(LongUtils.parseUnsignedInteger(0x80000000), 0x80000000L);
-		assertEquals(LongUtils.parseUnsignedInteger(0xFFFFFFFF), 0xFFFFFFFFL);
+		assertEquals(0x00000000L, LongUtils.parseUnsignedInteger(0x00000000));
+		assertEquals(0x7FFFFFFFL, LongUtils.parseUnsignedInteger(0x7FFFFFFF));
+		assertEquals(0x80000000L, LongUtils.parseUnsignedInteger(0x80000000));
+		assertEquals(0xFFFFFFFFL, LongUtils.parseUnsignedInteger(0xFFFFFFFF));
 	}
 
 	@Test

@@ -6,8 +6,7 @@ import org.diverproject.scarlet.util.exceptions.NumberUtilsRuntimeException;
 
 public class IntegerUtils extends NumberUtils {
 
-	private IntegerUtils() {
-	}
+	private IntegerUtils() { }
 
 	public static boolean isInteger(String str) {
 		return hasNumberRange(str, Integer.MIN_VALUE, Integer.MAX_VALUE);

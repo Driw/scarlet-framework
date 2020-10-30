@@ -2,6 +2,7 @@ package org.diverproject.scarlet.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -51,99 +52,71 @@ class TestIntegerUtils {
 	@Test
 	@DisplayName("Parse string to int")
 	public void testParseInteger() {
-		assertEquals(IntegerUtils.parseInt("-2147483648"), -2147483648);
-		assertEquals(IntegerUtils.parseInt("-1"), -1);
-		assertEquals(IntegerUtils.parseInt("0"), 0);
-		assertEquals(IntegerUtils.parseInt("1"), 1);
-		assertEquals(IntegerUtils.parseInt("+2147483647"), 2147483647);
+		assertEquals(-2147483648, IntegerUtils.parseInt("-2147483648"));
+		assertEquals(-1, IntegerUtils.parseInt("-1"));
+		assertEquals(0, IntegerUtils.parseInt("0"));
+		assertEquals(1, IntegerUtils.parseInt("1"));
+		assertEquals(2147483647, IntegerUtils.parseInt("+2147483647"));
 
-		assertEquals(IntegerUtils.parseInt("-2147483649", 0), 0);
-		assertEquals(IntegerUtils.parseInt("2147483648", 0), 0);
-		assertEquals(IntegerUtils.parseInt(" 1", 0), 0);
-		assertEquals(IntegerUtils.parseInt("A", 0), 0);
-		assertEquals(IntegerUtils.parseInt("1A", 0), 0);
-		assertEquals(IntegerUtils.parseInt("A1", 0), 0);
+		assertEquals(0, IntegerUtils.parseInt("-2147483649", 0));
+		assertEquals(0, IntegerUtils.parseInt("2147483648", 0));
+		assertEquals(0, IntegerUtils.parseInt(" 1", 0));
+		assertEquals(0, IntegerUtils.parseInt("A", 0));
+		assertEquals(0, IntegerUtils.parseInt("1A", 0));
+		assertEquals(0, IntegerUtils.parseInt("A1", 0));
 
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			IntegerUtils.parseInt(null);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			IntegerUtils.parseInt("");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			IntegerUtils.parseInt("-2147483649");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			IntegerUtils.parseInt("2147483648");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			IntegerUtils.parseInt(" 1");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			IntegerUtils.parseInt("A");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			IntegerUtils.parseInt("1A");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			IntegerUtils.parseInt("A1");
-		});
+		assertThrows(NumberUtilsRuntimeException.class, () -> IntegerUtils.parseInt(null));
+		assertThrows(NumberUtilsRuntimeException.class, () -> IntegerUtils.parseInt(""));
+		assertThrows(NumberUtilsRuntimeException.class, () -> IntegerUtils.parseInt("-2147483649"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> IntegerUtils.parseInt("2147483648"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> IntegerUtils.parseInt(" 1"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> IntegerUtils.parseInt("A"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> IntegerUtils.parseInt("1A"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> IntegerUtils.parseInt("A1"));
 	}
 
 	@Test
 	@DisplayName("Parse string to int object")
 	public void testParseIntegerObject() {
-		assertEquals(IntegerUtils.parseIntObject(null), null);
-		assertEquals(IntegerUtils.parseIntObject(""), null);
-		assertEquals(IntegerUtils.parseIntObject("-2147483648"), -2147483648);
-		assertEquals(IntegerUtils.parseIntObject("-1"), -1);
-		assertEquals(IntegerUtils.parseIntObject("0"), 0);
-		assertEquals(IntegerUtils.parseIntObject("1"), 1);
-		assertEquals(IntegerUtils.parseIntObject("+2147483647"), 2147483647);
+		assertNull(IntegerUtils.parseIntObject(null));
+		assertNull(IntegerUtils.parseIntObject(""));
+		assertEquals(-2147483648, IntegerUtils.parseIntObject("-2147483648"));
+		assertEquals(-1, IntegerUtils.parseIntObject("-1"));
+		assertEquals(0, IntegerUtils.parseIntObject("0"));
+		assertEquals(1, IntegerUtils.parseIntObject("1"));
+		assertEquals(2147483647, IntegerUtils.parseIntObject("+2147483647"));
 
-		assertEquals(IntegerUtils.parseIntObject("-2147483649", 0), 0);
-		assertEquals(IntegerUtils.parseIntObject("2147483648", 0), 0);
-		assertEquals(IntegerUtils.parseIntObject(" 1", 0), 0);
-		assertEquals(IntegerUtils.parseIntObject("A", 0), 0);
-		assertEquals(IntegerUtils.parseIntObject("1A", 0), 0);
-		assertEquals(IntegerUtils.parseIntObject("A1", 0), 0);
+		assertEquals(0, IntegerUtils.parseIntObject("-2147483649", 0));
+		assertEquals(0, IntegerUtils.parseIntObject("2147483648", 0));
+		assertEquals(0, IntegerUtils.parseIntObject(" 1", 0));
+		assertEquals(0, IntegerUtils.parseIntObject("A", 0));
+		assertEquals(0, IntegerUtils.parseIntObject("1A", 0));
+		assertEquals(0, IntegerUtils.parseIntObject("A1", 0));
 
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			IntegerUtils.parseIntObject("-2147483649");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			IntegerUtils.parseIntObject("2147483648");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			IntegerUtils.parseIntObject(" 1");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			IntegerUtils.parseIntObject("A");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			IntegerUtils.parseIntObject("1A");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			IntegerUtils.parseIntObject("A1");
-		});
+		assertThrows(NumberUtilsRuntimeException.class, () -> IntegerUtils.parseIntObject("-2147483649"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> IntegerUtils.parseIntObject("2147483648"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> IntegerUtils.parseIntObject(" 1"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> IntegerUtils.parseIntObject("A"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> IntegerUtils.parseIntObject("1A"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> IntegerUtils.parseIntObject("A1"));
 	}
 
 	@Test
 	@DisplayName("Parse unsigned byte")
 	public void testParseUnsignedByte() {
-		assertEquals(IntegerUtils.parseUnsignedByte((byte) 0x00), 0x00L);
-		assertEquals(IntegerUtils.parseUnsignedByte((byte) 0x7F), 0x7FL);
-		assertEquals(IntegerUtils.parseUnsignedByte((byte) 0x80), 0x80L);
-		assertEquals(IntegerUtils.parseUnsignedByte((byte) 0xFF), 0xFFL);
+		assertEquals(0x00L, IntegerUtils.parseUnsignedByte((byte) 0x00));
+		assertEquals(0x7FL, IntegerUtils.parseUnsignedByte((byte) 0x7F));
+		assertEquals(0x80L, IntegerUtils.parseUnsignedByte((byte) 0x80));
+		assertEquals(0xFFL, IntegerUtils.parseUnsignedByte((byte) 0xFF));
 	}
 
 	@Test
 	@DisplayName("Parse unsigned short")
 	public void testParseUnsignedShort() {
-		assertEquals(IntegerUtils.parseUnsignedShort((short) 0x0000), 0x0000L);
-		assertEquals(IntegerUtils.parseUnsignedShort((short) 0x7FFF), 0x7FFFL);
-		assertEquals(IntegerUtils.parseUnsignedShort((short) 0x8000), 0x8000L);
-		assertEquals(IntegerUtils.parseUnsignedShort((short) 0xFFFF), 0xFFFFL);
+		assertEquals(0x0000L, IntegerUtils.parseUnsignedShort((short) 0x0000));
+		assertEquals(0x7FFFL, IntegerUtils.parseUnsignedShort((short) 0x7FFF));
+		assertEquals(0x8000L, IntegerUtils.parseUnsignedShort((short) 0x8000));
+		assertEquals(0xFFFFL, IntegerUtils.parseUnsignedShort((short) 0xFFFF));
 	}
 
 	@Test

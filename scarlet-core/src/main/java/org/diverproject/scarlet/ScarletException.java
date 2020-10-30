@@ -6,7 +6,7 @@ public class ScarletException extends Exception {
 
 	private static final long serialVersionUID = -6658438626365742664L;
 
-	private Language language;
+	private transient Language language;
 
 	public ScarletException(Language language) {
 		super(language.getFormat());

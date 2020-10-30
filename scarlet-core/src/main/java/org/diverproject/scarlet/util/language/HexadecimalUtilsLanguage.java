@@ -22,8 +22,6 @@ public enum HexadecimalUtilsLanguage implements Language
 	PARSE_HEX_INT_FORMAT("invalid hexadecimal int format (hex: %s)"),
 	PARSE_HEX_LONG_FORMAT("invalid hexadecimal long format (hex: %s)"),
 
-	UNKNOWN("unknown hexadecimal utils error")
-
 	;
 
 	@Getter

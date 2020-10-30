@@ -7,12 +7,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Bitwise8 (8 bits)")
-public class TestBitwise8
-{
+public class TestBitwise8 {
+
 	@Test
 	@DisplayName("Has bit property")
-	public void hasProperty()
-	{
+	public void hasProperty() {
 		byte first = 0x01;
 		byte second = 0x02;
 		byte third = 0x04;
@@ -46,8 +45,7 @@ public class TestBitwise8
 
 	@Test
 	@DisplayName("set property")
-	public void setProperty()
-	{
+	public void setProperty() {
 		byte first = 0x01;
 		byte second = 0x02;
 		byte third = 0x04;
@@ -75,8 +73,7 @@ public class TestBitwise8
 
 	@Test
 	@DisplayName("set property")
-	public void removeProperty()
-	{
+	public void removeProperty() {
 		byte first = 0x01;
 		byte second = 0x02;
 		byte third = 0x04;

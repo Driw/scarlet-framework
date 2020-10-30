@@ -14,6 +14,8 @@ public class LanguageUnloader {
 	private static final boolean DEFAULT_NAMED = true;
 	private static final String DEFAULT_PACKAGE_NAME = "";
 
+	private LanguageUnloader() { }
+
 	public static Set<Wini> autoUnload() {
 		return autoUnload(DEFAULT_FOLDER, DEFAULT_SEPARATED, DEFAULT_NAMED, DEFAULT_PACKAGE_NAME);
 	}

@@ -10,14 +10,12 @@ import org.diverproject.scarlet.util.exceptions.NumberUtilsRuntimeException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-
 @DisplayName("Float Utils")
 public class TestFloatUtils {
 
 	@Test
 	@DisplayName("Is a safe float value")
-	public void testIsSafeFloat() throws IOException {
+	public void testIsSafeFloat() {
 		assertTrue(FloatUtils.isSafeFloat("1"));
 		assertTrue(FloatUtils.isSafeFloat("1."));
 		assertTrue(FloatUtils.isSafeFloat(".1"));
@@ -78,7 +76,7 @@ public class TestFloatUtils {
 
 	@Test
 	@DisplayName("Is all a safe float value")
-	public void testIsAllSafeFloat() throws IOException {
+	public void testIsAllSafeFloat() {
 		String[] strings = new String[]{
 			"1",
 			"1.",
@@ -143,152 +141,104 @@ public class TestFloatUtils {
 	@Test
 	@DisplayName("Float values")
 	public void testParseFloat() {
-		assertEquals(FloatUtils.parseFloat("123"), 123f);
-		assertEquals(FloatUtils.parseFloat("123."), 123f);
-		assertEquals(FloatUtils.parseFloat(".123"), .123f);
-		assertEquals(FloatUtils.parseFloat("123.123"), 123.123f);
-		assertEquals(FloatUtils.parseFloat("-123"), -123f);
-		assertEquals(FloatUtils.parseFloat("-123."), -123f);
-		assertEquals(FloatUtils.parseFloat("-.123"), -.123f);
-		assertEquals(FloatUtils.parseFloat("-123.123"), -123.123f);
-		assertEquals(FloatUtils.parseFloat("123"), 123f);
-		assertEquals(FloatUtils.parseFloat("123."), 123f);
-		assertEquals(FloatUtils.parseFloat(".123"), .123f);
-		assertEquals(FloatUtils.parseFloat("123.123"), 123.123f);
-		assertEquals(FloatUtils.parseFloat("-123"), -123f);
-		assertEquals(FloatUtils.parseFloat("-123."), -123f);
-		assertEquals(FloatUtils.parseFloat("-.123"), -.123f);
-		assertEquals(FloatUtils.parseFloat("-123.123"), -123.123f);
+		assertEquals(123f, FloatUtils.parseFloat("123"));
+		assertEquals(123f, FloatUtils.parseFloat("123."));
+		assertEquals(.123f, FloatUtils.parseFloat(".123"));
+		assertEquals(123.123f, FloatUtils.parseFloat("123.123"));
+		assertEquals(-123f, FloatUtils.parseFloat("-123"));
+		assertEquals(-123f, FloatUtils.parseFloat("-123."));
+		assertEquals(-.123f, FloatUtils.parseFloat("-.123"));
+		assertEquals(-123.123f, FloatUtils.parseFloat("-123.123"));
+		assertEquals(123f, FloatUtils.parseFloat("123"));
+		assertEquals(123f, FloatUtils.parseFloat("123."));
+		assertEquals(.123f, FloatUtils.parseFloat(".123"));
+		assertEquals(123.123f, FloatUtils.parseFloat("123.123"));
+		assertEquals(-123f, FloatUtils.parseFloat("-123"));
+		assertEquals(-123f, FloatUtils.parseFloat("-123."));
+		assertEquals(-.123f, FloatUtils.parseFloat("-.123"));
+		assertEquals(-123.123f, FloatUtils.parseFloat("-123.123"));
 
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("123,");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat(",123");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("123,123");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("-123,");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("-,123");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("-123,123");
-		});
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("123,"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat(",123"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("123,123"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("-123,"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("-,123"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("-123,123"));
 
-		assertEquals(FloatUtils.parseFloat("123,", 0f), 0f);
-		assertEquals(FloatUtils.parseFloat(",123", 0f), 0f);
-		assertEquals(FloatUtils.parseFloat("123,123", 0f), 0f);
-		assertEquals(FloatUtils.parseFloat("-123,", 0f), 0f);
-		assertEquals(FloatUtils.parseFloat("-,123", 0f), 0f);
-		assertEquals(FloatUtils.parseFloat("-123,123", 0f), 0f);
+		assertEquals(0f, FloatUtils.parseFloat("123,", 0f));
+		assertEquals(0f, FloatUtils.parseFloat(",123", 0f));
+		assertEquals(0f, FloatUtils.parseFloat("123,123", 0f));
+		assertEquals(0f, FloatUtils.parseFloat("-123,", 0f));
+		assertEquals(0f, FloatUtils.parseFloat("-,123", 0f));
+		assertEquals(0f, FloatUtils.parseFloat("-123,123",0f));
 
-		assertEquals(FloatUtils.parseFloat("123", FloatUtils.DECIMAL_ANY_TYPE), 123f);
-		assertEquals(FloatUtils.parseFloat("123.", FloatUtils.DECIMAL_ANY_TYPE), 123.f);
-		assertEquals(FloatUtils.parseFloat(".123", FloatUtils.DECIMAL_ANY_TYPE), .123f);
-		assertEquals(FloatUtils.parseFloat("123.123", FloatUtils.DECIMAL_ANY_TYPE), 123.123f);
-		assertEquals(FloatUtils.parseFloat("+123", FloatUtils.DECIMAL_ANY_TYPE), 123f);
-		assertEquals(FloatUtils.parseFloat("+123.", FloatUtils.DECIMAL_ANY_TYPE), 123.f);
-		assertEquals(FloatUtils.parseFloat("+.123", FloatUtils.DECIMAL_ANY_TYPE), .123f);
-		assertEquals(FloatUtils.parseFloat("+123.123", FloatUtils.DECIMAL_ANY_TYPE), 123.123f);
-		assertEquals(FloatUtils.parseFloat("-123", FloatUtils.DECIMAL_ANY_TYPE), -123f);
-		assertEquals(FloatUtils.parseFloat("-123.", FloatUtils.DECIMAL_ANY_TYPE), -123.f);
-		assertEquals(FloatUtils.parseFloat("-.123", FloatUtils.DECIMAL_ANY_TYPE), -.123f);
-		assertEquals(FloatUtils.parseFloat("-123.123", FloatUtils.DECIMAL_ANY_TYPE), -123.123f);
-		assertEquals(FloatUtils.parseFloat("123", FloatUtils.DECIMAL_ANY_TYPE), 123f);
-		assertEquals(FloatUtils.parseFloat("123,", FloatUtils.DECIMAL_ANY_TYPE), 123.f);
-		assertEquals(FloatUtils.parseFloat(",123", FloatUtils.DECIMAL_ANY_TYPE), .123f);
-		assertEquals(FloatUtils.parseFloat("123,123", FloatUtils.DECIMAL_ANY_TYPE), 123.123f);
-		assertEquals(FloatUtils.parseFloat("+123", FloatUtils.DECIMAL_ANY_TYPE), 123f);
-		assertEquals(FloatUtils.parseFloat("+123,", FloatUtils.DECIMAL_ANY_TYPE), 123.f);
-		assertEquals(FloatUtils.parseFloat("+,123", FloatUtils.DECIMAL_ANY_TYPE), .123f);
-		assertEquals(FloatUtils.parseFloat("+123,123", FloatUtils.DECIMAL_ANY_TYPE), 123.123f);
-		assertEquals(FloatUtils.parseFloat("-123", FloatUtils.DECIMAL_ANY_TYPE), -123f);
-		assertEquals(FloatUtils.parseFloat("-123,", FloatUtils.DECIMAL_ANY_TYPE), -123.f);
-		assertEquals(FloatUtils.parseFloat("-,123", FloatUtils.DECIMAL_ANY_TYPE), -.123f);
-		assertEquals(FloatUtils.parseFloat("-123,123", FloatUtils.DECIMAL_ANY_TYPE), -123.123f);
-		assertEquals(FloatUtils.parseFloat("123", FloatUtils.DECIMAL_DOT_TYPE), 123f);
-		assertEquals(FloatUtils.parseFloat("123.", FloatUtils.DECIMAL_DOT_TYPE), 123.f);
-		assertEquals(FloatUtils.parseFloat(".123", FloatUtils.DECIMAL_DOT_TYPE), .123f);
-		assertEquals(FloatUtils.parseFloat("123.123", FloatUtils.DECIMAL_DOT_TYPE), 123.123f);
-		assertEquals(FloatUtils.parseFloat("+123", FloatUtils.DECIMAL_DOT_TYPE), 123f);
-		assertEquals(FloatUtils.parseFloat("+123.", FloatUtils.DECIMAL_DOT_TYPE), 123.f);
-		assertEquals(FloatUtils.parseFloat("+.123", FloatUtils.DECIMAL_DOT_TYPE), .123f);
-		assertEquals(FloatUtils.parseFloat("+123.123", FloatUtils.DECIMAL_DOT_TYPE), 123.123f);
-		assertEquals(FloatUtils.parseFloat("-123", FloatUtils.DECIMAL_DOT_TYPE), -123f);
-		assertEquals(FloatUtils.parseFloat("-123.", FloatUtils.DECIMAL_DOT_TYPE), -123.f);
-		assertEquals(FloatUtils.parseFloat("-.123", FloatUtils.DECIMAL_DOT_TYPE), -.123f);
-		assertEquals(FloatUtils.parseFloat("-123.123", FloatUtils.DECIMAL_DOT_TYPE), -123.123f);
-		assertEquals(FloatUtils.parseFloat("123", FloatUtils.DECIMAL_COMMA_TYPE), 123f);
-		assertEquals(FloatUtils.parseFloat("123,", FloatUtils.DECIMAL_COMMA_TYPE), 123.f);
-		assertEquals(FloatUtils.parseFloat(",123", FloatUtils.DECIMAL_COMMA_TYPE), .123f);
-		assertEquals(FloatUtils.parseFloat("123,123", FloatUtils.DECIMAL_COMMA_TYPE), 123.123f);
-		assertEquals(FloatUtils.parseFloat("+123", FloatUtils.DECIMAL_COMMA_TYPE), 123f);
-		assertEquals(FloatUtils.parseFloat("+123,", FloatUtils.DECIMAL_COMMA_TYPE), 123.f);
-		assertEquals(FloatUtils.parseFloat("+,123", FloatUtils.DECIMAL_COMMA_TYPE), .123f);
-		assertEquals(FloatUtils.parseFloat("+123,123", FloatUtils.DECIMAL_COMMA_TYPE), 123.123f);
-		assertEquals(FloatUtils.parseFloat("-123", FloatUtils.DECIMAL_COMMA_TYPE), -123f);
-		assertEquals(FloatUtils.parseFloat("-123,", FloatUtils.DECIMAL_COMMA_TYPE), -123.f);
-		assertEquals(FloatUtils.parseFloat("-,123", FloatUtils.DECIMAL_COMMA_TYPE), -.123f);
-		assertEquals(FloatUtils.parseFloat("-123,123", FloatUtils.DECIMAL_COMMA_TYPE), -123.123f);
+		assertEquals(123f, FloatUtils.parseFloat("123", FloatUtils.DECIMAL_ANY_TYPE));
+		assertEquals(123.f, FloatUtils.parseFloat("123.", FloatUtils.DECIMAL_ANY_TYPE));
+		assertEquals(.123f, FloatUtils.parseFloat(".123", FloatUtils.DECIMAL_ANY_TYPE));
+		assertEquals(123.123f, FloatUtils.parseFloat("123.123", FloatUtils.DECIMAL_ANY_TYPE));
+		assertEquals(123f, FloatUtils.parseFloat("+123", FloatUtils.DECIMAL_ANY_TYPE));
+		assertEquals(123.f, FloatUtils.parseFloat("+123.", FloatUtils.DECIMAL_ANY_TYPE));
+		assertEquals(.123f, FloatUtils.parseFloat("+.123", FloatUtils.DECIMAL_ANY_TYPE));
+		assertEquals(123.123f, FloatUtils.parseFloat("+123.123", FloatUtils.DECIMAL_ANY_TYPE));
+		assertEquals(-123f, FloatUtils.parseFloat("-123", FloatUtils.DECIMAL_ANY_TYPE));
+		assertEquals(-123.f, FloatUtils.parseFloat("-123.", FloatUtils.DECIMAL_ANY_TYPE));
+		assertEquals(-.123f, FloatUtils.parseFloat("-.123", FloatUtils.DECIMAL_ANY_TYPE));
+		assertEquals(-123.123f, FloatUtils.parseFloat("-123.123", FloatUtils.DECIMAL_ANY_TYPE));
+		assertEquals(123f, FloatUtils.parseFloat("123", FloatUtils.DECIMAL_ANY_TYPE));
+		assertEquals(123.f, FloatUtils.parseFloat("123,", FloatUtils.DECIMAL_ANY_TYPE));
+		assertEquals(.123f, FloatUtils.parseFloat(",123", FloatUtils.DECIMAL_ANY_TYPE));
+		assertEquals(123.123f, FloatUtils.parseFloat("123,123", FloatUtils.DECIMAL_ANY_TYPE));
+		assertEquals(123f, FloatUtils.parseFloat("+123", FloatUtils.DECIMAL_ANY_TYPE));
+		assertEquals(123.f, FloatUtils.parseFloat("+123,", FloatUtils.DECIMAL_ANY_TYPE));
+		assertEquals(.123f, FloatUtils.parseFloat("+,123", FloatUtils.DECIMAL_ANY_TYPE));
+		assertEquals(123.123f, FloatUtils.parseFloat("+123,123", FloatUtils.DECIMAL_ANY_TYPE));
+		assertEquals(-123f, FloatUtils.parseFloat("-123", FloatUtils.DECIMAL_ANY_TYPE));
+		assertEquals(-123.f, FloatUtils.parseFloat("-123,", FloatUtils.DECIMAL_ANY_TYPE));
+		assertEquals(-.123f, FloatUtils.parseFloat("-,123", FloatUtils.DECIMAL_ANY_TYPE));
+		assertEquals(-123.123f, FloatUtils.parseFloat("-123,123", FloatUtils.DECIMAL_ANY_TYPE));
+		assertEquals(123f, FloatUtils.parseFloat("123", FloatUtils.DECIMAL_DOT_TYPE));
+		assertEquals(123.f, FloatUtils.parseFloat("123.", FloatUtils.DECIMAL_DOT_TYPE));
+		assertEquals(.123f, FloatUtils.parseFloat(".123", FloatUtils.DECIMAL_DOT_TYPE));
+		assertEquals(123.123f, FloatUtils.parseFloat("123.123", FloatUtils.DECIMAL_DOT_TYPE));
+		assertEquals(123f, FloatUtils.parseFloat("+123", FloatUtils.DECIMAL_DOT_TYPE));
+		assertEquals(123.f, FloatUtils.parseFloat("+123.", FloatUtils.DECIMAL_DOT_TYPE));
+		assertEquals(.123f, FloatUtils.parseFloat("+.123", FloatUtils.DECIMAL_DOT_TYPE));
+		assertEquals(123.123f, FloatUtils.parseFloat("+123.123", FloatUtils.DECIMAL_DOT_TYPE));
+		assertEquals(-123f, FloatUtils.parseFloat("-123", FloatUtils.DECIMAL_DOT_TYPE));
+		assertEquals(-123.f, FloatUtils.parseFloat("-123.", FloatUtils.DECIMAL_DOT_TYPE));
+		assertEquals(-.123f, FloatUtils.parseFloat("-.123", FloatUtils.DECIMAL_DOT_TYPE));
+		assertEquals(-123.123f, FloatUtils.parseFloat("-123.123", FloatUtils.DECIMAL_DOT_TYPE));
+		assertEquals(123f, FloatUtils.parseFloat("123", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertEquals(123.f, FloatUtils.parseFloat("123,", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertEquals(.123f, FloatUtils.parseFloat(",123", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertEquals(123.123f, FloatUtils.parseFloat("123,123", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertEquals(123f, FloatUtils.parseFloat("+123", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertEquals(123.f, FloatUtils.parseFloat("+123,", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertEquals(.123f, FloatUtils.parseFloat("+,123", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertEquals(123.123f, FloatUtils.parseFloat("+123,123", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertEquals(-123f, FloatUtils.parseFloat("-123", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertEquals(-123.f, FloatUtils.parseFloat("-123,", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertEquals(-.123f, FloatUtils.parseFloat("-,123", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertEquals(-123.123f, FloatUtils.parseFloat("-123,123", FloatUtils.DECIMAL_COMMA_TYPE));
 
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("123.", FloatUtils.DECIMAL_COMMA_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat(".123", FloatUtils.DECIMAL_COMMA_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("123.123", FloatUtils.DECIMAL_COMMA_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("+123.", FloatUtils.DECIMAL_COMMA_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("+.123", FloatUtils.DECIMAL_COMMA_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("+123.123", FloatUtils.DECIMAL_COMMA_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("-123.", FloatUtils.DECIMAL_COMMA_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("-.123", FloatUtils.DECIMAL_COMMA_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("-123.123", FloatUtils.DECIMAL_COMMA_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("123,", FloatUtils.DECIMAL_DOT_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat(",123", FloatUtils.DECIMAL_DOT_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("123,123", FloatUtils.DECIMAL_DOT_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("+123,", FloatUtils.DECIMAL_DOT_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("+,123", FloatUtils.DECIMAL_DOT_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("+123,123", FloatUtils.DECIMAL_DOT_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("-123,", FloatUtils.DECIMAL_DOT_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("-,123", FloatUtils.DECIMAL_DOT_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("-123,123", FloatUtils.DECIMAL_DOT_TYPE);
-		});
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("123.", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat(".123", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("123.123", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("+123.", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("+.123", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("+123.123", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("-123.", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("-.123", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("-123.123", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("123,", FloatUtils.DECIMAL_DOT_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat(",123", FloatUtils.DECIMAL_DOT_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("123,123", FloatUtils.DECIMAL_DOT_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("+123,", FloatUtils.DECIMAL_DOT_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("+,123", FloatUtils.DECIMAL_DOT_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("+123,123", FloatUtils.DECIMAL_DOT_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("-123,", FloatUtils.DECIMAL_DOT_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("-,123", FloatUtils.DECIMAL_DOT_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("-123,123", FloatUtils.DECIMAL_DOT_TYPE));
 	}
 
 	@Test
@@ -330,7 +280,7 @@ public class TestFloatUtils {
 			assertEquals(parser.isNegative(), parameters[4]);
 			assertEquals(parser.getValue(), parameters[5]);
 			assertEquals(parser.getPrecision(), parameters[6]);
-			assertNull(parser.getExpoent());
+			assertNull(parser.getExponent());
 			assertEquals(parser.parseFloat(), parameters[7]);
 			assertEquals(floatParsed, parameters[7]);
 		}
@@ -401,7 +351,7 @@ public class TestFloatUtils {
 			assertEquals(parser.isNegative(), parameters[4]);
 			assertEquals(parser.getValue(), parameters[5]);
 			assertEquals(parser.getPrecision(), parameters[6]);
-			assertEquals(parser.getExpoent(), parameters[7]);
+			assertEquals(parser.getExponent(), parameters[7]);
 			assertEquals(parser.parseFloat(), parameters[8]);
 			assertEquals(floatParsed, parameters[8]);
 		}
@@ -428,95 +378,40 @@ public class TestFloatUtils {
 		};
 
 		for (Object[] parameters : throwsParametersTest) {
-			assertThrows(NumberUtilsRuntimeException.class, () ->
-			{
+			assertThrows(NumberUtilsRuntimeException.class, () -> {
 				FloatUtils.parseFloat((String) parameters[0], (int) parameters[1], parser);
 				assertEquals(parser.getPrecision(), parameters[2]);
 				parser.parseFloat();
 			});
 		}
 
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("ae0", FloatUtils.DECIMAL_ANY_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("a1e0", FloatUtils.DECIMAL_ANY_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("1ae0", FloatUtils.DECIMAL_ANY_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("1e0,", FloatUtils.DECIMAL_DOT_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat(",1e0", FloatUtils.DECIMAL_DOT_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("1,1e0", FloatUtils.DECIMAL_DOT_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("1.e0", FloatUtils.DECIMAL_COMMA_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat(".1e0", FloatUtils.DECIMAL_COMMA_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("1.1e0", FloatUtils.DECIMAL_COMMA_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("ae+0", FloatUtils.DECIMAL_ANY_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("a1e+0", FloatUtils.DECIMAL_ANY_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("1ae+0", FloatUtils.DECIMAL_ANY_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("1e+0,", FloatUtils.DECIMAL_DOT_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat(",1e+0", FloatUtils.DECIMAL_DOT_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("1,1e+0", FloatUtils.DECIMAL_DOT_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("1.e+0", FloatUtils.DECIMAL_COMMA_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat(".1e+0", FloatUtils.DECIMAL_COMMA_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("1.1e+0", FloatUtils.DECIMAL_COMMA_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("ae-0", FloatUtils.DECIMAL_ANY_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("a1e-0", FloatUtils.DECIMAL_ANY_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("1ae-0", FloatUtils.DECIMAL_ANY_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("1e-0,", FloatUtils.DECIMAL_DOT_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat(",1e-0", FloatUtils.DECIMAL_DOT_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("1,1e-0", FloatUtils.DECIMAL_DOT_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("1.e-0", FloatUtils.DECIMAL_COMMA_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat(".1e-0", FloatUtils.DECIMAL_COMMA_TYPE);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			FloatUtils.parseFloat("1.1e-0", FloatUtils.DECIMAL_COMMA_TYPE);
-		});
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("ae0", FloatUtils.DECIMAL_ANY_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("a1e0", FloatUtils.DECIMAL_ANY_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("1ae0", FloatUtils.DECIMAL_ANY_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("1e0,", FloatUtils.DECIMAL_DOT_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat(",1e0", FloatUtils.DECIMAL_DOT_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("1,1e0", FloatUtils.DECIMAL_DOT_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("1.e0", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat(".1e0", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("1.1e0", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("ae+0", FloatUtils.DECIMAL_ANY_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("a1e+0", FloatUtils.DECIMAL_ANY_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("1ae+0", FloatUtils.DECIMAL_ANY_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("1e+0,", FloatUtils.DECIMAL_DOT_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat(",1e+0", FloatUtils.DECIMAL_DOT_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("1,1e+0", FloatUtils.DECIMAL_DOT_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("1.e+0", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat(".1e+0", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("1.1e+0", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("ae-0", FloatUtils.DECIMAL_ANY_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("a1e-0", FloatUtils.DECIMAL_ANY_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("1ae-0", FloatUtils.DECIMAL_ANY_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("1e-0,", FloatUtils.DECIMAL_DOT_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat(",1e-0", FloatUtils.DECIMAL_DOT_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("1,1e-0", FloatUtils.DECIMAL_DOT_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("1.e-0", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat(".1e-0", FloatUtils.DECIMAL_COMMA_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("1.1e-0", FloatUtils.DECIMAL_COMMA_TYPE));
 	}
 
 	@Test

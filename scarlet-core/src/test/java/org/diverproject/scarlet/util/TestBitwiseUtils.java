@@ -8,12 +8,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Bitwise Utils")
-public class TestBitwiseUtils
-{
+public class TestBitwiseUtils {
+
 	@Test
 	@DisplayName("Has bit property (8 bits)")
-	public void hasProperty8()
-	{
+	public void hasProperty8() {
 		byte first = 0x01;
 		byte second = 0x02;
 		byte third = 0x04;
@@ -46,8 +45,7 @@ public class TestBitwiseUtils
 
 	@Test
 	@DisplayName("set property (8 bits)")
-	public void setProperty8()
-	{
+	public void setProperty8() {
 		byte first = 0x01;
 		byte second = 0x02;
 		byte third = 0x04;
@@ -75,8 +73,7 @@ public class TestBitwiseUtils
 
 	@Test
 	@DisplayName("set property (8 bits)")
-	public void removeProperty8()
-	{
+	public void removeProperty8() {
 		byte first = 0x01;
 		byte second = 0x02;
 		byte third = 0x04;
@@ -104,8 +101,7 @@ public class TestBitwiseUtils
 
 	@Test
 	@DisplayName("Has bit property (16 bits)")
-	public void hasProperty16()
-	{
+	public void hasProperty16() {
 		short first = 0x01;
 		short second = 0x02;
 		short third = 0x04;
@@ -138,8 +134,7 @@ public class TestBitwiseUtils
 
 	@Test
 	@DisplayName("set property (16 bits)")
-	public void setProperty16()
-	{
+	public void setProperty16() {
 		short first = 0x01;
 		short second = 0x02;
 		short third = 0x04;
@@ -167,8 +162,7 @@ public class TestBitwiseUtils
 
 	@Test
 	@DisplayName("set property (16 bits)")
-	public void removeProperty16()
-	{
+	public void removeProperty16() {
 		short first = 0x01;
 		short second = 0x02;
 		short third = 0x04;
@@ -196,8 +190,7 @@ public class TestBitwiseUtils
 
 	@Test
 	@DisplayName("Has bit property (32 bits)")
-	public void hasProperty()
-	{
+	public void hasProperty() {
 		int first = 0x01;
 		int second = 0x02;
 		int third = 0x04;
@@ -230,8 +223,7 @@ public class TestBitwiseUtils
 
 	@Test
 	@DisplayName("set property (32 bits)")
-	public void setProperty()
-	{
+	public void setProperty() {
 		int first = 0x01;
 		int second = 0x02;
 		int third = 0x04;
@@ -259,8 +251,7 @@ public class TestBitwiseUtils
 
 	@Test
 	@DisplayName("set property (32 bits)")
-	public void removeProperty()
-	{
+	public void removeProperty() {
 		int first = 0x01;
 		int second = 0x02;
 		int third = 0x04;
@@ -288,8 +279,7 @@ public class TestBitwiseUtils
 
 	@Test
 	@DisplayName("Has bit property (64 bits)")
-	public void hasProperty64()
-	{
+	public void hasProperty64() {
 		long first = 0x01;
 		long second = 0x02;
 		long third = 0x04;
@@ -322,8 +312,7 @@ public class TestBitwiseUtils
 
 	@Test
 	@DisplayName("set property (64 bits)")
-	public void setProperty64()
-	{
+	public void setProperty64() {
 		long first = 0x01;
 		long second = 0x02;
 		long third = 0x04;
@@ -351,8 +340,7 @@ public class TestBitwiseUtils
 
 	@Test
 	@DisplayName("set property (64 bits)")
-	public void removeProperty64()
-	{
+	public void removeProperty64() {
 		long first = 0x01;
 		long second = 0x02;
 		long third = 0x04;
@@ -380,9 +368,8 @@ public class TestBitwiseUtils
 
 	@Test
 	@DisplayName("To string properties")
-	public void testToString()
-	{
-		String properties[] = new String[] { "A", "B", "C" };
+	public void testToString() {
+		String[] properties = new String[]{"A", "B", "C"};
 
 		assertEquals("", BitwiseUtils.toString(0x00, properties));
 		assertEquals("A", BitwiseUtils.toString(0x01, properties));

@@ -44,8 +44,6 @@ public enum StringUtilsLanguage implements Language {
 
 	INDENT_LENGTH("indent length invalid (length: %d)"),
 
-	STRING_UTILS_MAX_ERROR("undefined error")
-
 	;
 
 	@Getter

@@ -106,7 +106,6 @@ public class LanguageLoader {
 					affected += loadEnumLanguageMapper(enumConstants, languageMapper);
 				}
 
-			} catch (FileNotFoundException e) {
 			} catch (IOException e) {
 				throw new LanguageException(e, INPUT_EXCEPTION, file.getAbsolutePath());
 			}

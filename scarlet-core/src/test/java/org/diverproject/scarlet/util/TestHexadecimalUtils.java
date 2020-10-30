@@ -179,111 +179,87 @@ public class TestHexadecimalUtils {
 	@Test
 	@DisplayName("Remove prefix '0x' if setted")
 	public void testClearHex() {
-		assertEquals(HexadecimalUtils.clearHex("FF"), "FF");
-		assertEquals(HexadecimalUtils.clearHex("0xFF"), "FF");
+		assertEquals("FF", HexadecimalUtils.clearHex("FF"));
+		assertEquals("FF", HexadecimalUtils.clearHex("0xFF"));
 	}
 
 	@Test
 	@DisplayName("Remove prefix '0x' if setted")
 	public void testToHex() {
-		assertEquals(HexadecimalUtils.toHex((byte) 0), "0");
-		assertEquals(HexadecimalUtils.toHex(Byte.MAX_VALUE), "7F");
-		assertEquals(HexadecimalUtils.toHex((short) 0), "0");
-		assertEquals(HexadecimalUtils.toHex(Short.MAX_VALUE), "7FFF");
-		assertEquals(HexadecimalUtils.toHex(0), "0");
-		assertEquals(HexadecimalUtils.toHex(Integer.MAX_VALUE), "7FFFFFFF");
-		assertEquals(HexadecimalUtils.toHex(0L), "0");
-		assertEquals(HexadecimalUtils.toHex(Long.MAX_VALUE), "7FFFFFFFFFFFFFFF");
-		assertEquals(HexadecimalUtils.toHex((char) 0), "0");
-		assertEquals(HexadecimalUtils.toHex((char) -1), "FFFF");
-		assertEquals(HexadecimalUtils.toHex(Character.MAX_VALUE), "FFFF");
+		assertEquals("0", HexadecimalUtils.toHex((byte) 0));
+		assertEquals("7F", HexadecimalUtils.toHex(Byte.MAX_VALUE));
+		assertEquals("0", HexadecimalUtils.toHex((short) 0));
+		assertEquals("7FFF", HexadecimalUtils.toHex(Short.MAX_VALUE));
+		assertEquals("0", HexadecimalUtils.toHex(0));
+		assertEquals("7FFFFFFF", HexadecimalUtils.toHex(Integer.MAX_VALUE));
+		assertEquals("0", HexadecimalUtils.toHex(0L));
+		assertEquals("7FFFFFFFFFFFFFFF", HexadecimalUtils.toHex(Long.MAX_VALUE));
+		assertEquals("0", HexadecimalUtils.toHex((char) 0));
+		assertEquals("FFFF", HexadecimalUtils.toHex((char) -1));
+		assertEquals("FFFF", HexadecimalUtils.toHex(Character.MAX_VALUE));
 
-		assertThrows(HexadecimalUtilsRuntimeException.class, () -> {
-			assertEquals(HexadecimalUtils.toHex((byte) -1), "FF");
-		});
-		assertThrows(HexadecimalUtilsRuntimeException.class, () -> {
-			assertEquals(HexadecimalUtils.toHex((short) -1), "FFFF");
-		});
-		assertThrows(HexadecimalUtilsRuntimeException.class, () -> {
-			assertEquals(HexadecimalUtils.toHex(-1), "FFFFFFFF");
-		});
-		assertThrows(HexadecimalUtilsRuntimeException.class, () -> {
-			assertEquals(HexadecimalUtils.toHex(-1L), "FFFFFFFFFFFFFFFF");
-		});
+		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.toHex((byte) -1));
+		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.toHex((short) -1));
+		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.toHex(-1));
+		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.toHex(-1L));
 
 		int formatter1 = HexadecimalUtils.TO_HEX_ZEROS;
 		int formatter2 = HexadecimalUtils.TO_HEX_X;
 		int formatter3 = HexadecimalUtils.TO_HEX_X | HexadecimalUtils.TO_HEX_ZEROS;
 
-		assertEquals(HexadecimalUtils.toHex((byte) 0, formatter1), "00");
-		assertEquals(HexadecimalUtils.toHex((byte) 0, formatter2), "0x0");
-		assertEquals(HexadecimalUtils.toHex((byte) 0, formatter3), "0x00");
-		assertEquals(HexadecimalUtils.toHex(Byte.MAX_VALUE, formatter1), "7F");
-		assertEquals(HexadecimalUtils.toHex(Byte.MAX_VALUE, formatter2), "0x7F");
-		assertEquals(HexadecimalUtils.toHex(Byte.MAX_VALUE, formatter3), "0x7F");
-		assertEquals(HexadecimalUtils.toHex((short) 0, formatter1), "0000");
-		assertEquals(HexadecimalUtils.toHex((short) 0, formatter2), "0x0");
-		assertEquals(HexadecimalUtils.toHex((short) 0, formatter3), "0x0000");
-		assertEquals(HexadecimalUtils.toHex(Short.MAX_VALUE, formatter1), "7FFF");
-		assertEquals(HexadecimalUtils.toHex(Short.MAX_VALUE, formatter2), "0x7FFF");
-		assertEquals(HexadecimalUtils.toHex(Short.MAX_VALUE, formatter3), "0x7FFF");
-		assertEquals(HexadecimalUtils.toHex(0, formatter1), "00000000");
-		assertEquals(HexadecimalUtils.toHex(0, formatter2), "0x0");
-		assertEquals(HexadecimalUtils.toHex(0, formatter3), "0x00000000");
-		assertEquals(HexadecimalUtils.toHex(Integer.MAX_VALUE, formatter1), "7FFFFFFF");
-		assertEquals(HexadecimalUtils.toHex(Integer.MAX_VALUE, formatter2), "0x7FFFFFFF");
-		assertEquals(HexadecimalUtils.toHex(Integer.MAX_VALUE, formatter3), "0x7FFFFFFF");
-		assertEquals(HexadecimalUtils.toHex(0L, formatter1), "0000000000000000");
-		assertEquals(HexadecimalUtils.toHex(0L, formatter2), "0x0");
-		assertEquals(HexadecimalUtils.toHex(0L, formatter3), "0x0000000000000000");
-		assertEquals(HexadecimalUtils.toHex(Long.MAX_VALUE, formatter1), "7FFFFFFFFFFFFFFF");
-		assertEquals(HexadecimalUtils.toHex(Long.MAX_VALUE, formatter2), "0x7FFFFFFFFFFFFFFF");
-		assertEquals(HexadecimalUtils.toHex(Long.MAX_VALUE, formatter3), "0x7FFFFFFFFFFFFFFF");
+		assertEquals("00", HexadecimalUtils.toHex((byte) 0, formatter1));
+		assertEquals("0x0", HexadecimalUtils.toHex((byte) 0, formatter2));
+		assertEquals("0x00", HexadecimalUtils.toHex((byte) 0, formatter3));
+		assertEquals("7F", HexadecimalUtils.toHex(Byte.MAX_VALUE, formatter1));
+		assertEquals("0x7F", HexadecimalUtils.toHex(Byte.MAX_VALUE, formatter2));
+		assertEquals("0x7F", HexadecimalUtils.toHex(Byte.MAX_VALUE, formatter3));
+		assertEquals("0000", HexadecimalUtils.toHex((short) 0, formatter1));
+		assertEquals("0x0", HexadecimalUtils.toHex((short) 0, formatter2));
+		assertEquals("0x0000", HexadecimalUtils.toHex((short) 0, formatter3));
+		assertEquals("7FFF", HexadecimalUtils.toHex(Short.MAX_VALUE, formatter1));
+		assertEquals("0x7FFF", HexadecimalUtils.toHex(Short.MAX_VALUE, formatter2));
+		assertEquals("0x7FFF", HexadecimalUtils.toHex(Short.MAX_VALUE, formatter3));
+		assertEquals("00000000", HexadecimalUtils.toHex(0, formatter1));
+		assertEquals("0x0", HexadecimalUtils.toHex(0, formatter2));
+		assertEquals("0x00000000", HexadecimalUtils.toHex(0, formatter3));
+		assertEquals("7FFFFFFF", HexadecimalUtils.toHex(Integer.MAX_VALUE, formatter1));
+		assertEquals("0x7FFFFFFF", HexadecimalUtils.toHex(Integer.MAX_VALUE, formatter2));
+		assertEquals("0x7FFFFFFF", HexadecimalUtils.toHex(Integer.MAX_VALUE, formatter3));
+		assertEquals("0000000000000000", HexadecimalUtils.toHex(0L, formatter1));
+		assertEquals("0x0", HexadecimalUtils.toHex(0L, formatter2));
+		assertEquals("0x0000000000000000", HexadecimalUtils.toHex(0L, formatter3));
+		assertEquals("7FFFFFFFFFFFFFFF", HexadecimalUtils.toHex(Long.MAX_VALUE, formatter1));
+		assertEquals("0x7FFFFFFFFFFFFFFF", HexadecimalUtils.toHex(Long.MAX_VALUE, formatter2));
+		assertEquals("0x7FFFFFFFFFFFFFFF", HexadecimalUtils.toHex(Long.MAX_VALUE, formatter3));
 	}
 
 	@Test
 	@DisplayName("Remove prefix '0x' if setted")
 	public void test() {
-		assertEquals(HexadecimalUtils.parseHexByte("0"), (byte) 0);
-		assertEquals(HexadecimalUtils.parseHexByte("0x0"), (byte) 0);
-		assertEquals(HexadecimalUtils.parseHexByte("7F"), Byte.MAX_VALUE);
-		assertEquals(HexadecimalUtils.parseHexByte("0x7F"), Byte.MAX_VALUE);
-		assertEquals(HexadecimalUtils.parseHexShort("0"), (short) 0);
-		assertEquals(HexadecimalUtils.parseHexShort("0x0"), (short) 0);
-		assertEquals(HexadecimalUtils.parseHexShort("7FFF"), Short.MAX_VALUE);
-		assertEquals(HexadecimalUtils.parseHexShort("0x7FFF"), Short.MAX_VALUE);
-		assertEquals(HexadecimalUtils.parseHexInt("0"), 0);
-		assertEquals(HexadecimalUtils.parseHexInt("0x0"), 0);
-		assertEquals(HexadecimalUtils.parseHexInt("7FFFFFFF"), Integer.MAX_VALUE);
-		assertEquals(HexadecimalUtils.parseHexInt("0x7FFFFFFF"), Integer.MAX_VALUE);
-		assertEquals(HexadecimalUtils.parseHexLong("0"), 0L);
-		assertEquals(HexadecimalUtils.parseHexLong("0x0"), 0L);
-		assertEquals(HexadecimalUtils.parseHexLong("7FFFFFFFFFFFFFFF"), Long.MAX_VALUE);
-		assertEquals(HexadecimalUtils.parseHexLong("0x7FFFFFFFFFFFFFFF"), Long.MAX_VALUE);
+		assertEquals((byte) 0, HexadecimalUtils.parseHexByte("0"));
+		assertEquals((byte) 0, HexadecimalUtils.parseHexByte("0x0"));
+		assertEquals(Byte.MAX_VALUE, HexadecimalUtils.parseHexByte("7F"));
+		assertEquals(Byte.MAX_VALUE, HexadecimalUtils.parseHexByte("0x7F"));
+		assertEquals((short) 0, HexadecimalUtils.parseHexShort("0"));
+		assertEquals((short) 0, HexadecimalUtils.parseHexShort("0x0"));
+		assertEquals(Short.MAX_VALUE, HexadecimalUtils.parseHexShort("7FFF"));
+		assertEquals(Short.MAX_VALUE, HexadecimalUtils.parseHexShort("0x7FFF"));
+		assertEquals(0, HexadecimalUtils.parseHexInt("0"));
+		assertEquals(0, HexadecimalUtils.parseHexInt("0x0"));
+		assertEquals(Integer.MAX_VALUE, HexadecimalUtils.parseHexInt("7FFFFFFF"));
+		assertEquals(Integer.MAX_VALUE, HexadecimalUtils.parseHexInt("0x7FFFFFFF"));
+		assertEquals(0L, HexadecimalUtils.parseHexLong("0"));
+		assertEquals(0L, HexadecimalUtils.parseHexLong("0x0"));
+		assertEquals(Long.MAX_VALUE, HexadecimalUtils.parseHexLong("7FFFFFFFFFFFFFFF"));
+		assertEquals(Long.MAX_VALUE, HexadecimalUtils.parseHexLong("0x7FFFFFFFFFFFFFFF"));
 
-		assertThrows(HexadecimalUtilsRuntimeException.class, () -> {
-			HexadecimalUtils.parseHexByte("80");
-		});
-		assertThrows(HexadecimalUtilsRuntimeException.class, () -> {
-			HexadecimalUtils.parseHexByte("0x80");
-		});
-		assertThrows(HexadecimalUtilsRuntimeException.class, () -> {
-			HexadecimalUtils.parseHexShort("8000");
-		});
-		assertThrows(HexadecimalUtilsRuntimeException.class, () -> {
-			HexadecimalUtils.parseHexShort("0x8000");
-		});
-		assertThrows(HexadecimalUtilsRuntimeException.class, () -> {
-			HexadecimalUtils.parseHexInt("80000000");
-		});
-		assertThrows(HexadecimalUtilsRuntimeException.class, () -> {
-			HexadecimalUtils.parseHexInt("0x80000000");
-		});
-		assertThrows(HexadecimalUtilsRuntimeException.class, () -> {
-			HexadecimalUtils.parseHexLong("8000000000000000");
-		});
-		assertThrows(HexadecimalUtilsRuntimeException.class, () -> {
-			HexadecimalUtils.parseHexLong("0x8000000000000000");
-		});
+		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.parseHexByte("80"));
+		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.parseHexByte("0x80"));
+		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.parseHexShort("8000"));
+		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.parseHexShort("0x8000"));
+		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.parseHexInt("80000000"));
+		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.parseHexInt("0x80000000"));
+		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.parseHexLong("8000000000000000"));
+		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.parseHexLong("0x8000000000000000"));
 	}
 }

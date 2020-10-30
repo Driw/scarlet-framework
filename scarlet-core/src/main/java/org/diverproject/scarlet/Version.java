@@ -3,12 +3,11 @@ package org.diverproject.scarlet;
 import org.diverproject.scarlet.util.BinaryUtils;
 import org.diverproject.scarlet.util.IntegerUtils;
 
+import java.util.Objects;
+
 public class Version implements Comparable<Version> {
 
 	public static final int COMPARE_OLDER = -1;
-	public static final int COMPARE_CURRENT = 0;
-	public static final int COMPARE_NEWER = 1;
-
 	public static final int MIN_VERSION_VALUE = 0;
 
 	private int major;
@@ -115,6 +114,7 @@ public class Version implements Comparable<Version> {
 		if (obj == this)
 			return true;
 
+		// TODO move to another function
 		if (obj instanceof Integer) return this.toInt() == (Integer) obj;
 		if (obj instanceof Long) return this.toInt() == (Long) obj;
 
@@ -127,6 +127,11 @@ public class Version implements Comparable<Version> {
 			version.minor() == this.minor() &&
 			version.fix() == this.fix() &&
 			version.build() == this.build();
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(major, minor, fix, build);
 	}
 
 	@Override

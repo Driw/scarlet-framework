@@ -30,6 +30,7 @@ import org.diverproject.scarlet.util.exceptions.StringUtilsRuntimeException;
 
 import java.text.Normalizer;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -59,6 +60,8 @@ public class StringUtils {
 	public static final int MIN_CAP_MOD = 1;
 
 	public static final String PARAMETERS_REGEX = "^(?<message>.+)\\s\\((?<parameters>.*)\\)$";
+
+	private static final Random RANDOM = new Random();
 
 	private StringUtils() {
 	}
@@ -143,40 +146,34 @@ public class StringUtils {
 		if (str == null) throw new StringUtilsRuntimeException(TRIM_STRING);
 		if (sequence == null) throw new StringUtilsRuntimeException(TRIM_SEQUENCE_NULL);
 		if (sequence.isEmpty()) throw new StringUtilsRuntimeException(TRIM_SEQUENCE_EMPTY);
+		if (sequence.length() > str.length()) return str;
+		if (str.equals(sequence)) return "";
 
-		int endIndex = -1;
+		int maxOffset = str.length() - sequence.length();
 
-		for (int i = str.length() - 1, j = sequence.length() - 1; i >= 0; i--) {
-			if (sequence.charAt(j) != str.charAt(i))
-				break;
+		for (int offset = maxOffset; offset >= 0; offset--)
+			for (int i = 0; i < sequence.length(); i++)
+				if (str.charAt(offset + i) != sequence.charAt(i))
+					return offset == maxOffset ? str : str.substring(0, offset + i + 1);
 
-			if (--j == -1) {
-				endIndex = i;
-				j = sequence.length() - 1;
-			}
-		}
-
-		return endIndex != -1 ? str.substring(0, endIndex) : str;
+		return "";
 	}
 
 	public static String trimLeft(String str, String sequence) {
 		if (str == null) throw new StringUtilsRuntimeException(TRIM_STRING);
 		if (sequence == null) throw new StringUtilsRuntimeException(TRIM_SEQUENCE_NULL);
 		if (sequence.isEmpty()) throw new StringUtilsRuntimeException(TRIM_SEQUENCE_EMPTY);
+		if (sequence.length() > str.length()) return str;
+		if (str.equals(sequence)) return "";
 
-		int beginIndex = -1;
+		int maxOffset = str.length() - sequence.length();
 
-		for (int i = 0, j = 0; j < sequence.length() && i < str.length(); i++) {
-			if (sequence.charAt(j) != str.charAt(i))
-				break;
+		for (int offset = 0; offset <= maxOffset; offset++)
+			for (int i = 0; i < sequence.length(); i++)
+				if (str.charAt(offset + i) != sequence.charAt(i))
+					return offset == 0 ? str : str.substring(offset + i);
 
-			if (++j == sequence.length()) {
-				beginIndex = i;
-				j = 0;
-			}
-		}
-
-		return beginIndex != -1 ? str.substring(beginIndex + 1) : str;
+		return "";
 	}
 
 	public static int countOf(String str, char c) {
@@ -199,7 +196,10 @@ public class StringUtils {
 		if (sequence.isEmpty()) throw new StringUtilsRuntimeException(INDEX_OF_SEQUENCE_EMPTY);
 		if (times < 0) throw new StringUtilsRuntimeException(INDEX_OF_TIMES);
 
-		for (int characterIndex = 0, sequenceOffset = 0, matchCount = 0; characterIndex < str.length(); characterIndex++)
+		int sequenceOffset = 0;
+		int matchCount = 0;
+
+		for (int characterIndex = 0; characterIndex < str.length(); characterIndex++) {
 			if (str.charAt(characterIndex) == sequence.charAt(sequenceOffset)) {
 				if (++sequenceOffset == sequence.length()) {
 					if (++matchCount == times)
@@ -207,8 +207,11 @@ public class StringUtils {
 
 					sequenceOffset = 0;
 				}
-			} else
+			} else {
 				sequenceOffset = 0;
+			}
+		}
+
 
 		return -1;
 	}
@@ -240,50 +243,40 @@ public class StringUtils {
 	}
 
 	public static String pad(String str, String pattern, int patternCount, int padType, int padOrientation) {
-		switch (padOrientation) {
-			case PAD_LEFT:
-				return leftPad(str, pattern, patternCount, padType);
-			case PAD_RIGHT:
-				return rightPad(str, pattern, patternCount, padType);
-		}
+		if (Objects.equals(PAD_LEFT, padOrientation))
+			return leftPad(str, pattern, patternCount, padType);
+
+		if (Objects.equals(PAD_RIGHT, padOrientation))
+			return rightPad(str, pattern, patternCount, padType);
 
 		throw new StringUtilsRuntimeException(PAD_TYPE, padType);
 	}
 
 	public static String leftPad(String str, String pattern, int patternCount, int padType) {
-		switch (padType) {
-			case PAD_LENGTH:
-				return leftPadLength(str, pattern, patternCount);
-			case PAD_MOD:
-				return leftPadMod(str, pattern, patternCount);
-		}
+		if (Objects.equals(PAD_LENGTH, padType))
+			return leftPadLength(str, pattern, patternCount);
+
+		if (Objects.equals(PAD_MOD, padType))
+			return leftPadMod(str, pattern, patternCount);
 
 		throw new StringUtilsRuntimeException(PAD_TYPE, padType);
 	}
 
 	public static String rightPad(String str, String pattern, int patternCount, int padType) {
-		switch (padType) {
-			case PAD_LENGTH:
-				return rightPadLength(str, pattern, patternCount);
-			case PAD_MOD:
-				return rightPadMod(str, pattern, patternCount);
-		}
+		if (Objects.equals(PAD_LENGTH, padType))
+			return rightPadLength(str, pattern, patternCount);
+
+		if (Objects.equals(PAD_MOD, padType))
+			return rightPadMod(str, pattern, patternCount);
 
 		throw new StringUtilsRuntimeException(PAD_TYPE, padType);
 	}
 
 	private static void validatePad(String str, String pattern, int patternCount) {
-		if (str == null)
-			throw new StringUtilsRuntimeException(PAD_STRING_NULL);
-
-		if (pattern == null)
-			throw new StringUtilsRuntimeException(PAD_PATTERN_NULL);
-
-		if (pattern.isEmpty())
-			throw new StringUtilsRuntimeException(PAD_PATTERN_EMPTY);
-
-		if (patternCount < MIN_PAD_PATTERN_LENGTH)
-			throw new StringUtilsRuntimeException(PAD_PATTERN_COUNT, patternCount);
+		if (str == null) throw new StringUtilsRuntimeException(PAD_STRING_NULL);
+		if (pattern == null) throw new StringUtilsRuntimeException(PAD_PATTERN_NULL);
+		if (pattern.isEmpty()) throw new StringUtilsRuntimeException(PAD_PATTERN_EMPTY);
+		if (patternCount < MIN_PAD_PATTERN_LENGTH) throw new StringUtilsRuntimeException(PAD_PATTERN_COUNT, patternCount);
 	}
 
 	public static String leftPadLength(String str, String pattern, int patternCount) {
@@ -405,10 +398,9 @@ public class StringUtils {
 
 	public static String genCode(int size, String characters) {
 		char[] codes = new char[size];
-		Random random = new Random();
 
 		for (int i = 0; i < size; i++)
-			codes[i] = characters.charAt(random.nextInt(characters.length() - 1));
+			codes[i] = characters.charAt(RANDOM.nextInt(characters.length() - 1));
 
 		return new String(codes);
 	}
@@ -467,30 +459,17 @@ public class StringUtils {
 		if (!string.matches("[A-Za-z0-9_]+"))
 			throw new StringUtilsRuntimeException(VAR_UPPER_CASE, string);
 
-		boolean underline = false;
 		boolean underlined = false;
 		StringBuilder parsed = new StringBuilder();
 
 		for (int i = 0; i < string.length(); i++) {
-			if (underline) {
-				underlined = false;
-			}
-
-			if (i > 0 && (
-				Character.isUpperCase(string.charAt(i)) ||
-				Character.isDigit(string.charAt(i))
-			)) {
-				underline = Character.isDigit(string.charAt(i)) && !Character.isDigit(string.charAt(i - 1)) ||
-					i < string.length() - 1 && Character.isLowerCase(string.charAt(i + 1));
-
-				if (underline) {
-					if (!underlined) {
-						parsed.append("_");
-						underlined = true;
-					} else {
-						underlined = false;
-					}
+			if (needUnderline(string, i)) {
+				if (!underlined) {
+					parsed.append("_");
+					underlined = true;
 				}
+			} else {
+				underlined = false;
 			}
 
 			parsed.append(Character.toUpperCase(string.charAt(i)));
@@ -499,6 +478,19 @@ public class StringUtils {
 		parsed = new StringBuilder(parsed.toString().replaceAll("[_]+", "_"));
 
 		return parsed.toString();
+	}
+
+	private static boolean needUnderline(String string, int i) {
+		return isAlphaNumeric(string, i) && isUnderline(string, i);
+	}
+
+	private static boolean isAlphaNumeric(String string, int i) {
+		return Character.isUpperCase(string.charAt(i)) || Character.isDigit(string.charAt(i));
+	}
+
+	private static boolean isUnderline(String string, int i) {
+		return Character.isDigit(string.charAt(i)) && !Character.isDigit(string.charAt(i - 1)) ||
+			i < string.length() - 1 && Character.isLowerCase(string.charAt(i + 1));
 	}
 
 	public static String insert(String str, String insertString, int index) {
@@ -591,8 +583,9 @@ public class StringUtils {
 			message = matcher.group("message");
 			parameters = matcher.group("parameters");
 			parameters = parameters.isEmpty() ? data : parameters + ", " + data;
-		} else
+		} else {
 			parameters = data;
+		}
 
 		return String.format("%s (%s)", message, parameters);
 	}
@@ -639,8 +632,9 @@ public class StringUtils {
 	public static String objectToString(Object object, Object... args) {
 		StringBuilder stringBuilder = new StringBuilder();
 
-		for (int i = 0; i < args.length - 1; i++)
-			stringBuilder.append(String.format("%s=%s, ", args[i], args[++i]));
+		for (int i = 0; i < args.length - 1; i += 2)
+			if (i + 1 != args.length)
+				stringBuilder.append(String.format("%s=%s, ", args[i], args[i + 1]));
 
 		return String.format("%s[%s]", nameOf(object), StringUtils.substr(stringBuilder.toString(), 0, -2));
 	}
@@ -650,9 +644,9 @@ public class StringUtils {
 		String trace = getStackTrace(e.getStackTrace());
 
 		if (StringUtils.isEmpty(e.getMessage()))
-			return String.format("%s\n%s", className, trace);
+			return className+ "\n" +trace;
 
-		return String.format("%s - %s\n%s", className, e.getMessage(), trace);
+		return className+ " - " +e.getMessage()+ "\n" +trace;
 	}
 
 	public static String getStackTrace(Throwable throwable) {
@@ -666,25 +660,21 @@ public class StringUtils {
 		StringBuilder stringBuilder = new StringBuilder();
 
 		for (StackTraceElement stackTraceElement : stackTraceElements)
-			stringBuilder.append(
-				String.format(
-					"\tat %s.%s(%s:%s)\n",
-					stackTraceElement.getClassName(),
-					stackTraceElement.getMethodName(),
-					stackTraceElement.getFileName(),
-					stackTraceElement.getLineNumber()
-				)
-			);
+			stringBuilder.append("\tat").append(stackTraceElement.getClassName())
+				.append(".").append(stackTraceElement.getMethodName())
+				.append("(").append(stackTraceElement.getFileName())
+				.append(":").append(stackTraceElement.getLineNumber())
+				.append(")\n");
 
 		return stringBuilder.toString();
 	}
 
 	public static String getSimpleNameOf(String className) {
-		return StringUtils.isEmpty(className) ?
-			null : className.lastIndexOf("$") >= 0 ?
-			className.substring(className.lastIndexOf("$") + 1) : className.lastIndexOf(".") < 0 ?
-			className : className.substring(className.lastIndexOf(".") + 1)
-			;
+		if (StringUtils.isEmpty(className)) return null;
+		if (className.lastIndexOf('$') >= 0) return className.substring(className.lastIndexOf('$') + 1);
+		if (className.lastIndexOf('.') >= 0) return className.substring(className.lastIndexOf('.') + 1);
+
+		return className;
 	}
 
 	public static boolean hasMinLength(String string, int minLength) {
@@ -715,9 +705,12 @@ public class StringUtils {
 		String[] names = packageClassName.split("\\.");
 		StringBuilder qualifiedName = new StringBuilder();
 		int qualifiedIndex = -1;
+		int length = (names.length * 2) - 1;
 
-		for (int i = names.length - 1, length = (names.length * 2) - 1; i >= 0; i--) {
-			if ((length += names[i].length() - 1) > maxLength) {
+		for (int i = names.length - 1; i >= 0; i--) {
+			length += names[i].length() - 1;
+
+			if (length > maxLength) {
 				qualifiedIndex = i;
 				break;
 			}

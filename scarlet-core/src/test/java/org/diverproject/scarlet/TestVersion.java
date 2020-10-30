@@ -15,34 +15,34 @@ public class TestVersion {
 	@DisplayName("Constructor")
 	public void testConstructor() {
 		Version version = new Version();
-		assertEquals(version.major(), 0);
-		assertEquals(version.minor(), 0);
-		assertEquals(version.fix(), 0);
-		assertEquals(version.build(), 0);
+		assertEquals(0, version.major());
+		assertEquals(0, version.minor());
+		assertEquals(0, version.fix());
+		assertEquals(0, version.build());
 
 		version = new Version(1);
-		assertEquals(version.major(), 1);
-		assertEquals(version.minor(), 0);
-		assertEquals(version.fix(), 0);
-		assertEquals(version.build(), 0);
+		assertEquals(1, version.major());
+		assertEquals(0, version.minor());
+		assertEquals(0, version.fix());
+		assertEquals(0, version.build());
 
 		version = new Version(1, 2);
-		assertEquals(version.major(), 1);
-		assertEquals(version.minor(), 2);
-		assertEquals(version.fix(), 0);
-		assertEquals(version.build(), 0);
+		assertEquals(1, version.major());
+		assertEquals(2, version.minor());
+		assertEquals(0, version.fix());
+		assertEquals(0, version.build());
 
 		version = new Version(1, 2, 3);
-		assertEquals(version.major(), 1);
-		assertEquals(version.minor(), 2);
-		assertEquals(version.fix(), 3);
-		assertEquals(version.build(), 0);
+		assertEquals(1, version.major());
+		assertEquals(2, version.minor());
+		assertEquals(3, version.fix());
+		assertEquals(0, version.build());
 
 		version = new Version(1, 2, 3, 4);
-		assertEquals(version.major(), 1);
-		assertEquals(version.minor(), 2);
-		assertEquals(version.fix(), 3);
-		assertEquals(version.build(), 4);
+		assertEquals(1, version.major());
+		assertEquals(2, version.minor());
+		assertEquals(3, version.fix());
+		assertEquals(4, version.build());
 	}
 
 	@Test
@@ -54,34 +54,34 @@ public class TestVersion {
 		int build = 4;
 
 		Version version = new Version();
-		assertEquals(version.major(), 0);
-		assertEquals(version.minor(), 0);
-		assertEquals(version.fix(), 0);
-		assertEquals(version.build(), 0);
+		assertEquals(0, version.major());
+		assertEquals(0, version.minor());
+		assertEquals(0, version.fix());
+		assertEquals(0, version.build());
 
 		version.set(major);
-		assertEquals(version.major(), major);
-		assertEquals(version.minor(), 0);
-		assertEquals(version.fix(), 0);
-		assertEquals(version.build(), 0);
+		assertEquals(major, version.major());
+		assertEquals(0, version.minor());
+		assertEquals(0, version.fix());
+		assertEquals(0, version.build());
 
 		version.set(major, minor);
-		assertEquals(version.major(), major);
-		assertEquals(version.minor(), minor);
-		assertEquals(version.fix(), 0);
-		assertEquals(version.build(), 0);
+		assertEquals(major, version.major());
+		assertEquals(minor, version.minor());
+		assertEquals(0, version.fix());
+		assertEquals(0, version.build());
 
 		version.set(major, minor, fix);
-		assertEquals(version.major(), major);
-		assertEquals(version.minor(), minor);
-		assertEquals(version.fix(), fix);
-		assertEquals(version.build(), 0);
+		assertEquals(major, version.major());
+		assertEquals(minor, version.minor());
+		assertEquals(fix, version.fix());
+		assertEquals(0, version.build());
 
 		version.set(major, minor, fix, build);
-		assertEquals(version.major(), major);
-		assertEquals(version.minor(), minor);
-		assertEquals(version.fix(), fix);
-		assertEquals(version.build(), build);
+		assertEquals(major, version.major());
+		assertEquals(minor, version.minor());
+		assertEquals(fix, version.fix());
+		assertEquals(build, version.build());
 	}
 
 	@Test
@@ -89,13 +89,13 @@ public class TestVersion {
 	public void testMajorVersion() {
 		Version version = new Version();
 
-		assertEquals(version.major(), 0);
+		assertEquals(0, version.major());
 
 		version.major(1);
-		assertEquals(version.major(), 1);
+		assertEquals(1, version.major());
 
 		version.major(-1);
-		assertEquals(version.major(), 0);
+		assertEquals(0, version.major());
 	}
 
 	@Test
@@ -103,13 +103,13 @@ public class TestVersion {
 	public void testMinorVersion() {
 		Version version = new Version();
 
-		assertEquals(version.minor(), 0);
+		assertEquals(0, version.minor());
 
 		version.minor(1);
-		assertEquals(version.minor(), 1);
+		assertEquals(1, version.minor());
 
 		version.minor(-1);
-		assertEquals(version.minor(), 0);
+		assertEquals(0, version.minor());
 	}
 
 	@Test
@@ -117,13 +117,13 @@ public class TestVersion {
 	public void testFixVersion() {
 		Version version = new Version();
 
-		assertEquals(version.fix(), 0);
+		assertEquals(0, version.fix());
 
 		version.fix(1);
-		assertEquals(version.fix(), 1);
+		assertEquals(1, version.fix());
 
 		version.fix(-1);
-		assertEquals(version.fix(), 0);
+		assertEquals(0, version.fix());
 	}
 
 	@Test
@@ -131,51 +131,51 @@ public class TestVersion {
 	public void testBuildVersion() {
 		Version version = new Version();
 
-		assertEquals(version.build(), 0);
+		assertEquals(0, version.build());
 
 		version.build(1);
-		assertEquals(version.build(), 1);
+		assertEquals(1, version.build());
 
 		version.build(-1);
-		assertEquals(version.build(), 0);
+		assertEquals(0, version.build());
 	}
 
 	@Test
 	@DisplayName("Format")
 	public void testFormat() {
 		Version version = new Version();
-		assertEquals(version.format(), "0.0");
+		assertEquals("0.0", version.format());
 
 		version.major(1);
-		assertEquals(version.format(), "1.0");
+		assertEquals("1.0", version.format());
 
 		version.minor(2);
-		assertEquals(version.format(), "1.2");
+		assertEquals("1.2", version.format());
 
 		version.build(4);
-		assertEquals(version.format(), "1.2.0.4");
+		assertEquals("1.2.0.4", version.format());
 
 		version.fix(3);
-		assertEquals(version.format(), "1.2.3.4");
+		assertEquals("1.2.3.4", version.format());
 
 		version.build(0);
-		assertEquals(version.format(), "1.2.3");
+		assertEquals("1.2.3", version.format());
 	}
 
 	@Test
 	@DisplayName("To int")
 	public void testToInt() {
 		Version version = new Version();
-		assertEquals(version.toInt(), 0x000000);
+		assertEquals(0x000000, version.toInt());
 
 		version.major(1);
-		assertEquals(version.toInt(), 0x010000);
+		assertEquals(0x010000, version.toInt());
 
 		version.minor(2);
-		assertEquals(version.toInt(), 0x010200);
+		assertEquals(0x010200, version.toInt());
 
 		version.fix(3);
-		assertEquals(version.toInt(), 0x010203);
+		assertEquals(0x010203, version.toInt());
 	}
 
 	@Test

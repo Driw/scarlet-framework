@@ -6,8 +6,7 @@ import java.util.Collection;
 
 public class ScarletUtils {
 
-	private ScarletUtils() {
-	}
+	private ScarletUtils() { }
 
 	public static String nameOf(Object obj) {
 		if (obj instanceof Class)
@@ -62,4 +61,5 @@ public class ScarletUtils {
 			e.printStackTrace();
 		}
 	}
+
 }

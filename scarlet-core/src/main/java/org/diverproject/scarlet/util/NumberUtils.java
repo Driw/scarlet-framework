@@ -17,10 +17,13 @@ public class NumberUtils {
 	public static final String INTEGER_REGEX = "^[-+]?(0|[1-9][0-9]*)$";
 	public static final String COMMA_OR_DOT_REGEX = "[,.]";
 
-	public static final String FLOAT_REGEX = "^(?<signal>[+-]?)(?<value>\\d+[{DecimalType}]{1}\\d*|\\d*[{DecimalType}]\\d+|\\d+)(?<expoent>$|[eE](?<expoentSignal>[+-]?)(?<expoentValue>[\\d]+)$)";
-	public static final String FLOAT_ANY_REGEX = FLOAT_REGEX.replace("{DecimalType}", ".,");
-	public static final String FLOAT_DOT_REGEX = FLOAT_REGEX.replace("{DecimalType}", ".");
-	public static final String FLOAT_COMMA_REGEX = FLOAT_REGEX.replace("{DecimalType}", ",");
+	public static final String DECIMAL_TYPE_TAG = "{DecimalType}";
+	public static final String FLOAT_REGEX = "^(?<signal>[+-]?)" +
+		"(?<value>\\d+[" +DECIMAL_TYPE_TAG+ "]{1}\\d*|\\d*[{DecimalType}]\\d+|\\d+)" +
+		"(?<exponent>$|[eE](?<exponentSignal>[+-]?)(?<exponentValue>[\\d]+)$)";
+	public static final String FLOAT_ANY_REGEX = FLOAT_REGEX.replace(DECIMAL_TYPE_TAG, ".,");
+	public static final String FLOAT_DOT_REGEX = FLOAT_REGEX.replace(DECIMAL_TYPE_TAG, ".");
+	public static final String FLOAT_COMMA_REGEX = FLOAT_REGEX.replace(DECIMAL_TYPE_TAG, ",");
 	public static final Pattern PATTERN_ANY = Pattern.compile(FLOAT_ANY_REGEX);
 	public static final Pattern PATTERN_DOT = Pattern.compile(FLOAT_DOT_REGEX);
 	public static final Pattern PATTERN_COMMA = Pattern.compile(FLOAT_COMMA_REGEX);
@@ -29,6 +32,7 @@ public class NumberUtils {
 	public static final int COMPARE_EQUALS = 1;
 	public static final int COMPARE_MAJOR = 2;
 	public static final int COMPARE_MINOR = 3;
+	private static final int COMPARE_CONTINUE = 4;
 
 	NumberUtils() {
 	}
@@ -79,14 +83,10 @@ public class NumberUtils {
 	}
 
 	public static int compareStringNumber(String str, String str2) {
-		if (!hasIntegerFormat(str) || !hasIntegerFormat(str2))
-			return COMPARE_FAILURE;
+		int compareSignals = compareStringNumberSignals(str, str2);
 
-		if (str.charAt(0) == '-' && str2.charAt(0) != '-')
-			return COMPARE_MINOR;
-
-		if (str2.charAt(0) == '-' && str.charAt(0) != '-')
-			return COMPARE_MAJOR;
+		if (compareSignals != COMPARE_CONTINUE)
+			return compareSignals;
 
 		if (str.charAt(0) == '-' && str2.charAt(0) == '-') {
 			str = str.substring(1);
@@ -103,8 +103,34 @@ public class NumberUtils {
 				str2 = str2.substring(1);
 		}
 
-		int compare = str.length() > str2.length() ? 1 : (str.length() < str2.length() ? -1 : str.compareTo(str2));
-		return compare < 0 ? COMPARE_MINOR : (compare > 0 ? COMPARE_MAJOR : COMPARE_EQUALS);
+		return compareStringNumberResult(str, str2);
+	}
+
+	private static int compareStringNumberSignals(String str, String str2) {
+		if (!hasIntegerFormat(str) || !hasIntegerFormat(str2)) return COMPARE_FAILURE;
+		if (str.charAt(0) == '-' && str2.charAt(0) != '-') return COMPARE_MINOR;
+		if (str2.charAt(0) == '-' && str.charAt(0) != '-') return COMPARE_MAJOR;
+
+		return COMPARE_CONTINUE;
+	}
+
+	private static int compareStringNumberResult(String str, String str2) {
+		int compare = compareStringNumberValue(str, str2);
+
+		if (compare < 0) return COMPARE_MINOR;
+		if (compare > 0) return COMPARE_MAJOR;
+
+		return COMPARE_EQUALS;
+	}
+
+	private static int compareStringNumberValue(String str, String str2) {
+		if (str.length() > str2.length())
+			return 1;
+
+		if (str.length() < str2.length())
+			return - 1;
+
+		return str.compareTo(str2);
 	}
 
 	public static boolean hasNumberRange(String str, long minValue, long maxValue) {

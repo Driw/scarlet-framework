@@ -6,8 +6,7 @@ import org.diverproject.scarlet.util.exceptions.NumberUtilsRuntimeException;
 
 public class LongUtils extends NumberUtils {
 
-	private LongUtils() {
-	}
+	private LongUtils() { }
 
 	public static boolean isLong(String str) {
 		return hasNumberRange(str, Long.MIN_VALUE, Long.MAX_VALUE);

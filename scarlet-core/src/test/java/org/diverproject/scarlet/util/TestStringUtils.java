@@ -29,7 +29,7 @@ public class TestStringUtils {
 	@Test
 	@DisplayName("Unaccent Strings")
 	public void testUnaccent() {
-		assertEquals(StringUtils.unaccent(StringUtils.ACCENTS), StringUtils.UNACCENTS);
+		assertEquals(StringUtils.UNACCENTS, StringUtils.unaccent(StringUtils.ACCENTS));
 	}
 
 	@Test
@@ -50,89 +50,91 @@ public class TestStringUtils {
 	public void testSubstring() {
 		String str = "abcdefghij";
 
-		assertEquals(StringUtils.substr(str, 2), "cdefghij");
-		assertEquals(StringUtils.substr(str, -2), "ij");
-		assertEquals(StringUtils.substr(str, 0, 2), "ab");
-		assertEquals(StringUtils.substr(str, 0, -2), "abcdefgh");
-		assertEquals(StringUtils.substrAt(str, 2), "ab");
-		assertEquals(StringUtils.substrAt(str, -2), "abcdefgh");
+		assertEquals("cdefghij", StringUtils.substr(str, 2));
+		assertEquals("ij", StringUtils.substr(str, -2));
+		assertEquals("ab", StringUtils.substr(str, 0, 2));
+		assertEquals("abcdefgh", StringUtils.substr(str, 0, -2));
+		assertEquals("ab", StringUtils.substrAt(str, 2));
+		assertEquals("abcdefgh", StringUtils.substrAt(str, -2));
 
-		assertEquals(StringUtils.substr(str, 'a'), "bcdefghij");
-		assertEquals(StringUtils.substr(str, 'd'), "efghij");
-		assertEquals(StringUtils.substr(str, 'j'), "");
-		assertEquals(StringUtils.substr(str, 'x'), str);
-		assertEquals(StringUtils.substr(str, "a"), "bcdefghij");
-		assertEquals(StringUtils.substr(str, "d"), "efghij");
-		assertEquals(StringUtils.substr(str, "j"), "");
-		assertEquals(StringUtils.substr(str, "ab"), "cdefghij");
-		assertEquals(StringUtils.substr(str, "de"), "fghij");
-		assertEquals(StringUtils.substr(str, "ij"), "");
-		assertEquals(StringUtils.substr(str, "x"), str);
+		assertEquals("bcdefghij", StringUtils.substr(str, 'a'));
+		assertEquals("efghij", StringUtils.substr(str, 'd'));
+		assertEquals("", StringUtils.substr(str, 'j'));
+		assertEquals(str, StringUtils.substr(str, 'x'));
+		assertEquals("bcdefghij", StringUtils.substr(str, "a"));
+		assertEquals("efghij", StringUtils.substr(str, "d"));
+		assertEquals("", StringUtils.substr(str, "j"));
+		assertEquals("cdefghij", StringUtils.substr(str, "ab"));
+		assertEquals("fghij", StringUtils.substr(str, "de"));
+		assertEquals("", StringUtils.substr(str, "ij"));
+		assertEquals(str, StringUtils.substr(str, "x"));
 
-		assertEquals(StringUtils.substrAt(str, 'a'), "");
-		assertEquals(StringUtils.substrAt(str, 'd'), "abc");
-		assertEquals(StringUtils.substrAt(str, 'j'), "abcdefghi");
-		assertEquals(StringUtils.substrAt(str, 'x'), str);
-		assertEquals(StringUtils.substrAt(str, "a"), "");
-		assertEquals(StringUtils.substrAt(str, "d"), "abc");
-		assertEquals(StringUtils.substrAt(str, "j"), "abcdefghi");
-		assertEquals(StringUtils.substrAt(str, "ab"), "");
-		assertEquals(StringUtils.substrAt(str, "de"), "abc");
-		assertEquals(StringUtils.substrAt(str, "ij"), "abcdefgh");
-		assertEquals(StringUtils.substrAt(str, "x"), str);
+		assertEquals("", StringUtils.substrAt(str, 'a'));
+		assertEquals("abc", StringUtils.substrAt(str, 'd'));
+		assertEquals("abcdefghi", StringUtils.substrAt(str, 'j'));
+		assertEquals(str, StringUtils.substrAt(str, 'x'));
+		assertEquals("", StringUtils.substrAt(str, "a"));
+		assertEquals("abc", StringUtils.substrAt(str, "d"));
+		assertEquals("abcdefghi", StringUtils.substrAt(str, "j"));
+		assertEquals("", StringUtils.substrAt(str, "ab"));
+		assertEquals("abc", StringUtils.substrAt(str, "de"));
+		assertEquals("abcdefgh", StringUtils.substrAt(str, "ij"));
+		assertEquals(str, StringUtils.substrAt(str, "x"));
 
 		// -- Throws
 
 		int indexOut = str.length() + 1;
 
-		assertThrows(StringIndexOutOfBoundsException.class, () -> {
-			StringUtils.substr(str, indexOut);
-		});
-		assertThrows(StringIndexOutOfBoundsException.class, () -> {
-			StringUtils.substr(str, -indexOut);
-		});
-		assertThrows(StringIndexOutOfBoundsException.class, () -> {
-			StringUtils.substr(str, 0, indexOut);
-		});
-		assertThrows(StringIndexOutOfBoundsException.class, () -> {
-			StringUtils.substr(str, 0, -indexOut);
-		});
-		assertThrows(StringIndexOutOfBoundsException.class, () -> {
-			StringUtils.substrAt(str, indexOut);
-		});
-		assertThrows(StringIndexOutOfBoundsException.class, () -> {
-			StringUtils.substrAt(str, -indexOut);
-		});
+		assertThrows(StringIndexOutOfBoundsException.class, () -> StringUtils.substr(str, indexOut));
+		assertThrows(StringIndexOutOfBoundsException.class, () -> StringUtils.substr(str, -indexOut));
+		assertThrows(StringIndexOutOfBoundsException.class, () -> StringUtils.substr(str, 0, indexOut));
+		assertThrows(StringIndexOutOfBoundsException.class, () -> StringUtils.substr(str, 0, -indexOut));
+		assertThrows(StringIndexOutOfBoundsException.class, () -> StringUtils.substrAt(str, indexOut));
+		assertThrows(StringIndexOutOfBoundsException.class, () -> StringUtils.substrAt(str, -indexOut));
+	}
+
+	@Test
+	@DisplayName("Trim Right String sequence")
+	public void testTrimRight() {
+		assertEquals("", StringUtils.trimRight("a", "a"));
+		assertEquals("a", StringUtils.trimRight("a", "b"));
+		assertEquals("aaaa", StringUtils.trimRight("aaaa", "bb"));
+		assertEquals("", StringUtils.trimRight("aaaa", "aa"));
+		assertEquals("aaaaabbbbb", StringUtils.trimRight("aaaaabbbbbaaaaa", "aa"));
+		assertEquals("aaaaaabbbbb", StringUtils.trimRight("aaaaaabbbbbaaaaaa", "aa"));
+		assertEquals("aaaaaabbbbbaaaaaa", StringUtils.trimRight("aaaaaabbbbbaaaaaa", "c"));
+
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.trimRight(null, "a"));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.trimRight("a", null));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.trimRight("a", ""));
+	}
+
+	@Test
+	@DisplayName("Trim Left String sequence")
+	public void testTrimLeft() {
+		assertEquals("", StringUtils.trimLeft("a", "a"));
+		assertEquals("a", StringUtils.trimLeft("a", "b"));
+		assertEquals("aaaa", StringUtils.trimLeft("aaaa", "bb"));
+		assertEquals("", StringUtils.trimLeft("aaaa", "aa"));
+		assertEquals("bbbbbaaaaa", StringUtils.trimLeft("aaaaabbbbbaaaaa", "aa"));
+		assertEquals("bbbbbaaaaaa", StringUtils.trimLeft("aaaaaabbbbbaaaaaa", "aa"));
+
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.trimLeft(null, "a"));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.trimLeft("a", null));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.trimLeft("a", ""));
 	}
 
 	@Test
 	@DisplayName("Trim String sequence")
 	public void testTrim() {
-		assertEquals(StringUtils.trim("a", "a"), "");
-		assertEquals(StringUtils.trim("aaaa", "aa"), "");
-		assertEquals(StringUtils.trim("aaaaabbbbbaaaaa", "aa"), "abbbbba");
-		assertEquals(StringUtils.trim("aaaaaabbbbbaaaaaa", "aa"), "bbbbb");
-		assertEquals(StringUtils.trimLeft("a", "a"), "");
-		assertEquals(StringUtils.trimLeft("aaaa", "bb"), "aaaa");
-		assertEquals(StringUtils.trimLeft("aaaa", "aa"), "");
-		assertEquals(StringUtils.trimLeft("aaaaabbbbbaaaaa", "aa"), "abbbbbaaaaa");
-		assertEquals(StringUtils.trimLeft("aaaaaabbbbbaaaaaa", "aa"), "bbbbbaaaaaa");
-		assertEquals(StringUtils.trimRight("a", "a"), "");
-		assertEquals(StringUtils.trimRight("aaaa", "bb"), "aaaa");
-		assertEquals(StringUtils.trimRight("aaaa", "aa"), "");
-		assertEquals(StringUtils.trimRight("aaaaabbbbbaaaaa", "aa"), "aaaaabbbbba");
-		assertEquals(StringUtils.trimRight("aaaaaabbbbbaaaaaa", "aa"), "aaaaaabbbbb");
-		assertEquals(StringUtils.trimRight("aaaaaabbbbbaaaaaa", "c"), "aaaaaabbbbbaaaaaa");
+		assertEquals("", StringUtils.trim("a", "a"));
+		assertEquals("", StringUtils.trim("aaaa", "aa"));
+		assertEquals("bbbbb", StringUtils.trim("aaaaabbbbbaaaaa", "aa"));
+		assertEquals("bbbbb", StringUtils.trim("aaaaaabbbbbaaaaaa", "aa"));
 
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.trimRight(null, "a");
-		});
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.trimRight("a", null);
-		});
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.trimRight("a", "");
-		});
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.trim(null, "a"));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.trim("a", null));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.trim("a", ""));
 	}
 
 	@Test
@@ -141,97 +143,75 @@ public class TestStringUtils {
 		// -- String length minor then pad length - need pad
 
 		// Length Pad
-		assertEquals(StringUtils.leftPadLength("a", "b", 3), "bba");
-		assertEquals(StringUtils.rightPadLength("a", "b", 3), "abb");
-		assertEquals(StringUtils.leftPad("a", "b", 3, StringUtils.PAD_LENGTH), "bba");
-		assertEquals(StringUtils.rightPad("a", "b", 3, StringUtils.PAD_LENGTH), "abb");
-		assertEquals(StringUtils.pad("a", "b", 3, StringUtils.PAD_LENGTH, StringUtils.PAD_LEFT), "bba");
-		assertEquals(StringUtils.pad("a", "b", 3, StringUtils.PAD_LENGTH, StringUtils.PAD_RIGHT), "abb");
+		assertEquals("bba", StringUtils.leftPadLength("a", "b", 3));
+		assertEquals("abb", StringUtils.rightPadLength("a", "b", 3));
+		assertEquals("bba", StringUtils.leftPad("a", "b", 3, StringUtils.PAD_LENGTH));
+		assertEquals("abb", StringUtils.rightPad("a", "b", 3, StringUtils.PAD_LENGTH));
+		assertEquals("bba", StringUtils.pad("a", "b", 3, StringUtils.PAD_LENGTH, StringUtils.PAD_LEFT));
+		assertEquals("abb", StringUtils.pad("a", "b", 3, StringUtils.PAD_LENGTH, StringUtils.PAD_RIGHT));
 		// MOD Pad
-		assertEquals(StringUtils.leftPadMod("aa", "b", 5), "bbbaa");
-		assertEquals(StringUtils.rightPadMod("aa", "b", 5), "aabbb");
-		assertEquals(StringUtils.leftPad("aa", "b", 5, StringUtils.PAD_MOD), "bbbaa");
-		assertEquals(StringUtils.rightPad("aa", "b", 5, StringUtils.PAD_MOD), "aabbb");
-		assertEquals(StringUtils.pad("aa", "b", 5, StringUtils.PAD_MOD, StringUtils.PAD_LEFT), "bbbaa");
-		assertEquals(StringUtils.pad("aa", "b", 5, StringUtils.PAD_MOD, StringUtils.PAD_RIGHT), "aabbb");
+		assertEquals("bbbaa", StringUtils.leftPadMod("aa", "b", 5));
+		assertEquals("aabbb", StringUtils.rightPadMod("aa", "b", 5));
+		assertEquals("bbbaa", StringUtils.leftPad("aa", "b", 5, StringUtils.PAD_MOD));
+		assertEquals("aabbb", StringUtils.rightPad("aa", "b", 5, StringUtils.PAD_MOD));
+		assertEquals("bbbaa", StringUtils.pad("aa", "b", 5, StringUtils.PAD_MOD, StringUtils.PAD_LEFT));
+		assertEquals("aabbb", StringUtils.pad("aa", "b", 5, StringUtils.PAD_MOD, StringUtils.PAD_RIGHT));
 
 		// -- String length major or equals (equals) then pad length - don't need pad
 
 		// Length Pad
-		assertEquals(StringUtils.leftPadLength("aaa", "b", 3), "aaa");
-		assertEquals(StringUtils.rightPadLength("aaa", "b", 3), "aaa");
-		assertEquals(StringUtils.leftPad("aaa", "b", 3, StringUtils.PAD_LENGTH), "aaa");
-		assertEquals(StringUtils.rightPad("aaa", "b", 3, StringUtils.PAD_LENGTH), "aaa");
-		assertEquals(StringUtils.pad("aaa", "b", 3, StringUtils.PAD_LENGTH, StringUtils.PAD_LEFT), "aaa");
-		assertEquals(StringUtils.pad("aaa", "b", 3, StringUtils.PAD_LENGTH, StringUtils.PAD_RIGHT), "aaa");
+		assertEquals("aaa", StringUtils.leftPadLength("aaa", "b", 3));
+		assertEquals("aaa", StringUtils.rightPadLength("aaa", "b", 3));
+		assertEquals("aaa", StringUtils.leftPad("aaa", "b", 3, StringUtils.PAD_LENGTH));
+		assertEquals("aaa", StringUtils.rightPad("aaa", "b", 3, StringUtils.PAD_LENGTH));
+		assertEquals("aaa", StringUtils.pad("aaa", "b", 3, StringUtils.PAD_LENGTH, StringUtils.PAD_LEFT));
+		assertEquals("aaa", StringUtils.pad("aaa", "b", 3, StringUtils.PAD_LENGTH, StringUtils.PAD_RIGHT));
 		// MOD Pad
-		assertEquals(StringUtils.leftPadMod("aaaaa", "b", 5), "aaaaa");
-		assertEquals(StringUtils.rightPadMod("aaaaa", "b", 5), "aaaaa");
-		assertEquals(StringUtils.leftPad("aaaaa", "b", 5, StringUtils.PAD_MOD), "aaaaa");
-		assertEquals(StringUtils.rightPad("aaaaa", "b", 5, StringUtils.PAD_MOD), "aaaaa");
-		assertEquals(StringUtils.pad("aaaaa", "b", 5, StringUtils.PAD_MOD, StringUtils.PAD_LEFT), "aaaaa");
-		assertEquals(StringUtils.pad("aaaaa", "b", 5, StringUtils.PAD_MOD, StringUtils.PAD_RIGHT), "aaaaa");
+		assertEquals("aaaaa", StringUtils.leftPadMod("aaaaa", "b", 5));
+		assertEquals("aaaaa", StringUtils.rightPadMod("aaaaa", "b", 5));
+		assertEquals("aaaaa", StringUtils.leftPad("aaaaa", "b", 5, StringUtils.PAD_MOD));
+		assertEquals("aaaaa", StringUtils.rightPad("aaaaa", "b", 5, StringUtils.PAD_MOD));
+		assertEquals("aaaaa", StringUtils.pad("aaaaa", "b", 5, StringUtils.PAD_MOD, StringUtils.PAD_LEFT));
+		assertEquals("aaaaa", StringUtils.pad("aaaaa", "b", 5, StringUtils.PAD_MOD, StringUtils.PAD_RIGHT));
 
 		// -- Throws
 
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.pad(null, "a", StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MIN_PAD_TYPE, StringUtils.MIN_PAD_ORIENTATION);
-		});
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.pad("a", null, StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MIN_PAD_TYPE, StringUtils.MIN_PAD_ORIENTATION);
-		});
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.pad("a", "a", StringUtils.MIN_PAD_PATTERN_LENGTH - 1, StringUtils.MIN_PAD_TYPE, StringUtils.MIN_PAD_ORIENTATION);
-		});
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.pad("a", "a", StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MIN_PAD_TYPE - 1, StringUtils.MIN_PAD_ORIENTATION);
-		});
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.pad("a", "a", StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MAX_PAD_TYPE + 1, StringUtils.MIN_PAD_ORIENTATION);
-		});
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.pad("a", "a", StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MIN_PAD_TYPE, StringUtils.MIN_PAD_ORIENTATION - 1);
-		});
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.pad("a", "a", StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MIN_PAD_TYPE, StringUtils.MAX_PAD_ORIENTATION + 2);
-		});
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.pad(null, "a", StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MIN_PAD_TYPE, StringUtils.MIN_PAD_ORIENTATION));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.pad("a", null, StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MIN_PAD_TYPE, StringUtils.MIN_PAD_ORIENTATION));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.pad("a", "a", StringUtils.MIN_PAD_PATTERN_LENGTH - 1, StringUtils.MIN_PAD_TYPE, StringUtils.MIN_PAD_ORIENTATION));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.pad("a", "a", StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MIN_PAD_TYPE - 1, StringUtils.MIN_PAD_ORIENTATION));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.pad("a", "a", StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MAX_PAD_TYPE + 1, StringUtils.MIN_PAD_ORIENTATION));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.pad("a", "a", StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MIN_PAD_TYPE, StringUtils.MIN_PAD_ORIENTATION - 1));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.pad("a", "a", StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MIN_PAD_TYPE, StringUtils.MAX_PAD_ORIENTATION + 2));
 	}
 
 	@Test
 	@DisplayName("Split String")
 	public void testSplit() {
-		assertArrayEquals(StringUtils.splitLength("abcdefghij", 2), new String[]{"ab", "cd", "ef", "gh", "ij"});
-		assertArrayEquals(StringUtils.splitLength("abcdefghi", 2), new String[]{"ab", "cd", "ef", "gh", "i"});
-		assertArrayEquals(StringUtils.splitInto("abcdefghij", 2), new String[]{"abcde", "fghij"});
-		assertArrayEquals(StringUtils.splitInto("abcdefghi", 2), new String[]{"abcde", "fghi"});
+		assertArrayEquals(new String[] {"ab", "cd", "ef", "gh", "ij"}, StringUtils.splitLength("abcdefghij", 2));
+		assertArrayEquals(new String[] {"ab", "cd", "ef", "gh", "i"}, StringUtils.splitLength("abcdefghi", 2));
+		assertArrayEquals(new String[] {"abcde", "fghij"}, StringUtils.splitInto("abcdefghij", 2));
+		assertArrayEquals(new String[] {"abcde", "fghi"}, StringUtils.splitInto("abcdefghi", 2));
 	}
 
 	@Test
 	@DisplayName("Cap the String length")
 	public void testCap() {
-		assertEquals(StringUtils.cap("abcdefghij", 1), "a");
-		assertEquals(StringUtils.cap("abcdefghij", 9), "abcdefghi");
-		assertEquals(StringUtils.cap("abcdefghij", 10), "abcdefghij");
-		assertEquals(StringUtils.cap("abcdefghij", 11), "abcdefghij");
-		assertEquals(StringUtils.capMod("abcdefghij", 2), "abcdefghij");
-		assertEquals(StringUtils.capMod("abcdefghij", 3), "abcdefghi");
-		assertEquals(StringUtils.capMod("abcdefghij", 4), "abcdefgh");
-		assertEquals(StringUtils.capMod("abcdefghij", 5), "abcdefghij");
+		assertEquals("a", StringUtils.cap("abcdefghij", 1));
+		assertEquals("abcdefghi", StringUtils.cap("abcdefghij", 9));
+		assertEquals("abcdefghij", StringUtils.cap("abcdefghij", 10));
+		assertEquals("abcdefghij", StringUtils.cap("abcdefghij", 11));
+		assertEquals("abcdefghij", StringUtils.capMod("abcdefghij", 2));
+		assertEquals("abcdefghi", StringUtils.capMod("abcdefghij", 3));
+		assertEquals("abcdefgh", StringUtils.capMod("abcdefghij", 4));
+		assertEquals("abcdefghij", StringUtils.capMod("abcdefghij", 5));
 
 		// -- Throws
 
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.cap(null, 1);
-		});
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.cap("ab", 0);
-		});
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.capMod(null, 1);
-		});
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.capMod("ab", 0);
-		});
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.cap(null, 1));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.cap("ab", 0));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.capMod(null, 1));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.capMod("ab", 0));
 	}
 
 	@Test
@@ -239,25 +219,42 @@ public class TestStringUtils {
 	public void testParseEmpty() {
 		StringUtils.parseEmpty("A");
 
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.parseEmpty("");
-		});
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.parseEmpty(null);
-		});
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.parseEmpty(""));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.parseEmpty(null));
 	}
 
-	@Test
 	@DisplayName("Generate random Code")
 	@RepeatedTest(value = 100)
 	public void testGenCode() {
-		for (char c : StringUtils.genCode(5).toCharArray())
-			assertTrue(StringUtils.LETTERS_NUMBERS.contains(Character.toString(c)));
+		String code = StringUtils.genCode(5);
+		assertTrue(StringUtils.LETTERS_NUMBERS.contains(Character.toString(code.charAt(0))));
+		assertTrue(StringUtils.LETTERS_NUMBERS.contains(Character.toString(code.charAt(1))));
+		assertTrue(StringUtils.LETTERS_NUMBERS.contains(Character.toString(code.charAt(2))));
+		assertTrue(StringUtils.LETTERS_NUMBERS.contains(Character.toString(code.charAt(3))));
+		assertTrue(StringUtils.LETTERS_NUMBERS.contains(Character.toString(code.charAt(4))));
 
 		String pattern = StringUtils.genCode(10);
-
-		for (char c : StringUtils.genCode(20, pattern).toCharArray())
-			assertTrue(pattern.contains(Character.toString(c)));
+		code = StringUtils.genCode(20, pattern);
+		assertTrue(pattern.contains(Character.toString(code.charAt(0))));
+		assertTrue(pattern.contains(Character.toString(code.charAt(1))));
+		assertTrue(pattern.contains(Character.toString(code.charAt(2))));
+		assertTrue(pattern.contains(Character.toString(code.charAt(3))));
+		assertTrue(pattern.contains(Character.toString(code.charAt(4))));
+		assertTrue(pattern.contains(Character.toString(code.charAt(5))));
+		assertTrue(pattern.contains(Character.toString(code.charAt(6))));
+		assertTrue(pattern.contains(Character.toString(code.charAt(7))));
+		assertTrue(pattern.contains(Character.toString(code.charAt(8))));
+		assertTrue(pattern.contains(Character.toString(code.charAt(9))));
+		assertTrue(pattern.contains(Character.toString(code.charAt(10))));
+		assertTrue(pattern.contains(Character.toString(code.charAt(11))));
+		assertTrue(pattern.contains(Character.toString(code.charAt(12))));
+		assertTrue(pattern.contains(Character.toString(code.charAt(13))));
+		assertTrue(pattern.contains(Character.toString(code.charAt(14))));
+		assertTrue(pattern.contains(Character.toString(code.charAt(15))));
+		assertTrue(pattern.contains(Character.toString(code.charAt(16))));
+		assertTrue(pattern.contains(Character.toString(code.charAt(17))));
+		assertTrue(pattern.contains(Character.toString(code.charAt(18))));
+		assertTrue(pattern.contains(Character.toString(code.charAt(19))));
 	}
 
 	@Test
@@ -294,15 +291,9 @@ public class TestStringUtils {
 		assertEquals("varName05", StringUtils.varLowerCase("VAR_NAME05"));
 		assertEquals("varName05", StringUtils.varLowerCase("VAR_NAME_05"));
 
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.varLowerCase("var");
-		});
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.varLowerCase("varName");
-		});
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.varLowerCase("var@");
-		});
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.varLowerCase("var"));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.varLowerCase("varName"));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.varLowerCase("var@"));
 	}
 
 	@Test
@@ -316,229 +307,209 @@ public class TestStringUtils {
 		assertEquals("VAR_NAME_05", StringUtils.varUpperCase("varName_05"));
 		assertEquals("VAR_NAME_05", StringUtils.varUpperCase("varName__05"));
 
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.varUpperCase("@");
-		});
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.varUpperCase("var@");
-		});
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.varUpperCase("VAR@");
-		});
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.varUpperCase("05@");
-		});
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.varUpperCase("@"));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.varUpperCase("var@"));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.varUpperCase("VAR@"));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.varUpperCase("05@"));
 	}
 
 	@Test
 	@DisplayName("Insert char inside")
 	public void testInsert() {
-		assertEquals(StringUtils.insert("abcd", 'x', 0), "xabcd");
-		assertEquals(StringUtils.insert("abcd", 'x', 2), "abxcd");
-		assertEquals(StringUtils.insert("abcd", 'x', 4), "abcdx");
-		assertEquals(StringUtils.insert("abcde", 'x', 0), "xabcde");
-		assertEquals(StringUtils.insert("abcde", 'x', 2), "abxcde");
-		assertEquals(StringUtils.insert("abcde", 'x', 5), "abcdex");
+		assertEquals("xabcd", StringUtils.insert("abcd", 'x', 0));
+		assertEquals("abxcd", StringUtils.insert("abcd", 'x', 2));
+		assertEquals("abcdx", StringUtils.insert("abcd", 'x', 4));
+		assertEquals("xabcde", StringUtils.insert("abcde", 'x', 0));
+		assertEquals("abxcde", StringUtils.insert("abcde", 'x', 2));
+		assertEquals("abcdex", StringUtils.insert("abcde", 'x', 5));
 
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.insert("abcde", 'x', -1);
-		});
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.insert("abcde", 'x', 6);
-		});
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.insert("abcde", 'x', -1));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.insert("abcde", 'x', 6));
 
-		assertEquals(StringUtils.insert("abcd", "xxx", 0), "xxxabcd");
-		assertEquals(StringUtils.insert("abcd", "xxx", 2), "abxxxcd");
-		assertEquals(StringUtils.insert("abcd", "xxx", 4), "abcdxxx");
-		assertEquals(StringUtils.insert("abcde", "xxx", 0), "xxxabcde");
-		assertEquals(StringUtils.insert("abcde", "xxx", 2), "abxxxcde");
-		assertEquals(StringUtils.insert("abcde", "xxx", 5), "abcdexxx");
+		assertEquals("xxxabcd", StringUtils.insert("abcd", "xxx", 0));
+		assertEquals("abxxxcd", StringUtils.insert("abcd", "xxx", 2));
+		assertEquals("abcdxxx", StringUtils.insert("abcd", "xxx", 4));
+		assertEquals("xxxabcde", StringUtils.insert("abcde", "xxx", 0));
+		assertEquals("abxxxcde", StringUtils.insert("abcde", "xxx", 2));
+		assertEquals("abcdexxx", StringUtils.insert("abcde", "xxx", 5));
 
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.insert("abcde", "xxx", -1);
-		});
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.insert("abcde", "xxx", 6);
-		});
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.insert("abcde", "xxx", -1));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.insert("abcde", "xxx", 6));
 	}
 
 	@Test
 	@DisplayName("Backspace action on String")
 	public void testBackspace() {
-		assertEquals(StringUtils.backspace("abcd", 0), "abcd");
-		assertEquals(StringUtils.backspace("abcd", 1), "bcd");
-		assertEquals(StringUtils.backspace("abcd", 2), "acd");
-		assertEquals(StringUtils.backspace("abcd", 4), "abc");
+		assertEquals("abcd", StringUtils.backspace("abcd", 0));
+		assertEquals("bcd", StringUtils.backspace("abcd", 1));
+		assertEquals("acd", StringUtils.backspace("abcd", 2));
+		assertEquals("abc", StringUtils.backspace("abcd", 4));
 
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.backspace("abcd", 5);
-		});
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.backspace("abcd", 5));
 	}
 
 	@Test
 	@DisplayName("Delete action on String")
 	public void testDelete() {
-		assertEquals(StringUtils.delete("abcd", 0), "bcd");
-		assertEquals(StringUtils.delete("abcd", 1), "acd");
-		assertEquals(StringUtils.delete("abcd", 2), "abd");
-		assertEquals(StringUtils.delete("abcd", 4), "abcd");
+		assertEquals("bcd", StringUtils.delete("abcd", 0));
+		assertEquals("acd", StringUtils.delete("abcd", 1));
+		assertEquals("abd", StringUtils.delete("abcd", 2));
+		assertEquals("abcd", StringUtils.delete("abcd", 4));
 
-		assertThrows(StringUtilsRuntimeException.class, () -> {
-			StringUtils.delete("abcd", 5);
-		});
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.delete("abcd", 5));
 	}
 
 	@Test
 	@DisplayName("Parse String at NULL char")
 	public void testParseString() {
-		assertEquals(StringUtils.parseString(new byte[]{'a', 'b', 'c', 'd', 'e'}), "abcde");
-		assertEquals(StringUtils.parseString(new byte[]{'a', 'b', 'c', 'd', 'e', 0x00}), "abcde");
-		assertEquals(StringUtils.parseString(new byte[]{'a', 'b', 'c', 0x00, 'd', 'e'}), "abc");
-		assertEquals(StringUtils.parseString(new byte[]{0x00, 'a', 'b', 'c', 'd', 'e'}), "");
-		assertEquals(StringUtils.parseString(new byte[]{}), "");
+		assertEquals("abcde", StringUtils.parseString(new byte[] {'a', 'b', 'c', 'd', 'e'}));
+		assertEquals("abcde", StringUtils.parseString(new byte[] {'a', 'b', 'c', 'd', 'e', 0x00}));
+		assertEquals("abc", StringUtils.parseString(new byte[] {'a', 'b', 'c', 0x00, 'd', 'e'}));
+		assertEquals("", StringUtils.parseString(new byte[] {0x00, 'a', 'b', 'c', 'd', 'e'}));
+		assertEquals("", StringUtils.parseString(new byte[] {}));
 	}
 
 	@Test
 	@DisplayName("Create ident String tab")
 	public void testIdent() {
-		assertEquals(StringUtils.indent(0), "");
-		assertEquals(StringUtils.indent(1), "	");
-		assertEquals(StringUtils.indent(2), "		");
-		assertEquals(StringUtils.indent(3), "			");
+		assertEquals("", StringUtils.indent(0));
+		assertEquals("	", StringUtils.indent(1));
+		assertEquals("		", StringUtils.indent(2));
+		assertEquals("			", StringUtils.indent(3));
 	}
 
 	@Test
 	@DisplayName("Parse parameters with arguments")
 	public void testParseParameters() {
-		assertEquals(StringUtils.parseParameters("param1", "value1"), "param1: value1");
-		assertEquals(StringUtils.parseParameters("param1", "value1", "param2", "value2"), "param1: value1, param2: value2");
-		assertEquals(StringUtils.parseParameters("param1", "value1", "param2", "value2", "param3"), "param1: value1, param2: value2");
+		assertEquals("param1: value1", StringUtils.parseParameters("param1", "value1"));
+		assertEquals("param1: value1, param2: value2", StringUtils.parseParameters("param1", "value1", "param2", "value2"));
+		assertEquals("param1: value1, param2: value2", StringUtils.parseParameters("param1", "value1", "param2", "value2", "param3"));
 	}
 
 	@Test
 	@DisplayName("Parse parameters with format")
 	public void testParseParametersFormat() {
-		assertEquals(StringUtils.parseParametersFormat(";", "=", "param1", "value1"), "param1=value1");
-		assertEquals(StringUtils.parseParametersFormat(";", "=", "param1", "value1", "param2", "value2"), "param1=value1;param2=value2");
-		assertEquals(StringUtils.parseParametersFormat(";", "=", "param1", "value1", "param2", "value2", "param3"), "param1=value1;param2=value2");
+		assertEquals("param1=value1", StringUtils.parseParametersFormat(";", "=", "param1", "value1"));
+		assertEquals("param1=value1;param2=value2", StringUtils.parseParametersFormat(";", "=", "param1", "value1", "param2", "value2"));
+		assertEquals("param1=value1;param2=value2", StringUtils.parseParametersFormat(";", "=", "param1", "value1", "param2", "value2", "param3"));
 	}
 
 	@Test
 	@DisplayName("Extend String data parameters")
 	public void testExtendParameters() {
-		assertEquals(StringUtils.extendParameters("A random message without parameters", "my parametesr"), "A random message without parameters (my parametesr)");
-		assertEquals(StringUtils.extendParameters("A random message without parameters ()", "my parametesr"), "A random message without parameters (my parametesr)");
-		assertEquals(StringUtils.extendParameters("A random message (param1: valu1)", "my parametesr"), "A random message (param1: valu1, my parametesr)");
-		assertEquals(StringUtils.extendParameters("A random message (param1: valu1)", "param2", "value2"), "A random message (param1: valu1, param2: value2)");
-		assertEquals(StringUtils.extendParameters("A random message (param1: valu1)", "param2", "value2", "param3"), "A random message (param1: valu1, param2: value2)");
+		assertEquals("A random message without parameters (my parametesr)", StringUtils.extendParameters("A random message without parameters", "my parametesr"));
+		assertEquals("A random message without parameters (my parametesr)", StringUtils.extendParameters("A random message without parameters ()", "my parametesr"));
+		assertEquals("A random message (param1: valu1, my parametesr)", StringUtils.extendParameters("A random message (param1: valu1)", "my parametesr"));
+		assertEquals("A random message (param1: valu1, param2: value2)", StringUtils.extendParameters("A random message (param1: valu1)", "param2", "value2"));
+		assertEquals("A random message (param1: valu1, param2: value2)", StringUtils.extendParameters("A random message (param1: valu1)", "param2", "value2", "param3"));
 	}
 
 	@Test
 	@DisplayName("Format money")
 	public void testFormatMoney() {
-		assertEquals(StringUtils.formatMoney(0L), "0");
-		assertEquals(StringUtils.formatMoney(10L), "10");
-		assertEquals(StringUtils.formatMoney(100L), "100");
-		assertEquals(StringUtils.formatMoney(1000L), "1,000");
-		assertEquals(StringUtils.formatMoney(10000L), "10,000");
-		assertEquals(StringUtils.formatMoney(100000L), "100,000");
-		assertEquals(StringUtils.formatMoney(1000000L), "1,000,000");
-		assertEquals(StringUtils.formatMoney(-0L), "0");
-		assertEquals(StringUtils.formatMoney(-10L), "-10");
-		assertEquals(StringUtils.formatMoney(-100L), "-100");
-		assertEquals(StringUtils.formatMoney(-1000L), "-1,000");
-		assertEquals(StringUtils.formatMoney(-10000L), "-10,000");
-		assertEquals(StringUtils.formatMoney(-100000L), "-100,000");
-		assertEquals(StringUtils.formatMoney(-1000000L), "-1,000,000");
+		assertEquals("0", StringUtils.formatMoney(0L));
+		assertEquals("10", StringUtils.formatMoney(10L));
+		assertEquals("100", StringUtils.formatMoney(100L));
+		assertEquals("1,000", StringUtils.formatMoney(1000L));
+		assertEquals("10,000", StringUtils.formatMoney(10000L));
+		assertEquals("100,000", StringUtils.formatMoney(100000L));
+		assertEquals("1,000,000", StringUtils.formatMoney(1000000L));
+		assertEquals("0", StringUtils.formatMoney(-0L));
+		assertEquals("-10", StringUtils.formatMoney(-10L));
+		assertEquals("-100", StringUtils.formatMoney(-100L));
+		assertEquals("-1,000", StringUtils.formatMoney(-1000L));
+		assertEquals("-10,000", StringUtils.formatMoney(-10000L));
+		assertEquals("-100,000", StringUtils.formatMoney(-100000L));
+		assertEquals("-1,000,000", StringUtils.formatMoney(-1000000L));
 
-		assertEquals(StringUtils.formatMoney(".", 0L), "0");
-		assertEquals(StringUtils.formatMoney(".", 10L), "10");
-		assertEquals(StringUtils.formatMoney(".", 100L), "100");
-		assertEquals(StringUtils.formatMoney(".", 1000L), "1.000");
-		assertEquals(StringUtils.formatMoney(".", 10000L), "10.000");
-		assertEquals(StringUtils.formatMoney(".", 100000L), "100.000");
-		assertEquals(StringUtils.formatMoney(".", 1000000L), "1.000.000");
-		assertEquals(StringUtils.formatMoney(".", -0L), "0");
-		assertEquals(StringUtils.formatMoney(".", -10L), "-10");
-		assertEquals(StringUtils.formatMoney(".", -100L), "-100");
-		assertEquals(StringUtils.formatMoney(".", -1000L), "-1.000");
-		assertEquals(StringUtils.formatMoney(".", -10000L), "-10.000");
-		assertEquals(StringUtils.formatMoney(".", -100000L), "-100.000");
-		assertEquals(StringUtils.formatMoney(".", -1000000L), "-1.000.000");
+		assertEquals("0", StringUtils.formatMoney(".", 0L));
+		assertEquals("10", StringUtils.formatMoney(".", 10L));
+		assertEquals("100", StringUtils.formatMoney(".", 100L));
+		assertEquals("1.000", StringUtils.formatMoney(".", 1000L));
+		assertEquals("10.000", StringUtils.formatMoney(".", 10000L));
+		assertEquals("100.000", StringUtils.formatMoney(".", 100000L));
+		assertEquals("1.000.000", StringUtils.formatMoney(".", 1000000L));
+		assertEquals("0", StringUtils.formatMoney(".", -0L));
+		assertEquals("-10", StringUtils.formatMoney(".", -10L));
+		assertEquals("-100", StringUtils.formatMoney(".", -100L));
+		assertEquals("-1.000", StringUtils.formatMoney(".", -1000L));
+		assertEquals("-10.000", StringUtils.formatMoney(".", -10000L));
+		assertEquals("-100.000", StringUtils.formatMoney(".", -100000L));
+		assertEquals("-1.000.000", StringUtils.formatMoney(".", -1000000L));
 	}
 
 	@Test
 	@DisplayName("Count of a character")
 	public void testCountOf() {
-		assertEquals(StringUtils.countOf("Count a character", 'z'), 0);
-		assertEquals(StringUtils.countOf("Count a character", 'C'), 1);
-		assertEquals(StringUtils.countOf("Count a character", ' '), 2);
-		assertEquals(StringUtils.countOf("Count a character", 'c'), 2);
-		assertEquals(StringUtils.countOf("Count a character", 'a'), 3);
+		assertEquals(0, StringUtils.countOf("Count a character", 'z'));
+		assertEquals(1, StringUtils.countOf("Count a character", 'C'));
+		assertEquals(2, StringUtils.countOf("Count a character", ' '));
+		assertEquals(2, StringUtils.countOf("Count a character", 'c'));
+		assertEquals(3, StringUtils.countOf("Count a character", 'a'));
 
-		assertEquals(StringUtils.countOf("Count a character repeat Count", "  "), 0);
-		assertEquals(StringUtils.countOf("Count a character repeat Count", " "), 4);
-		assertEquals(StringUtils.countOf("Count a character repeat Count", "Count"), 2);
+		assertEquals(0, StringUtils.countOf("Count a character repeat Count", "  "));
+		assertEquals(4, StringUtils.countOf("Count a character repeat Count", " "));
+		assertEquals(2, StringUtils.countOf("Count a character repeat Count", "Count"));
 	}
 
 	@Test
 	@DisplayName("Replace multiple values")
 	public void testReplace() {
-		assertEquals(StringUtils.replace("Replace multiple values test", "E", "e"), "REplacE multiplE valuEs tEst");
-		assertEquals(StringUtils.replace("Replacex multipley valuesz test", "", "x", "y", "z"), "Replace multiple values test");
-		assertEquals(StringUtils.replace("Replace multiple values test", "", "pl"), "Reace multie values test");
+		assertEquals("REplacE multiplE valuEs tEst", StringUtils.replace("Replace multiple values test", "E", "e"));
+		assertEquals("Replace multiple values test", StringUtils.replace("Replacex multipley valuesz test", "", "x", "y", "z"));
+		assertEquals("Reace multie values test", StringUtils.replace("Replace multiple values test", "", "pl"));
 	}
 
 	@Test
 	@DisplayName("Index of N time")
 	public void testIndexOf() {
-		assertEquals(StringUtils.indexOf("Get N times of character index on sequence", 'y', 1), -1);
-		assertEquals(StringUtils.indexOf("Get N times of character index on sequence", 'G', 1), 0);
-		assertEquals(StringUtils.indexOf("Get N times of character index on sequence", 'e', 1), 1);
-		assertEquals(StringUtils.indexOf("Get N times of character index on sequence", 'e', 2), 9);
-		assertEquals(StringUtils.indexOf("Get N times of character index on sequence", 'e', 3), 22);
+		assertEquals(-1, StringUtils.indexOf("Get N times of character index on sequence", 'y', 1));
+		assertEquals(0, StringUtils.indexOf("Get N times of character index on sequence", 'G', 1));
+		assertEquals(1, StringUtils.indexOf("Get N times of character index on sequence", 'e', 1));
+		assertEquals(9, StringUtils.indexOf("Get N times of character index on sequence", 'e', 2));
+		assertEquals(22, StringUtils.indexOf("Get N times of character index on sequence", 'e', 3));
 
-		assertEquals(StringUtils.indexOf("Get N times of character index on sequence", "y", 1), -1);
-		assertEquals(StringUtils.indexOf("Get N times of character index on sequence", "Get", 1), 0);
-		assertEquals(StringUtils.indexOf("Get N times of character index on sequence", " o", 2), 30);
-		assertEquals(StringUtils.indexOf("Get N times of character index on sequence", " ", 7), 33);
+		assertEquals(-1, StringUtils.indexOf("Get N times of character index on sequence", "y", 1));
+		assertEquals(0, StringUtils.indexOf("Get N times of character index on sequence", "Get", 1));
+		assertEquals(30, StringUtils.indexOf("Get N times of character index on sequence", " o", 2));
+		assertEquals(33, StringUtils.indexOf("Get N times of character index on sequence", " ", 7));
 	}
 
 	@Test
 	@DisplayName("First Upper Case")
 	public void testFirstUpperCase() {
-		assertEquals(StringUtils.firstUppercase(null), null);
-		assertEquals(StringUtils.firstUppercase(""), "");
-		assertEquals(StringUtils.firstUppercase("a"), "A");
-		assertEquals(StringUtils.firstUppercase("abcd"), "Abcd");
-		assertEquals(StringUtils.firstUppercase("A"), "A");
-		assertEquals(StringUtils.firstUppercase("Abcd"), "Abcd");
-		assertEquals(StringUtils.firstUppercase("aBCD"), "ABCD");
+		assertNull(StringUtils.firstUppercase(null));
+		assertEquals("", StringUtils.firstUppercase(""));
+		assertEquals("A", StringUtils.firstUppercase("a"));
+		assertEquals("Abcd", StringUtils.firstUppercase("abcd"));
+		assertEquals("A", StringUtils.firstUppercase("A"));
+		assertEquals("Abcd", StringUtils.firstUppercase("Abcd"));
+		assertEquals("ABCD", StringUtils.firstUppercase("aBCD"));
 	}
 
 	@Test
 	@DisplayName("Single Line")
 	public void testSingleLine() {
-		assertEquals(StringUtils.singleLine(null), null);
-		assertEquals(StringUtils.singleLine(""), "");
-		assertEquals(StringUtils.singleLine("a\na"), "a a");
-		assertEquals(StringUtils.singleLine("a \na"), "a  a");
-		assertEquals(StringUtils.singleLine("a\n a"), "a  a");
-		assertEquals(StringUtils.singleLine("a \r a"), "a   a");
-		assertEquals(StringUtils.singleLine("a\ra"), "a a");
-		assertEquals(StringUtils.singleLine("a \ra"), "a  a");
-		assertEquals(StringUtils.singleLine("a\r a"), "a  a");
-		assertEquals(StringUtils.singleLine("a \r a"), "a   a");
-		assertEquals(StringUtils.singleLine("a \r\n a"), "a   a");
-		assertEquals(StringUtils.singleLine("a\r\na"), "a a");
-		assertEquals(StringUtils.singleLine("a \r\na"), "a  a");
-		assertEquals(StringUtils.singleLine("a\r\n a"), "a  a");
-		assertEquals(StringUtils.singleLine("a \r\n a"), "a   a");
-		assertEquals(StringUtils.singleLine("a \r\n a"), "a   a");
-		assertEquals(StringUtils.singleLine("a\n\ra"), "a  a");
-		assertEquals(StringUtils.singleLine("a \n\ra"), "a   a");
-		assertEquals(StringUtils.singleLine("a\n\r a"), "a   a");
-		assertEquals(StringUtils.singleLine("a \n\r a"), "a    a");
+		assertNull(StringUtils.singleLine(null));
+		assertEquals("", StringUtils.singleLine(""));
+		assertEquals("a a", StringUtils.singleLine("a\na"));
+		assertEquals("a  a", StringUtils.singleLine("a \na"));
+		assertEquals("a  a", StringUtils.singleLine("a\n a"));
+		assertEquals("a   a", StringUtils.singleLine("a \r a"));
+		assertEquals("a a", StringUtils.singleLine("a\ra"));
+		assertEquals("a  a", StringUtils.singleLine("a \ra"));
+		assertEquals("a  a", StringUtils.singleLine("a\r a"));
+		assertEquals("a   a", StringUtils.singleLine("a \r a"));
+		assertEquals("a   a", StringUtils.singleLine("a \r\n a"));
+		assertEquals("a a", StringUtils.singleLine("a\r\na"));
+		assertEquals("a  a", StringUtils.singleLine("a \r\na"));
+		assertEquals("a  a", StringUtils.singleLine("a\r\n a"));
+		assertEquals("a   a", StringUtils.singleLine("a \r\n a"));
+		assertEquals("a   a", StringUtils.singleLine("a \r\n a"));
+		assertEquals("a  a", StringUtils.singleLine("a\n\ra"));
+		assertEquals("a   a", StringUtils.singleLine("a \n\ra"));
+		assertEquals("a   a", StringUtils.singleLine("a\n\r a"));
+		assertEquals("a    a", StringUtils.singleLine("a \n\r a"));
 	}
 
 	@Test
@@ -546,44 +517,43 @@ public class TestStringUtils {
 	public void testObjectToString() {
 		StringClass object = new StringClass();
 
-		assertEquals(
-			StringUtils.objectToString(
+		assertEquals("StringClass[attributeInt=1]", StringUtils.objectToString(
 				object,
 				"attributeInt", object.attributeInt
-			), "StringClass[attributeInt=1]");
+			));
 
-		assertEquals(
+		assertEquals("StringClass[attributeInt=1, attributeFloat=1.1]",
 			StringUtils.objectToString(
 				object,
 				"attributeInt", object.attributeInt,
 				"attributeFloat", object.attributeFloat
-			), "StringClass[attributeInt=1, attributeFloat=1.1]");
+			));
 
-		assertEquals(
+		assertEquals("StringClass[attributeInt=1, attributeFloat=1.1, attributeBoolean=true]",
 			StringUtils.objectToString(
 				object,
 				"attributeInt", object.attributeInt,
 				"attributeFloat", object.attributeFloat,
 				"attributeBoolean", object.attributeBoolean
-			), "StringClass[attributeInt=1, attributeFloat=1.1, attributeBoolean=true]");
+			));
 
-		assertEquals(
+		assertEquals("StringClass[attributeInt=1, attributeFloat=1.1, attributeBoolean=true, attributeString=A String]",
 			StringUtils.objectToString(
 				object,
 				"attributeInt", object.attributeInt,
 				"attributeFloat", object.attributeFloat,
 				"attributeBoolean", object.attributeBoolean,
 				"attributeString", object.attributeString
-			), "StringClass[attributeInt=1, attributeFloat=1.1, attributeBoolean=true, attributeString=A String]");
+			));
 	}
 
 	@Test
 	@DisplayName("Get simple name of")
 	public void testGetSimpleNameOf() {
-		assertEquals(StringUtils.getSimpleNameOf(StringClass.class.getName()), StringClass.class.getSimpleName());
-		assertEquals(StringUtils.getSimpleNameOf(StringClass.class.getSimpleName()), StringClass.class.getSimpleName());
-		assertEquals(StringUtils.getSimpleNameOf(TestStringUtils.class.getName()), TestStringUtils.class.getSimpleName());
-		assertEquals(StringUtils.getSimpleNameOf(TestStringUtils.class.getSimpleName()), TestStringUtils.class.getSimpleName());
+		assertEquals(StringClass.class.getSimpleName(), StringUtils.getSimpleNameOf(StringClass.class.getName()));
+		assertEquals(StringClass.class.getSimpleName(), StringUtils.getSimpleNameOf(StringClass.class.getSimpleName()));
+		assertEquals(TestStringUtils.class.getSimpleName(), StringUtils.getSimpleNameOf(TestStringUtils.class.getName()));
+		assertEquals(TestStringUtils.class.getSimpleName(), StringUtils.getSimpleNameOf(TestStringUtils.class.getSimpleName()));
 	}
 
 	@Test
@@ -673,7 +643,7 @@ public class TestStringUtils {
 		assertEquals("o.d.u.Scarlet", StringUtils.qualifiedName("org.diverproject.utils.Scarlet", 13, false, 4));
 	}
 
-	private class StringClass {
+	private static class StringClass {
 		public int attributeInt = 1;
 		public float attributeFloat = 1.1f;
 		public boolean attributeBoolean = true;

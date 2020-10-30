@@ -15,8 +15,8 @@ import static org.diverproject.scarlet.util.language.HexadecimalUtilsLanguage.TO
 
 import org.diverproject.scarlet.util.exceptions.HexadecimalUtilsRuntimeException;
 
-public class HexadecimalUtils
-{
+public class HexadecimalUtils {
+
 	public static final String HEXADECIMAL_REGEX = "^0[xX](?<value>[0-9a-fA-F]+)$";
 	public static final int HEX_BYTE_SIZE = Byte.BYTES * 2;
 	public static final int HEX_SHORT_SIZE = Short.BYTES * 2;
@@ -30,8 +30,7 @@ public class HexadecimalUtils
 
 	private HexadecimalUtils() { }
 
-	public static boolean hasHexFormat(String str)
-	{
+	public static boolean hasHexFormat(String str) {
 		if (str == null || str.length() == 0)
 			return false;
 
@@ -45,8 +44,7 @@ public class HexadecimalUtils
 		return true;
 	}
 
-	public static boolean isHex(String str, int bytes)
-	{
+	public static boolean isHex(String str, int bytes) {
 		if (!hasHexFormat(str))
 			return false;
 
@@ -58,122 +56,107 @@ public class HexadecimalUtils
 		return str.isEmpty() || (Math.ceil(str.length() / 2D)) <= bytes;
 	}
 
-	public static boolean isHexByte(String str)
-	{
+	public static boolean isHexByte(String str) {
 		return isHex(str, Byte.BYTES);
 	}
 
-	public static boolean isHexShort(String str)
-	{
+	public static boolean isHexShort(String str) {
 		return isHex(str, Short.BYTES);
 	}
 
-	public static boolean isHexInt(String str)
-	{
+	public static boolean isHexInt(String str) {
 		return isHex(str, Integer.BYTES);
 	}
 
-	public static boolean isHexLong(String str)
-	{
+	public static boolean isHexLong(String str) {
 		return isHex(str, Long.BYTES);
 	}
 
-	public static String clearHex(String str)
-	{
-		return str.startsWith("0x") ? str.substring(2, str.length()) : str;
+	public static String clearHex(String str) {
+		return str.startsWith("0x") ? str.substring(2) : str;
 	}
 
-	public static String toHex(byte value)
-	{
-		if (value < 0 )
+	public static String toHex(byte value) {
+		if (value < 0)
 			throw new HexadecimalUtilsRuntimeException(TO_HEX_NEGATIVE_BYTE, value);
 
 		return Integer.toHexString(value).toUpperCase();
 	}
 
-	public static String toHex(short value)
-	{
-		if (value < 0 )
+	public static String toHex(short value) {
+		if (value < 0)
 			throw new HexadecimalUtilsRuntimeException(TO_HEX_NEGATIVE_SHORT, value);
 
 		return Integer.toHexString(value).toUpperCase();
 	}
 
-	public static String toHex(int value)
-	{
-		if (value < 0 )
+	public static String toHex(int value) {
+		if (value < 0)
 			throw new HexadecimalUtilsRuntimeException(TO_HEX_NEGATIVE_INT, value);
 
 		return Integer.toHexString(value).toUpperCase();
 	}
 
-	public static String toHex(long value)
-	{
-		if (value < 0 )
+	public static String toHex(long value) {
+		if (value < 0)
 			throw new HexadecimalUtilsRuntimeException(TO_HEX_NEGATIVE_LONG, value);
 
 		return Long.toHexString(value).toUpperCase();
 	}
 
-	public static String toHex(char value)
-	{
+	public static String toHex(char value) {
 		return Integer.toHexString(value).toUpperCase();
 	}
 
-	public static String toHex(byte value, int formatter)
-	{
+	public static String toHex(byte value, int formatter) {
 		String hex = toHex(value);
 
 		if (BitwiseUtils.has(formatter, TO_HEX_ZEROS))
 			hex = StringUtils.leftPadLength(hex, "0", HEX_BYTE_SIZE);
 
 		if (BitwiseUtils.has(formatter, TO_HEX_X))
-			hex = "0x" +hex;
+			hex = "0x" + hex;
 
 		return hex;
 	}
 
-	public static String toHex(short value, int formatter)
-	{
+	public static String toHex(short value, int formatter) {
 		String hex = toHex(value);
 
 		if (BitwiseUtils.has(formatter, TO_HEX_ZEROS))
 			hex = StringUtils.leftPadLength(hex, "0", HEX_SHORT_SIZE);
 
 		if (BitwiseUtils.has(formatter, TO_HEX_X))
-			hex = "0x" +hex;
+			hex = "0x" + hex;
 
 		return hex;
 	}
 
-	public static String toHex(int value, int formatter)
-	{
+	public static String toHex(int value, int formatter) {
 		String hex = toHex(value);
 
 		if (BitwiseUtils.has(formatter, TO_HEX_ZEROS))
 			hex = StringUtils.leftPadLength(hex, "0", HEX_INT_SIZE);
 
 		if (BitwiseUtils.has(formatter, TO_HEX_X))
-			hex = "0x" +hex;
+			hex = "0x" + hex;
 
 		return hex;
 	}
 
-	public static String toHex(long value, int formatter)
-	{
+	public static String toHex(long value, int formatter) {
 		String hex = toHex(value);
 
 		if (BitwiseUtils.has(formatter, TO_HEX_ZEROS))
 			hex = StringUtils.leftPadLength(hex, "0", HEX_LONG_SIZE);
 
 		if (BitwiseUtils.has(formatter, TO_HEX_X))
-			hex = "0x" +hex;
+			hex = "0x" + hex;
 
 		return hex;
 	}
 
-	public static byte parseHexByte(String hex)
-	{
+	public static byte parseHexByte(String hex) {
 		if (!isHex(hex, HEX_BYTE_SIZE))
 			throw new HexadecimalUtilsRuntimeException(PARSE_HEX_BYTE, hex);
 
@@ -184,20 +167,18 @@ public class HexadecimalUtils
 		}
 	}
 
-	public static short parseHexShort(String hex)
-	{
+	public static short parseHexShort(String hex) {
 		if (!isHex(hex, HEX_SHORT_SIZE))
 			throw new HexadecimalUtilsRuntimeException(PARSE_HEX_SHORT, hex);
 
 		try {
 			return Short.parseShort(clearHex(hex), 16);
 		} catch (NumberFormatException e) {
-			throw new HexadecimalUtilsRuntimeException(e, PARSE_HEX_SHORT_FORMAT , hex);
+			throw new HexadecimalUtilsRuntimeException(e, PARSE_HEX_SHORT_FORMAT, hex);
 		}
 	}
 
-	public static int parseHexInt(String hex)
-	{
+	public static int parseHexInt(String hex) {
 		if (!isHex(hex, HEX_INT_SIZE))
 			throw new HexadecimalUtilsRuntimeException(PARSE_HEX_INT, hex);
 
@@ -208,8 +189,7 @@ public class HexadecimalUtils
 		}
 	}
 
-	public static long parseHexLong(String hex)
-	{
+	public static long parseHexLong(String hex) {
 		if (!isHex(hex, HEX_LONG_SIZE))
 			throw new HexadecimalUtilsRuntimeException(PARSE_HEX_LONG, hex);
 

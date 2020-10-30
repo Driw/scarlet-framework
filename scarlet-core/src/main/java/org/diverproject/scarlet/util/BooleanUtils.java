@@ -14,8 +14,7 @@ public class BooleanUtils {
 		TRUE_VALUES = Arrays.asList("true", "yes", "1");
 	}
 
-	private BooleanUtils() {
-	}
+	private BooleanUtils() { }
 
 	public static boolean parseBoolean(String str) {
 		return Optional.ofNullable(parseBoolean(str, null))
