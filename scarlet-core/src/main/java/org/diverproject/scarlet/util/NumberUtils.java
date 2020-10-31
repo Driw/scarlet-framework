@@ -14,7 +14,6 @@ public class NumberUtils {
 	public static final int DECIMAL_DOT_TYPE = 1;
 	public static final int DECIMAL_COMMA_TYPE = 2;
 	public static final int DECIMAL_ANY_TYPE = DECIMAL_DOT_TYPE | DECIMAL_COMMA_TYPE;
-	public static final String INTEGER_REGEX = "^[-+]?\\d+$";
 
 	public static final String COMMA_OR_DOT_REGEX = "[,.]";
 	public static final String DECIMAL_TYPE_TAG = "{DecimalType}";
@@ -25,7 +24,6 @@ public class NumberUtils {
 	public static final String FLOAT_DOT_REGEX = FLOAT_REGEX.replace(DECIMAL_TYPE_TAG, ".");
 	public static final String FLOAT_COMMA_REGEX = FLOAT_REGEX.replace(DECIMAL_TYPE_TAG, ",");
 
-	protected static final Pattern PATTERN_INTEGER = Pattern.compile(INTEGER_REGEX);
 	protected static final Pattern PATTERN_ANY = Pattern.compile(FLOAT_ANY_REGEX);
 	protected static final Pattern PATTERN_DOT = Pattern.compile(FLOAT_DOT_REGEX);
 	protected static final Pattern PATTERN_COMMA = Pattern.compile(FLOAT_COMMA_REGEX);
@@ -39,7 +37,14 @@ public class NumberUtils {
 	NumberUtils() { }
 
 	public static boolean hasIntegerFormat(String str) {
-		return PATTERN_INTEGER.matcher(str).find();
+		if (StringUtils.isEmpty(str)) return false;
+		if (str.charAt(0) == '-' || str.charAt(0) == '+') str = str.substring(1);
+
+		for (char c : str.toCharArray())
+			if (!Character.isDigit(c))
+				return false;
+
+		return true;
 	}
 
 	static Pattern getPattern() {
