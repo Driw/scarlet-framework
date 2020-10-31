@@ -59,10 +59,7 @@ public class StringUtils {
 	public static final int MIN_CAP_LENGTH = 1;
 	public static final int MIN_CAP_MOD = 1;
 
-	public static final String PARAMETERS_REGEX = "^(?<message>.+)\\s\\((?<parameters>.*)\\)$";
-
 	private static final SecureRandom SECURE_RANDOM = new SecureRandom();
-	private static final Pattern PARAMETERS_PATTERN = Pattern.compile(PARAMETERS_REGEX);
 
 	private StringUtils() {
 	}
@@ -575,19 +572,16 @@ public class StringUtils {
 	}
 
 	public static String extendParameters(String str, String data) {
-		final Matcher matcher = PARAMETERS_PATTERN.matcher(str);
-		String message = str;
-		String parameters;
+		int start = str.indexOf('(');
+		int end = str.lastIndexOf(')');
 
-		if (matcher.find()) {
-			message = matcher.group("message");
-			parameters = matcher.group("parameters");
-			parameters = parameters.isEmpty() ? data : parameters + ", " + data;
-		} else {
-			parameters = data;
-		}
+		if (start == -1 && end == -1)
+			return String.format("%s (%s)", str, data);
 
-		return String.format("%s (%s)", message, parameters);
+		return str.substring(0, end)
+			.concat(start + 1 == end ? "" : ", ")
+			.concat(data)
+			.concat(str.substring(end));
 	}
 
 	public static String formatMoney(long value) {
