@@ -93,6 +93,9 @@ public class LanguageLoader {
 			String filename = getLanguageFilename(languageAutoloader);
 			File file = new File(folder, filename);
 
+			if (!file.exists())
+				continue;
+
 			try {
 
 				Wini wini = new Wini(file);
