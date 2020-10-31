@@ -62,6 +62,7 @@ public class StringUtils {
 	public static final String PARAMETERS_REGEX = "^(?<message>.+)\\s\\((?<parameters>.*)\\)$";
 
 	private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+	private static final Pattern PARAMETERS_PATTERN = Pattern.compile(PARAMETERS_REGEX);
 
 	private StringUtils() {
 	}
@@ -574,8 +575,7 @@ public class StringUtils {
 	}
 
 	public static String extendParameters(String str, String data) {
-		final Pattern pattern = Pattern.compile(PARAMETERS_REGEX, Pattern.MULTILINE);
-		final Matcher matcher = pattern.matcher(str);
+		final Matcher matcher = PARAMETERS_PATTERN.matcher(str);
 		String message = str;
 		String parameters;
 
