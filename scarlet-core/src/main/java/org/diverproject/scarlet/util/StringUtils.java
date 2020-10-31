@@ -28,10 +28,10 @@ import static org.diverproject.scarlet.util.language.StringUtilsLanguage.VAR_UPP
 
 import org.diverproject.scarlet.util.exceptions.StringUtilsRuntimeException;
 
+import java.security.SecureRandom;
 import java.text.Normalizer;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -61,7 +61,7 @@ public class StringUtils {
 
 	public static final String PARAMETERS_REGEX = "^(?<message>.+)\\s\\((?<parameters>.*)\\)$";
 
-	private static final Random RANDOM = new Random();
+	private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
 	private StringUtils() {
 	}
@@ -400,7 +400,7 @@ public class StringUtils {
 		char[] codes = new char[size];
 
 		for (int i = 0; i < size; i++)
-			codes[i] = characters.charAt(RANDOM.nextInt(characters.length() - 1));
+			codes[i] = characters.charAt(SECURE_RANDOM.nextInt(characters.length() - 1));
 
 		return new String(codes);
 	}
