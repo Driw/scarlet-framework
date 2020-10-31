@@ -14,9 +14,9 @@ public class NumberUtils {
 	public static final int DECIMAL_DOT_TYPE = 1;
 	public static final int DECIMAL_COMMA_TYPE = 2;
 	public static final int DECIMAL_ANY_TYPE = DECIMAL_DOT_TYPE | DECIMAL_COMMA_TYPE;
-	public static final String INTEGER_REGEX = "^[-+]?(0|[1-9][0-9]*)$";
-	public static final String COMMA_OR_DOT_REGEX = "[,.]";
+	public static final String INTEGER_REGEX = "^[-+]?\\d+$";
 
+	public static final String COMMA_OR_DOT_REGEX = "[,.]";
 	public static final String DECIMAL_TYPE_TAG = "{DecimalType}";
 	public static final String FLOAT_REGEX = "^(?<signal>[+-]?)" +
 		"(?<value>\\d+[" +DECIMAL_TYPE_TAG+ "]{1}\\d*|\\d*[{DecimalType}]\\d+|\\d+)" +
@@ -24,9 +24,11 @@ public class NumberUtils {
 	public static final String FLOAT_ANY_REGEX = FLOAT_REGEX.replace(DECIMAL_TYPE_TAG, ".,");
 	public static final String FLOAT_DOT_REGEX = FLOAT_REGEX.replace(DECIMAL_TYPE_TAG, ".");
 	public static final String FLOAT_COMMA_REGEX = FLOAT_REGEX.replace(DECIMAL_TYPE_TAG, ",");
-	public static final Pattern PATTERN_ANY = Pattern.compile(FLOAT_ANY_REGEX);
-	public static final Pattern PATTERN_DOT = Pattern.compile(FLOAT_DOT_REGEX);
-	public static final Pattern PATTERN_COMMA = Pattern.compile(FLOAT_COMMA_REGEX);
+
+	protected static final Pattern PATTERN_INTEGER = Pattern.compile(INTEGER_REGEX);
+	protected static final Pattern PATTERN_ANY = Pattern.compile(FLOAT_ANY_REGEX);
+	protected static final Pattern PATTERN_DOT = Pattern.compile(FLOAT_DOT_REGEX);
+	protected static final Pattern PATTERN_COMMA = Pattern.compile(FLOAT_COMMA_REGEX);
 
 	public static final int COMPARE_FAILURE = 0;
 	public static final int COMPARE_EQUALS = 1;
@@ -34,11 +36,10 @@ public class NumberUtils {
 	public static final int COMPARE_MINOR = 3;
 	private static final int COMPARE_CONTINUE = 4;
 
-	NumberUtils() {
-	}
+	NumberUtils() { }
 
 	public static boolean hasIntegerFormat(String str) {
-		return str.matches(NumberUtils.INTEGER_REGEX);
+		return PATTERN_INTEGER.matcher(str).find();
 	}
 
 	static Pattern getPattern() {
