@@ -16,11 +16,14 @@ public class TestNumberUtils {
 		String[] integers = new String[]{"1", "111", "-1", "-111"};
 		String[] notIntegers = new String[]{" 1 ", "1 ", " 1", "a", "1a", "a1", "-1a"};
 
-		for (String str : integers)
-			assertTrue(NumberUtils.hasIntegerFormat(str));
-
-		for (String str : notIntegers)
-			assertFalse(NumberUtils.hasIntegerFormat(str));
+		assertTrue(NumberUtils.hasIntegerFormat("1"));
+		assertTrue(NumberUtils.hasIntegerFormat("111"));
+		assertTrue(NumberUtils.hasIntegerFormat("-1"));
+		assertTrue(NumberUtils.hasIntegerFormat("-111"));
+		assertFalse(NumberUtils.hasIntegerFormat(" 1"));
+		assertFalse(NumberUtils.hasIntegerFormat("1 "));
+		assertFalse(NumberUtils.hasIntegerFormat(" 1"));
+		assertFalse(NumberUtils.hasIntegerFormat(""));
 	}
 
 	@Test
