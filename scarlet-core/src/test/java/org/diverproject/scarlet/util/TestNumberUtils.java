@@ -22,7 +22,7 @@ public class TestNumberUtils {
 		assertTrue(NumberUtils.hasIntegerFormat("-111"));
 		assertFalse(NumberUtils.hasIntegerFormat(" 1"));
 		assertFalse(NumberUtils.hasIntegerFormat("1 "));
-		assertFalse(NumberUtils.hasIntegerFormat(" 1"));
+		assertFalse(NumberUtils.hasIntegerFormat(" 1 "));
 		assertFalse(NumberUtils.hasIntegerFormat(""));
 	}
 
