@@ -98,6 +98,7 @@ public class TestStringUtils {
 	public void testTrimRight() {
 		assertEquals("", StringUtils.trimRight("a", "a"));
 		assertEquals("a", StringUtils.trimRight("a", "b"));
+		assertEquals("a", StringUtils.trimRight("a", "aa"));
 		assertEquals("aaaa", StringUtils.trimRight("aaaa", "bb"));
 		assertEquals("", StringUtils.trimRight("aaaa", "aa"));
 		assertEquals("aaaaabbbbb", StringUtils.trimRight("aaaaabbbbbaaaaa", "aa"));
@@ -114,6 +115,7 @@ public class TestStringUtils {
 	public void testTrimLeft() {
 		assertEquals("", StringUtils.trimLeft("a", "a"));
 		assertEquals("a", StringUtils.trimLeft("a", "b"));
+		assertEquals("a", StringUtils.trimLeft("a", "aa"));
 		assertEquals("aaaa", StringUtils.trimLeft("aaaa", "bb"));
 		assertEquals("", StringUtils.trimLeft("aaaa", "aa"));
 		assertEquals("bbbbbaaaaa", StringUtils.trimLeft("aaaaabbbbbaaaaa", "aa"));
