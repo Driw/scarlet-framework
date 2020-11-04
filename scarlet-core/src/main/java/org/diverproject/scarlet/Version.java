@@ -8,6 +8,8 @@ import java.util.Objects;
 public class Version implements Comparable<Version> {
 
 	public static final int COMPARE_OLDER = -1;
+	public static final int COMPARE_EQUALS = 0;
+	public static final int COMPARE_NEWER = 1;
 	public static final int MIN_VERSION_VALUE = 0;
 
 	private int major;
@@ -67,32 +69,36 @@ public class Version implements Comparable<Version> {
 		return this.major;
 	}
 
-	public void major(int major) {
+	public Version major(int major) {
 		this.major = IntegerUtils.capMin(major, MIN_VERSION_VALUE);
+		return this;
 	}
 
 	public int minor() {
 		return this.minor;
 	}
 
-	public void minor(int minor) {
+	public Version minor(int minor) {
 		this.minor = IntegerUtils.capMin(minor, MIN_VERSION_VALUE);
+		return this;
 	}
 
 	public int fix() {
 		return this.fix;
 	}
 
-	public void fix(int fix) {
+	public Version fix(int fix) {
 		this.fix = IntegerUtils.capMin(fix, MIN_VERSION_VALUE);
+		return this;
 	}
 
 	public int build() {
 		return this.build;
 	}
 
-	public void build(int build) {
+	public Version build(int build) {
 		this.build = IntegerUtils.capMin(build, MIN_VERSION_VALUE);
+		return this;
 	}
 
 	public String format() {
@@ -137,16 +143,20 @@ public class Version implements Comparable<Version> {
 	@Override
 	public int compareTo(Version version) {
 		if (version == null)
-			return COMPARE_OLDER;
+			return COMPARE_NEWER;
 
 		int self = this.toInt();
 		int compare = version.toInt();
 
-		return Integer.compare(compare, self);
+		if (self == compare)
+			return Integer.compare(this.build(), version.build());
+
+		return Integer.compare(self, compare);
 	}
 
 	@Override
 	public String toString() {
 		return this.format();
 	}
+
 }

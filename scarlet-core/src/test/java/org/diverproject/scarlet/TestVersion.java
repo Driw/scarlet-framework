@@ -239,4 +239,34 @@ public class TestVersion {
 		assertTrue(versionA.equals(0x010203));
 		assertTrue(versionB.equals(0x000203));
 	}
+
+	@Test
+	@DisplayName("Compare to")
+	public void testCompareTo() {
+		Version version = new Version(2, 2, 2, 2);
+
+		assertEquals(Version.COMPARE_NEWER, version.compareTo(null));
+		assertEquals(Version.COMPARE_NEWER, version.compareTo(new Version(2, 2, 2, 1)));
+		assertEquals(Version.COMPARE_EQUALS, version.compareTo(new Version(2, 2, 2, 2)));
+		assertEquals(Version.COMPARE_OLDER, version.compareTo(new Version(2, 2, 2, 3)));
+		assertEquals(Version.COMPARE_NEWER, version.compareTo(new Version(2, 2, 1, 2)));
+		assertEquals(Version.COMPARE_EQUALS, version.compareTo(new Version(2, 2, 2, 2)));
+		assertEquals(Version.COMPARE_OLDER, version.compareTo(new Version(2, 2, 3, 2)));
+		assertEquals(Version.COMPARE_NEWER, version.compareTo(new Version(2, 1, 2, 2)));
+		assertEquals(Version.COMPARE_EQUALS, version.compareTo(new Version(2, 2, 2, 2)));
+		assertEquals(Version.COMPARE_OLDER, version.compareTo(new Version(2, 3, 2, 2)));
+		assertEquals(Version.COMPARE_NEWER, version.compareTo(new Version(1, 2, 2, 2)));
+		assertEquals(Version.COMPARE_EQUALS, version.compareTo(new Version(2, 2, 2, 2)));
+		assertEquals(Version.COMPARE_OLDER, version.compareTo(new Version(3, 2, 2, 2)));
+	}
+
+	@Test
+	@DisplayName("To string")
+	public void testToString() {
+		assertEquals("1.0", new Version(1).toString());
+		assertEquals("1.2", new Version(1, 2).toString());
+		assertEquals("1.2.3", new Version(1, 2, 3).toString());
+		assertEquals("1.2.0.3", new Version(1, 2).build(3).toString());
+	}
+
 }
