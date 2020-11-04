@@ -119,9 +119,11 @@ public class StringUtils {
 	}
 
 	public static String substr(String str, String sequence) {
-		int beginIndex = str.indexOf(sequence) + sequence.length();
+		int indexOf = str.indexOf(sequence);
 
-		return beginIndex < 0 ? str : substr(str, beginIndex);
+		if (indexOf == -1) return str;
+
+		return substr(str, indexOf + sequence.length());
 	}
 
 	public static String substrAt(String str, char character) {
@@ -190,7 +192,7 @@ public class StringUtils {
 		if (str == null) throw new StringUtilsRuntimeException(INDEX_OF_STRING);
 		if (sequence == null) throw new StringUtilsRuntimeException(INDEX_OF_SEQUENCE_NULL);
 		if (sequence.isEmpty()) throw new StringUtilsRuntimeException(INDEX_OF_SEQUENCE_EMPTY);
-		if (times < 0) throw new StringUtilsRuntimeException(INDEX_OF_TIMES);
+		if (times <= 0) throw new StringUtilsRuntimeException(INDEX_OF_TIMES);
 
 		int sequenceOffset = 0;
 		int matchCount = 0;
@@ -198,7 +200,7 @@ public class StringUtils {
 		for (int characterIndex = 0; characterIndex < str.length(); characterIndex++) {
 			if (str.charAt(characterIndex) == sequence.charAt(sequenceOffset)) {
 				if (++sequenceOffset == sequence.length()) {
-					if (++matchCount == times)
+					if (++matchCount >= times)
 						return characterIndex - (sequence.length() - 1);
 
 					sequenceOffset = 0;
@@ -327,10 +329,10 @@ public class StringUtils {
 			throw new StringUtilsRuntimeException(SPLIT_LENGTH_LENGTH, length);
 
 		if (str.isEmpty())
-			return new String[]{""};
+			return new String[]{ "" };
 
 		if (length > str.length())
-			return new String[]{str};
+			return new String[]{ str };
 
 		char[] chars = str.toCharArray();
 		double splitItemLength = (double) str.length() / (double) length;
@@ -405,10 +407,10 @@ public class StringUtils {
 		if (index < 0 || index > str.length())
 			throw new StringUtilsRuntimeException(new ArrayIndexOutOfBoundsException(index));
 
-		else if (index == 0 && str.length() > 0)
+		if (index == 0 && str.length() > 0)
 			return c + str;
 
-		else if (index == str.length())
+		if (index == str.length())
 			return str + c;
 
 		return substrAt(str, index) + c + str.substring(index);

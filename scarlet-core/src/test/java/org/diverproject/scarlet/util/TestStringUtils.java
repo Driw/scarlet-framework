@@ -52,8 +52,11 @@ public class TestStringUtils {
 
 		assertEquals("cdefghij", StringUtils.substr(str, 2));
 		assertEquals("ij", StringUtils.substr(str, -2));
+
+		assertNull(StringUtils.substr(null, 0, 0));
 		assertEquals("ab", StringUtils.substr(str, 0, 2));
 		assertEquals("abcdefgh", StringUtils.substr(str, 0, -2));
+
 		assertEquals("ab", StringUtils.substrAt(str, 2));
 		assertEquals("abcdefgh", StringUtils.substrAt(str, -2));
 
@@ -61,6 +64,7 @@ public class TestStringUtils {
 		assertEquals("efghij", StringUtils.substr(str, 'd'));
 		assertEquals("", StringUtils.substr(str, 'j'));
 		assertEquals(str, StringUtils.substr(str, 'x'));
+
 		assertEquals("bcdefghij", StringUtils.substr(str, "a"));
 		assertEquals("efghij", StringUtils.substr(str, "d"));
 		assertEquals("", StringUtils.substr(str, "j"));
@@ -73,6 +77,7 @@ public class TestStringUtils {
 		assertEquals("abc", StringUtils.substrAt(str, 'd'));
 		assertEquals("abcdefghi", StringUtils.substrAt(str, 'j'));
 		assertEquals(str, StringUtils.substrAt(str, 'x'));
+
 		assertEquals("", StringUtils.substrAt(str, "a"));
 		assertEquals("abc", StringUtils.substrAt(str, "d"));
 		assertEquals("abcdefghi", StringUtils.substrAt(str, "j"));
@@ -188,12 +193,24 @@ public class TestStringUtils {
 	}
 
 	@Test
+	@DisplayName("Split String by Length")
+	public void testSplitLength() {
+		assertArrayEquals(new String[] { "" }, StringUtils.splitLength("", 2));
+		assertArrayEquals(new String[] { "ab", "cd", "ef", "gh", "ij" }, StringUtils.splitLength("abcdefghij", 2));
+		assertArrayEquals(new String[] { "ab", "cd", "ef", "gh", "i" }, StringUtils.splitLength("abcdefghi", 2));
+		assertArrayEquals(new String[] { "abcdefghij" }, StringUtils.splitLength("abcdefghij", 11));
+
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.splitLength(null, 1));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.splitLength("my string", 0));
+	}
+
+	@Test
 	@DisplayName("Split String")
-	public void testSplit() {
-		assertArrayEquals(new String[] {"ab", "cd", "ef", "gh", "ij"}, StringUtils.splitLength("abcdefghij", 2));
-		assertArrayEquals(new String[] {"ab", "cd", "ef", "gh", "i"}, StringUtils.splitLength("abcdefghi", 2));
-		assertArrayEquals(new String[] {"abcde", "fghij"}, StringUtils.splitInto("abcdefghij", 2));
-		assertArrayEquals(new String[] {"abcde", "fghi"}, StringUtils.splitInto("abcdefghi", 2));
+	public void testSplitInto() {
+		assertArrayEquals(new String[] { "abcde", "fghij" }, StringUtils.splitInto("abcdefghij", 2));
+		assertArrayEquals(new String[] { "abcde", "fghi" }, StringUtils.splitInto("abcdefghi", 2));
+
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.splitInto(null, 1));
 	}
 
 	@Test
@@ -452,6 +469,7 @@ public class TestStringUtils {
 		assertEquals(0, StringUtils.countOf("Count a character repeat Count", "  "));
 		assertEquals(4, StringUtils.countOf("Count a character repeat Count", " "));
 		assertEquals(2, StringUtils.countOf("Count a character repeat Count", "Count"));
+		assertEquals(0, StringUtils.countOf("Count a character repeat Count", "Counter"));
 	}
 
 	@Test
@@ -475,6 +493,12 @@ public class TestStringUtils {
 		assertEquals(0, StringUtils.indexOf("Get N times of character index on sequence", "Get", 1));
 		assertEquals(30, StringUtils.indexOf("Get N times of character index on sequence", " o", 2));
 		assertEquals(33, StringUtils.indexOf("Get N times of character index on sequence", " ", 7));
+
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.indexOf(null, ' ', 1));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.indexOf(null, " ", 1));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.indexOf("my string", null, 1));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.indexOf("my string", ' ', 0));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.indexOf("my string", " ", 0));
 	}
 
 	@Test
