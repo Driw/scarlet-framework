@@ -32,8 +32,6 @@ import java.security.SecureRandom;
 import java.text.Normalizer;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class StringUtils {
 
