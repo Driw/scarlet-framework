@@ -3,8 +3,10 @@ package org.diverproject.scarlet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.diverproject.scarlet.util.exceptions.ScarletUtilRuntimeException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -82,6 +84,32 @@ public class TestVersion {
 		assertEquals(minor, version.minor());
 		assertEquals(fix, version.fix());
 		assertEquals(build, version.build());
+
+		version.set(String.format("%d", major));
+		assertEquals(major, version.major());
+		assertEquals(0, version.minor());
+		assertEquals(0, version.fix());
+		assertEquals(0, version.build());
+
+		version.set(String.format("%d.%d", major, minor));
+		assertEquals(major, version.major());
+		assertEquals(minor, version.minor());
+		assertEquals(0, version.fix());
+		assertEquals(0, version.build());
+
+		version.set(String.format("%d.%d.%d", major, minor, fix));
+		assertEquals(major, version.major());
+		assertEquals(minor, version.minor());
+		assertEquals(fix, version.fix());
+		assertEquals(0, version.build());
+
+		version.set(String.format("%d.%d.%d.%d", major, minor, fix, build));
+		assertEquals(major, version.major());
+		assertEquals(minor, version.minor());
+		assertEquals(fix, version.fix());
+		assertEquals(build, version.build());
+
+		assertThrows(NumberFormatException.class, () -> version.set("a"));
 	}
 
 	@Test
