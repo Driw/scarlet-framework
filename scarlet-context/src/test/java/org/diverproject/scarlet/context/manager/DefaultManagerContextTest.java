@@ -23,7 +23,9 @@ public class DefaultManagerContextTest {
 	private DefaultManagerContext managerContext;
 
 	@BeforeAll
-	public static void beforeAll() { }
+	public static void beforeAll() {
+		TestUtils.initialize();
+	}
 
 	@BeforeEach
 	public void beforeEach() {
