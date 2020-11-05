@@ -3,6 +3,8 @@ package org.diverproject.scarlet.util;
 import org.diverproject.scarlet.language.Language;
 
 import java.util.Collection;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class ScarletUtils {
 
@@ -59,6 +61,28 @@ public class ScarletUtils {
 			Thread.sleep(milliseconds);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public static void waitUntil(Supplier<Boolean> supplier) {
+		waitUntil(supplier, 1, 0);
+	}
+
+	public static void waitUntil(Supplier<Boolean> supplier, int delay) {
+		waitUntil(supplier, delay, 0);
+	}
+
+	public static void waitUntil(Supplier<Boolean> supplier, int delay, int times) {
+		int waitCount = 0;
+		delay = IntegerUtils.capMin(delay, 1);
+
+		while (!supplier.get()) {
+			if (times != 0) {
+				if (waitCount++ == times)
+					break;
+			}
+
+			sleep(delay);
 		}
 	}
 
