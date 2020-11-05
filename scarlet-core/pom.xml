@@ -7,7 +7,6 @@
 		<java.version>8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.jupiter.version>5.7.0</junit.jupiter.version>
-		<scarlet.version>0.1.0</scarlet.version>
 	</properties>
 
 	<groupId>org.diverproject</groupId>
@@ -16,7 +15,7 @@
 	<packaging>jar</packaging>
 
 	<name>Scarlet Core</name>
-	<description>Scarlet Core</description>
+	<description>Core library to Scarlet Framework containing utility classes</description>
 	<url>http://scarlet.diverproject.org/core</url>
 
 	<organization>
@@ -26,7 +25,7 @@
 
 	<issueManagement>
 		<system>Github</system>
-		<url>https://github.com/diverproject/scarlet-core/issues</url>
+		<url>https://github.com/diverproject/scarlet-framework/issues</url>
 	</issueManagement>
 
 	<dependencies>
