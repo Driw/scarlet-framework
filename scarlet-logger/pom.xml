@@ -107,14 +107,12 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>${jacoco.version}</version>
 				<configuration>
-					<!--suppress UnresolvedMavenProperty -->
-					<skip>${maven.test.skip}</skip>
 					<destFile>target/jacoco.exec</destFile>
 					<dataFile>target/jacoco.exec</dataFile>
 					<output>file</output>
 					<append>true</append>
 					<excludes>
-						<exclude>*MethodAccess</exclude>
+						<exclude>**/*Language.*</exclude>
 					</excludes>
 				</configuration>
 				<executions>
