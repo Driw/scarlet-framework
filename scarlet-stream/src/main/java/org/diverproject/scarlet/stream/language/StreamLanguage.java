@@ -14,11 +14,11 @@ public enum StreamLanguage implements Language {
 
 	;
 
-	private @Getter
+	@Getter
 	@Setter
-	String format;
+	private String format;
 
-	private StreamLanguage(String format) {
+	StreamLanguage(String format) {
 		this.setFormat(format);
 	}
 

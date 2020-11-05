@@ -3,6 +3,8 @@ package org.diverproject.scarlet.stream;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -30,124 +32,142 @@ public class TestDefaultBufferInput {
 	@Test
 	@DisplayName("Get buffer bytes")
 	public void testData() {
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(BYTES);
-		assertEquals(BYTES, defaultBufferInput.getByteBuffer().data());
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(BYTES);
+		assertEquals(BYTES, bufferInput.getByteBuffer().data());
 	}
 
 	@Test
 	@DisplayName("Is full")
 	public void testIsFull() {
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(new byte[3]);
-		assertTrue(defaultBufferInput.isFull());
-		defaultBufferInput.getByte();
-		assertFalse(defaultBufferInput.isFull());
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(new byte[3]);
+		assertTrue(bufferInput.isFull());
+		bufferInput.getByte();
+		assertFalse(bufferInput.isFull());
 
-		defaultBufferInput = this.getDefaultBufferInput(new byte[3]);
-		assertTrue(defaultBufferInput.isFull());
-		defaultBufferInput.getBytes(2);
-		assertFalse(defaultBufferInput.isFull());
+		bufferInput = this.getDefaultBufferInput(new byte[3]);
+		assertTrue(bufferInput.isFull());
+		bufferInput.getBytes(2);
+		assertFalse(bufferInput.isFull());
 	}
 
 	@Test
 	@DisplayName("Is empty")
 	public void testIsEmpty() {
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(new byte[3]);
-		assertFalse(defaultBufferInput.isEmpty());
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(new byte[3]);
+		assertFalse(bufferInput.isEmpty());
 
-		defaultBufferInput.getByte();
-		assertFalse(defaultBufferInput.isEmpty());
+		bufferInput.getByte();
+		assertFalse(bufferInput.isEmpty());
 
-		defaultBufferInput.getBytes(2);
-		assertTrue(defaultBufferInput.isEmpty());
+		bufferInput.getBytes(2);
+		assertTrue(bufferInput.isEmpty());
 	}
 
 	@Test
 	@DisplayName("Buffer capacity")
 	public void testCapacity() {
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(new byte[3]);
-		assertEquals(3, defaultBufferInput.capacity());
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(new byte[3]);
+		assertEquals(3, bufferInput.capacity());
 
-		defaultBufferInput.setBufferReader(new DefaultBufferReader().setByteBuffer(new DefaultByteBuffer(new byte[5])));
-		assertEquals(5, defaultBufferInput.capacity());
+		bufferInput.setBufferReader(new DefaultBufferReader().setByteBuffer(new DefaultByteBuffer(new byte[5])));
+		assertEquals(5, bufferInput.capacity());
 	}
 
 	@Test
 	@DisplayName("Buffer offset")
 	public void testOffset() {
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(new byte[36]);
-		assertEquals(0, defaultBufferInput.offset());
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(new byte[36]);
+		assertEquals(0, bufferInput.offset());
 
-		defaultBufferInput.getByte();
-		assertEquals(1, defaultBufferInput.offset());
+		bufferInput.getByte();
+		assertEquals(1, bufferInput.offset());
 
-		defaultBufferInput.getShort();
-		assertEquals(3, defaultBufferInput.offset());
+		bufferInput.getShort();
+		assertEquals(3, bufferInput.offset());
 
-		defaultBufferInput.getInt();
-		assertEquals(7, defaultBufferInput.offset());
+		bufferInput.getInt();
+		assertEquals(7, bufferInput.offset());
 
-		defaultBufferInput.getLong();
-		assertEquals(15, defaultBufferInput.offset());
+		bufferInput.getLong();
+		assertEquals(15, bufferInput.offset());
 
-		defaultBufferInput.getFloat();
-		assertEquals(19, defaultBufferInput.offset());
+		bufferInput.getFloat();
+		assertEquals(19, bufferInput.offset());
 
-		defaultBufferInput.getDouble();
-		assertEquals(27, defaultBufferInput.offset());
+		bufferInput.getDouble();
+		assertEquals(27, bufferInput.offset());
 
-		defaultBufferInput.getChar();
-		assertEquals(29, defaultBufferInput.offset());
+		bufferInput.getChar();
+		assertEquals(29, bufferInput.offset());
 
-		defaultBufferInput.getBoolean();
-		assertEquals(30, defaultBufferInput.offset());
+		bufferInput.getBoolean();
+		assertEquals(30, bufferInput.offset());
 
-		defaultBufferInput.getStrings(6);
-		assertEquals(36, defaultBufferInput.offset());
+		bufferInput.getStrings(6);
+		assertEquals(36, bufferInput.offset());
 	}
 
 	@Test
 	@DisplayName("Reset buffer")
 	public void testReset() {
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(BYTES);
-		assertArrayEquals(BYTES, defaultBufferInput.getBytes(BYTES.length));
-		assertThrows(BufferRuntimeException.class, defaultBufferInput::getByte);
-		defaultBufferInput.reset();
-		assertEquals(BYTES[0], defaultBufferInput.getByte());
-		assertArrayEquals(ArrayUtils.subArray(BYTES, 1, BYTES.length - 1), defaultBufferInput.getBytes(BYTES.length - 1));
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(BYTES);
+		assertArrayEquals(BYTES, bufferInput.getBytes(BYTES.length));
+		assertThrows(BufferRuntimeException.class, bufferInput::getByte);
+		bufferInput.reset();
+		assertEquals(BYTES[0], bufferInput.getByte());
+		assertArrayEquals(ArrayUtils.subArray(BYTES, 1, BYTES.length - 1), bufferInput.getBytes(BYTES.length - 1));
 	}
 
 	@Test
 	@DisplayName("Close buffer")
 	public void testClose() {
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(BYTES);
-		assertEquals(BYTES[0], defaultBufferInput.getByte());
-		defaultBufferInput.close();
-		assertThrows(BufferRuntimeException.class, defaultBufferInput::getByte);
-		assertEquals(0, defaultBufferInput.offset());
-		assertTrue(defaultBufferInput.isClosed());
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(BYTES);
+		assertEquals(BYTES[0], bufferInput.getByte());
+		bufferInput.close();
+		assertThrows(BufferRuntimeException.class, bufferInput::getByte);
+		assertEquals(0, bufferInput.offset());
+		assertTrue(bufferInput.isClosed());
+	}
+
+	@Test
+	public void testIsInverted() {
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput();
+		assertFalse(bufferInput.isInverted());
+		assertEquals(bufferInput, bufferInput.setInverted(true));
+		assertTrue(bufferInput.isInverted());
+	}
+
+	@Test
+	public void testIsClosed() {
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput();
+		assertFalse(bufferInput.isClosed());
+
+		bufferInput.close();
+		assertTrue(bufferInput.isClosed());
+		assertNull(bufferInput.getByteBuffer().data());
 	}
 
 	@Test
 	@DisplayName("Get byte")
 	public void testGetByte() {
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(bytes(Byte.MIN_VALUE, Byte.MAX_VALUE));
-		assertEquals(Byte.MIN_VALUE, defaultBufferInput.getByte());
-		assertEquals(Byte.MAX_VALUE, defaultBufferInput.getByte());
-		assertTrue(defaultBufferInput.isEmpty());
-		assertTrue(defaultBufferInput.isEmpty());
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(bytes(Byte.MIN_VALUE, Byte.MAX_VALUE));
+		assertEquals(Byte.MIN_VALUE, bufferInput.getByte());
+		assertEquals(Byte.MAX_VALUE, bufferInput.getByte());
+		assertTrue(bufferInput.isEmpty());
+		assertTrue(bufferInput.isEmpty());
 	}
 
 	@Test
 	@DisplayName("Get bytes")
 	public void testGetBytes() {
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(BYTES);
-		assertArrayEquals(BYTES, defaultBufferInput.getBytes(BYTES.length));
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(BYTES);
+		assertArrayEquals(BYTES, bufferInput.getBytes(BYTES.length));
 
 		byte[] bytes = new byte[BYTES.length];
-		defaultBufferInput.reset();
-		defaultBufferInput.getBytes(bytes);
+		bufferInput.reset();
+		bufferInput.getBytes(bytes);
 		assertArrayEquals(BYTES, bytes);
-		assertTrue(defaultBufferInput.isEmpty());
+		assertTrue(bufferInput.isEmpty());
 	}
 
 	@Test
@@ -156,15 +176,15 @@ public class TestDefaultBufferInput {
 		byte zero = 0x00;
 		byte one = 0x01;
 
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(zero, one, one, zero);
-		assertEquals(0x0001, defaultBufferInput.getShort());
-		assertEquals(0x0100, defaultBufferInput.getShort());
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(zero, one, one, zero);
+		assertEquals(0x0001, bufferInput.getShort());
+		assertEquals(0x0100, bufferInput.getShort());
 
-		defaultBufferInput.reset();
-		defaultBufferInput.invert();
-		assertEquals(0x0100, defaultBufferInput.getShort());
-		assertEquals(0x0001, defaultBufferInput.getShort());
-		assertTrue(defaultBufferInput.isEmpty());
+		bufferInput.reset();
+		bufferInput.invert();
+		assertEquals(0x0100, bufferInput.getShort());
+		assertEquals(0x0001, bufferInput.getShort());
+		assertTrue(bufferInput.isEmpty());
 	}
 
 	@Test
@@ -174,24 +194,24 @@ public class TestDefaultBufferInput {
 		byte one = 0x01;
 		short[] shorts = new short[2];
 
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(zero, one, one, zero);
-		assertArrayEquals(new short[]{0x0001, 0x0100}, defaultBufferInput.getShorts(2));
-		assertTrue(defaultBufferInput.isEmpty());
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(zero, one, one, zero);
+		assertArrayEquals(new short[]{0x0001, 0x0100}, bufferInput.getShorts(2));
+		assertTrue(bufferInput.isEmpty());
 
-		defaultBufferInput.reset();
-		defaultBufferInput.getShorts(shorts);
+		bufferInput.reset();
+		bufferInput.getShorts(shorts);
 		assertArrayEquals(new short[]{0x0001, 0x0100}, shorts);
-		assertTrue(defaultBufferInput.isEmpty());
+		assertTrue(bufferInput.isEmpty());
 
-		defaultBufferInput.reset();
-		defaultBufferInput.invert();
-		assertArrayEquals(new short[]{0x0100, 0x0001}, defaultBufferInput.getShorts(2));
-		assertTrue(defaultBufferInput.isEmpty());
+		bufferInput.reset();
+		bufferInput.invert();
+		assertArrayEquals(new short[]{0x0100, 0x0001}, bufferInput.getShorts(2));
+		assertTrue(bufferInput.isEmpty());
 
-		defaultBufferInput.reset();
-		defaultBufferInput.getShorts(shorts);
+		bufferInput.reset();
+		bufferInput.getShorts(shorts);
 		assertArrayEquals(new short[]{0x0100, 0x0001}, shorts);
-		assertTrue(defaultBufferInput.isEmpty());
+		assertTrue(bufferInput.isEmpty());
 	}
 
 	@Test
@@ -200,15 +220,15 @@ public class TestDefaultBufferInput {
 		byte zero = 0x00;
 		byte one = 0x01;
 
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(zero, zero, zero, one, one, zero, zero, zero);
-		assertEquals(0x00000001, defaultBufferInput.getInt());
-		assertEquals(0x01000000, defaultBufferInput.getInt());
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(zero, zero, zero, one, one, zero, zero, zero);
+		assertEquals(0x00000001, bufferInput.getInt());
+		assertEquals(0x01000000, bufferInput.getInt());
 
-		defaultBufferInput.reset();
-		defaultBufferInput.invert();
-		assertEquals(0x01000000, defaultBufferInput.getInt());
-		assertEquals(0x00000001, defaultBufferInput.getInt());
-		assertTrue(defaultBufferInput.isEmpty());
+		bufferInput.reset();
+		bufferInput.invert();
+		assertEquals(0x01000000, bufferInput.getInt());
+		assertEquals(0x00000001, bufferInput.getInt());
+		assertTrue(bufferInput.isEmpty());
 	}
 
 	@Test
@@ -218,24 +238,24 @@ public class TestDefaultBufferInput {
 		byte one = 0x01;
 		int[] ints = new int[2];
 
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(zero, zero, zero, one, one, zero, zero, zero);
-		assertArrayEquals(new int[]{0x00000001, 0x01000000}, defaultBufferInput.getInts(2));
-		assertTrue(defaultBufferInput.isEmpty());
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(zero, zero, zero, one, one, zero, zero, zero);
+		assertArrayEquals(new int[]{0x00000001, 0x01000000}, bufferInput.getInts(2));
+		assertTrue(bufferInput.isEmpty());
 
-		defaultBufferInput.reset();
-		defaultBufferInput.getInts(ints);
+		bufferInput.reset();
+		bufferInput.getInts(ints);
 		assertArrayEquals(new int[]{0x00000001, 0x01000000}, ints);
-		assertTrue(defaultBufferInput.isEmpty());
+		assertTrue(bufferInput.isEmpty());
 
-		defaultBufferInput.reset();
-		defaultBufferInput.invert();
-		assertArrayEquals(new int[]{0x01000000, 0x00000001}, defaultBufferInput.getInts(2));
-		assertTrue(defaultBufferInput.isEmpty());
+		bufferInput.reset();
+		bufferInput.invert();
+		assertArrayEquals(new int[]{0x01000000, 0x00000001}, bufferInput.getInts(2));
+		assertTrue(bufferInput.isEmpty());
 
-		defaultBufferInput.reset();
-		defaultBufferInput.getInts(ints);
+		bufferInput.reset();
+		bufferInput.getInts(ints);
 		assertArrayEquals(new int[]{0x01000000, 0x00000001}, ints);
-		assertTrue(defaultBufferInput.isEmpty());
+		assertTrue(bufferInput.isEmpty());
 	}
 
 	@Test
@@ -244,15 +264,15 @@ public class TestDefaultBufferInput {
 		byte zero = 0x00;
 		byte one = 0x01;
 
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(zero, zero, zero, zero, zero, zero, zero, one, one, zero, zero, zero, zero, zero, zero, zero);
-		assertEquals(0x0000000000000001L, defaultBufferInput.getLong());
-		assertEquals(0x0100000000000000L, defaultBufferInput.getLong());
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(zero, zero, zero, zero, zero, zero, zero, one, one, zero, zero, zero, zero, zero, zero, zero);
+		assertEquals(0x0000000000000001L, bufferInput.getLong());
+		assertEquals(0x0100000000000000L, bufferInput.getLong());
 
-		defaultBufferInput.reset();
-		defaultBufferInput.invert();
-		assertEquals(0x0100000000000000L, defaultBufferInput.getLong());
-		assertEquals(0x0000000000000001L, defaultBufferInput.getLong());
-		assertTrue(defaultBufferInput.isEmpty());
+		bufferInput.reset();
+		bufferInput.invert();
+		assertEquals(0x0100000000000000L, bufferInput.getLong());
+		assertEquals(0x0000000000000001L, bufferInput.getLong());
+		assertTrue(bufferInput.isEmpty());
 	}
 
 	@Test
@@ -262,24 +282,24 @@ public class TestDefaultBufferInput {
 		byte one = 0x01;
 		long[] longs = new long[2];
 
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(zero, zero, zero, zero, zero, zero, zero, one, one, zero, zero, zero, zero, zero, zero, zero);
-		assertArrayEquals(new long[]{0x0000000000000001L, 0x0100000000000000L}, defaultBufferInput.getLongs(2));
-		assertTrue(defaultBufferInput.isEmpty());
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(zero, zero, zero, zero, zero, zero, zero, one, one, zero, zero, zero, zero, zero, zero, zero);
+		assertArrayEquals(new long[]{0x0000000000000001L, 0x0100000000000000L}, bufferInput.getLongs(2));
+		assertTrue(bufferInput.isEmpty());
 
-		defaultBufferInput.reset();
-		defaultBufferInput.getLongs(longs);
+		bufferInput.reset();
+		bufferInput.getLongs(longs);
 		assertArrayEquals(new long[]{0x0000000000000001L, 0x0100000000000000L}, longs);
-		assertTrue(defaultBufferInput.isEmpty());
+		assertTrue(bufferInput.isEmpty());
 
-		defaultBufferInput.reset();
-		defaultBufferInput.invert();
-		assertArrayEquals(new long[]{0x0100000000000000L, 0x0000000000000001L}, defaultBufferInput.getLongs(2));
-		assertTrue(defaultBufferInput.isEmpty());
+		bufferInput.reset();
+		bufferInput.invert();
+		assertArrayEquals(new long[]{0x0100000000000000L, 0x0000000000000001L}, bufferInput.getLongs(2));
+		assertTrue(bufferInput.isEmpty());
 
-		defaultBufferInput.reset();
-		defaultBufferInput.getLongs(longs);
+		bufferInput.reset();
+		bufferInput.getLongs(longs);
 		assertArrayEquals(new long[]{0x0100000000000000L, 0x0000000000000001L}, longs);
-		assertTrue(defaultBufferInput.isEmpty());
+		assertTrue(bufferInput.isEmpty());
 	}
 
 	@Test
@@ -288,16 +308,16 @@ public class TestDefaultBufferInput {
 		byte zero = 0x00;
 		byte one = 0x01;
 
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(zero, zero, zero, one, one, zero, zero, zero);
-		assertEquals(Float.intBitsToFloat(0x00000001), defaultBufferInput.getFloat());
-		assertEquals(Float.intBitsToFloat(0x01000000), defaultBufferInput.getFloat());
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(zero, zero, zero, one, one, zero, zero, zero);
+		assertEquals(Float.intBitsToFloat(0x00000001), bufferInput.getFloat());
+		assertEquals(Float.intBitsToFloat(0x01000000), bufferInput.getFloat());
 
-		defaultBufferInput.reset();
-		defaultBufferInput.invert();
-		assertEquals(Float.intBitsToFloat(0x01000000), defaultBufferInput.getFloat());
-		assertEquals(Float.intBitsToFloat(0x00000001), defaultBufferInput.getFloat());
+		bufferInput.reset();
+		bufferInput.invert();
+		assertEquals(Float.intBitsToFloat(0x01000000), bufferInput.getFloat());
+		assertEquals(Float.intBitsToFloat(0x00000001), bufferInput.getFloat());
 
-		assertTrue(defaultBufferInput.isEmpty());
+		assertTrue(bufferInput.isEmpty());
 	}
 
 	@Test
@@ -307,24 +327,24 @@ public class TestDefaultBufferInput {
 		byte one = 0x01;
 		float[] ints = new float[2];
 
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(zero, zero, zero, one, one, zero, zero, zero);
-		assertArrayEquals(new float[]{Float.intBitsToFloat(0x00000001), Float.intBitsToFloat(0x01000000)}, defaultBufferInput.getFloats(2));
-		assertTrue(defaultBufferInput.isEmpty());
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(zero, zero, zero, one, one, zero, zero, zero);
+		assertArrayEquals(new float[]{Float.intBitsToFloat(0x00000001), Float.intBitsToFloat(0x01000000)}, bufferInput.getFloats(2));
+		assertTrue(bufferInput.isEmpty());
 
-		defaultBufferInput.reset();
-		defaultBufferInput.getFloats(ints);
+		bufferInput.reset();
+		bufferInput.getFloats(ints);
 		assertArrayEquals(new float[]{Float.intBitsToFloat(0x00000001), Float.intBitsToFloat(0x01000000)}, ints);
-		assertTrue(defaultBufferInput.isEmpty());
+		assertTrue(bufferInput.isEmpty());
 
-		defaultBufferInput.reset();
-		defaultBufferInput.invert();
-		assertArrayEquals(new float[]{Float.intBitsToFloat(0x01000000), Float.intBitsToFloat(0x00000001)}, defaultBufferInput.getFloats(2));
-		assertTrue(defaultBufferInput.isEmpty());
+		bufferInput.reset();
+		bufferInput.invert();
+		assertArrayEquals(new float[]{Float.intBitsToFloat(0x01000000), Float.intBitsToFloat(0x00000001)}, bufferInput.getFloats(2));
+		assertTrue(bufferInput.isEmpty());
 
-		defaultBufferInput.reset();
-		defaultBufferInput.getFloats(ints);
+		bufferInput.reset();
+		bufferInput.getFloats(ints);
 		assertArrayEquals(new float[]{Float.intBitsToFloat(0x01000000), Float.intBitsToFloat(0x00000001)}, ints);
-		assertTrue(defaultBufferInput.isEmpty());
+		assertTrue(bufferInput.isEmpty());
 	}
 
 	@Test
@@ -333,15 +353,15 @@ public class TestDefaultBufferInput {
 		byte zero = 0x00;
 		byte one = 0x01;
 
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(zero, zero, zero, zero, zero, zero, zero, one, one, zero, zero, zero, zero, zero, zero, zero);
-		assertEquals(Double.longBitsToDouble(0x0000000000000001L), defaultBufferInput.getDouble());
-		assertEquals(Double.longBitsToDouble(0x0100000000000000L), defaultBufferInput.getDouble());
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(zero, zero, zero, zero, zero, zero, zero, one, one, zero, zero, zero, zero, zero, zero, zero);
+		assertEquals(Double.longBitsToDouble(0x0000000000000001L), bufferInput.getDouble());
+		assertEquals(Double.longBitsToDouble(0x0100000000000000L), bufferInput.getDouble());
 
-		defaultBufferInput.reset();
-		defaultBufferInput.invert();
-		assertEquals(Double.longBitsToDouble(0x0100000000000000L), defaultBufferInput.getDouble());
-		assertEquals(Double.longBitsToDouble(0x0000000000000001L), defaultBufferInput.getDouble());
-		assertTrue(defaultBufferInput.isEmpty());
+		bufferInput.reset();
+		bufferInput.invert();
+		assertEquals(Double.longBitsToDouble(0x0100000000000000L), bufferInput.getDouble());
+		assertEquals(Double.longBitsToDouble(0x0000000000000001L), bufferInput.getDouble());
+		assertTrue(bufferInput.isEmpty());
 	}
 
 	@Test
@@ -351,24 +371,24 @@ public class TestDefaultBufferInput {
 		byte one = 0x01;
 		double[] doubles = new double[2];
 
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(zero, zero, zero, zero, zero, zero, zero, one, one, zero, zero, zero, zero, zero, zero, zero);
-		assertArrayEquals(new double[]{Double.longBitsToDouble(0x0000000000000001L), Double.longBitsToDouble(0x0100000000000000L)}, defaultBufferInput.getDoubles(2));
-		assertTrue(defaultBufferInput.isEmpty());
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(zero, zero, zero, zero, zero, zero, zero, one, one, zero, zero, zero, zero, zero, zero, zero);
+		assertArrayEquals(new double[]{Double.longBitsToDouble(0x0000000000000001L), Double.longBitsToDouble(0x0100000000000000L)}, bufferInput.getDoubles(2));
+		assertTrue(bufferInput.isEmpty());
 
-		defaultBufferInput.reset();
-		defaultBufferInput.getDoubles(doubles);
+		bufferInput.reset();
+		bufferInput.getDoubles(doubles);
 		assertArrayEquals(new double[]{Double.longBitsToDouble(0x0000000000000001L), Double.longBitsToDouble(0x0100000000000000L)}, doubles);
-		assertTrue(defaultBufferInput.isEmpty());
+		assertTrue(bufferInput.isEmpty());
 
-		defaultBufferInput.reset();
-		defaultBufferInput.invert();
-		assertArrayEquals(new double[]{Double.longBitsToDouble(0x0100000000000000L), Double.longBitsToDouble(0x0000000000000001L)}, defaultBufferInput.getDoubles(2));
-		assertTrue(defaultBufferInput.isEmpty());
+		bufferInput.reset();
+		bufferInput.invert();
+		assertArrayEquals(new double[]{Double.longBitsToDouble(0x0100000000000000L), Double.longBitsToDouble(0x0000000000000001L)}, bufferInput.getDoubles(2));
+		assertTrue(bufferInput.isEmpty());
 
-		defaultBufferInput.reset();
-		defaultBufferInput.getDoubles(doubles);
+		bufferInput.reset();
+		bufferInput.getDoubles(doubles);
 		assertArrayEquals(new double[]{Double.longBitsToDouble(0x0100000000000000L), Double.longBitsToDouble(0x0000000000000001L)}, doubles);
-		assertTrue(defaultBufferInput.isEmpty());
+		assertTrue(bufferInput.isEmpty());
 	}
 
 	@Test
@@ -377,15 +397,15 @@ public class TestDefaultBufferInput {
 		byte zero = 0x00;
 		byte one = 0x01;
 
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(zero, one, one, zero);
-		assertEquals(0x0001, defaultBufferInput.getChar());
-		assertEquals(0x0100, defaultBufferInput.getChar());
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(zero, one, one, zero);
+		assertEquals(0x0001, bufferInput.getChar());
+		assertEquals(0x0100, bufferInput.getChar());
 
-		defaultBufferInput.reset();
-		defaultBufferInput.invert();
-		assertEquals(0x0100, defaultBufferInput.getChar());
-		assertEquals(0x0001, defaultBufferInput.getChar());
-		assertTrue(defaultBufferInput.isEmpty());
+		bufferInput.reset();
+		bufferInput.invert();
+		assertEquals(0x0100, bufferInput.getChar());
+		assertEquals(0x0001, bufferInput.getChar());
+		assertTrue(bufferInput.isEmpty());
 	}
 
 	@Test
@@ -395,24 +415,24 @@ public class TestDefaultBufferInput {
 		byte one = 0x01;
 		char[] chars = new char[2];
 
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(zero, one, one, zero);
-		assertArrayEquals(new char[]{0x0001, 0x0100}, defaultBufferInput.getChars(2));
-		assertTrue(defaultBufferInput.isEmpty());
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(zero, one, one, zero);
+		assertArrayEquals(new char[]{0x0001, 0x0100}, bufferInput.getChars(2));
+		assertTrue(bufferInput.isEmpty());
 
-		defaultBufferInput.reset();
-		defaultBufferInput.getChars(chars);
+		bufferInput.reset();
+		bufferInput.getChars(chars);
 		assertArrayEquals(new char[]{0x0001, 0x0100}, chars);
-		assertTrue(defaultBufferInput.isEmpty());
+		assertTrue(bufferInput.isEmpty());
 
-		defaultBufferInput.reset();
-		defaultBufferInput.invert();
-		assertArrayEquals(new char[]{0x0100, 0x0001}, defaultBufferInput.getChars(2));
-		assertTrue(defaultBufferInput.isEmpty());
+		bufferInput.reset();
+		bufferInput.invert();
+		assertArrayEquals(new char[]{0x0100, 0x0001}, bufferInput.getChars(2));
+		assertTrue(bufferInput.isEmpty());
 
-		defaultBufferInput.reset();
-		defaultBufferInput.getChars(chars);
+		bufferInput.reset();
+		bufferInput.getChars(chars);
 		assertArrayEquals(new char[]{0x0100, 0x0001}, chars);
-		assertTrue(defaultBufferInput.isEmpty());
+		assertTrue(bufferInput.isEmpty());
 	}
 
 	@Test
@@ -421,10 +441,10 @@ public class TestDefaultBufferInput {
 		byte zero = 0x00;
 		byte one = 0x01;
 
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(zero, one);
-		assertFalse(defaultBufferInput.getBoolean());
-		assertTrue(defaultBufferInput.getBoolean());
-		assertTrue(defaultBufferInput.isEmpty());
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(zero, one);
+		assertFalse(bufferInput.getBoolean());
+		assertTrue(bufferInput.getBoolean());
+		assertTrue(bufferInput.isEmpty());
 	}
 
 	@Test
@@ -434,14 +454,14 @@ public class TestDefaultBufferInput {
 		byte one = 0x01;
 		boolean[] booleans = new boolean[2];
 
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(zero, one);
-		assertArrayEquals(new boolean[]{false, true}, defaultBufferInput.getBooleans(2));
-		assertTrue(defaultBufferInput.isEmpty());
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(zero, one);
+		assertArrayEquals(new boolean[]{false, true}, bufferInput.getBooleans(2));
+		assertTrue(bufferInput.isEmpty());
 
-		defaultBufferInput.reset();
-		defaultBufferInput.getBooleans(booleans);
+		bufferInput.reset();
+		bufferInput.getBooleans(booleans);
 		assertArrayEquals(new boolean[]{false, true}, booleans);
-		assertTrue(defaultBufferInput.isEmpty());
+		assertTrue(bufferInput.isEmpty());
 	}
 
 	@Test
@@ -453,21 +473,21 @@ public class TestDefaultBufferInput {
 		data = new byte[string.length() + 1];
 		data[0] = (byte) string.length();
 		System.arraycopy(string.getBytes(), 0, data, 1, string.length());
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(data);
-		assertEquals(string, defaultBufferInput.getString());
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(data);
+		assertEquals(string, bufferInput.getString());
 
-		defaultBufferInput = this.getDefaultBufferInput(string.getBytes());
-		assertEquals(string, defaultBufferInput.getString(string.length()));
+		bufferInput = this.getDefaultBufferInput(string.getBytes());
+		assertEquals(string, bufferInput.getString(string.length()));
 
 		data = new byte[string.length() * 3];
 		System.arraycopy(string.getBytes(), 0, data, 0, string.length());
 		System.arraycopy(string.getBytes(), 0, data, string.length(), string.length());
 		System.arraycopy(string.getBytes(), 0, data, string.length() * 2, string.length());
-		defaultBufferInput = this.getDefaultBufferInput(data);
-		assertArrayEquals(new String[]{string, string, string}, defaultBufferInput.getStrings(3, string.length()));
+		bufferInput = this.getDefaultBufferInput(data);
+		assertArrayEquals(new String[]{string, string, string}, bufferInput.getStrings(3, string.length()));
 
-		defaultBufferInput.reset();
-		defaultBufferInput.getStrings((strings = new String[3]), string.length());
+		bufferInput.reset();
+		bufferInput.getStrings((strings = new String[3]), string.length());
 		assertArrayEquals(new String[]{string, string, string}, strings);
 	}
 
@@ -478,8 +498,8 @@ public class TestDefaultBufferInput {
 		SomeObject someObject2 = getSomeObject2().setSomeObject(someObject1);
 		byte[] data = getSomeObjectData(someObject2, someObject1);
 
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(data);
-		SomeObject someObject = defaultBufferInput.getObject(SomeObject.class);
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(data);
+		SomeObject someObject = bufferInput.getObject(SomeObject.class);
 		assertEquals(someObject2.getByteValue(), someObject.getByteValue());
 		assertEquals(someObject2.getShortValue(), someObject.getShortValue());
 		assertEquals(someObject2.getIntValue(), someObject.getIntValue());
@@ -517,9 +537,8 @@ public class TestDefaultBufferInput {
 		};
 		byte[] data = getSomeObjectData(someObjects);
 
-		DefaultBufferInput defaultBufferInput = this.getDefaultBufferInput(data);
-		someObjects = defaultBufferInput.getObjects(SomeObject.class, 4);
-
+		DefaultBufferInput bufferInput = this.getDefaultBufferInput(data);
+		assertNotNull(someObjects = bufferInput.getObjects(SomeObject.class, 4));
 		assertEquals(someObjects[0].getByteValue(), someObject1.getByteValue());
 		assertEquals(someObjects[0].getShortValue(), someObject1.getShortValue());
 		assertEquals(someObjects[0].getIntValue(), someObject1.getIntValue());
