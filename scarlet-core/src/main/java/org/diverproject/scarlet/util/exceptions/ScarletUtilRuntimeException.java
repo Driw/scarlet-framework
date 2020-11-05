@@ -19,10 +19,6 @@ public class ScarletUtilRuntimeException extends ScarletRuntimeException {
 		super(e);
 	}
 
-	public ScarletUtilRuntimeException(Exception e, Language language) {
-		super(e, language);
-	}
-
 	public ScarletUtilRuntimeException(Exception e, Language language, Object... args) {
 		super(e, language, args);
 	}

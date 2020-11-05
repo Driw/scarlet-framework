@@ -2,8 +2,11 @@ package org.diverproject.scarlet.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.diverproject.scarlet.util.exceptions.NumberUtilsRuntimeException;
+import org.diverproject.scarlet.util.exceptions.StringUtilsRuntimeException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -57,6 +60,8 @@ public class TestNumberUtils {
 			assertFalse(NumberUtils.hasFloatFormat(str, NumberUtils.DECIMAL_DOT_TYPE));
 			assertFalse(NumberUtils.hasFloatFormat(str, NumberUtils.DECIMAL_COMMA_TYPE));
 		}
+
+		assertThrows(StringUtilsRuntimeException.class, () -> NumberUtils.hasFloatFormat(null, NumberUtils.DECIMAL_ANY_TYPE));
 	}
 
 	@Test
@@ -69,6 +74,10 @@ public class TestNumberUtils {
 		assertTrue(NumberUtils.hasFloatPrecision("00000.0", 7));
 		assertTrue(NumberUtils.hasFloatPrecision("000000.0", 7));
 		assertFalse(NumberUtils.hasFloatPrecision("0000000.0", 7));
+
+		assertFalse(NumberUtils.hasFloatPrecision("A", 0));
+		assertFalse(NumberUtils.hasFloatPrecision("-0000000.0", 7));
+		assertFalse(NumberUtils.hasFloatPrecision("+0000000.0", 7));
 	}
 
 	@Test
@@ -115,4 +124,17 @@ public class TestNumberUtils {
 		assertEquals(NumberUtils.compareStringNumber("20", "2"), NumberUtils.COMPARE_MAJOR);
 		assertEquals(NumberUtils.compareStringNumber("20", "3"), NumberUtils.COMPARE_MAJOR);
 	}
+
+	@Test
+	@DisplayName("Has string in number range")
+	public void testHasNumberRange() {
+		assertFalse(NumberUtils.hasNumberRange("-1", 0, 2));
+		assertTrue(NumberUtils.hasNumberRange("0", 0, 2));
+		assertTrue(NumberUtils.hasNumberRange("1", 0, 2));
+		assertTrue(NumberUtils.hasNumberRange("2", 0, 2));
+		assertFalse(NumberUtils.hasNumberRange("3", 0, 2));
+
+		assertThrows(NumberUtilsRuntimeException.class, () -> assertFalse(NumberUtils.hasNumberRange("3", 1, 0)));
+	}
+
 }

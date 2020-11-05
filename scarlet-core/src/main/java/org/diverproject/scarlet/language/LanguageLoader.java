@@ -72,7 +72,6 @@ public class LanguageLoader {
 				Class<?> classz = Class.forName(languageMapper.getClasspath());
 				Object[] enumConstants = classz.getEnumConstants();
 				affected += loadEnumLanguageMapper(enumConstants, languageMapper);
-
 			} catch (ClassNotFoundException e) {
 				throw new LanguageException(e, LANGUAGE_NOT_FOUND, file.getAbsolutePath());
 			}

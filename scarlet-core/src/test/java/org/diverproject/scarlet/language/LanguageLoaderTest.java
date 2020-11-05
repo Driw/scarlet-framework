@@ -3,6 +3,7 @@ package org.diverproject.scarlet.language;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.DisplayName;
@@ -80,6 +81,10 @@ public class LanguageLoaderTest {
 		assertEquals("The fourth message", LanguageTestIni.FOURTH_MESSAGE.getFormat());
 		assertEquals("The first another message", AnotherLanguageTestIni.FIRST_MESSAGE.getFormat());
 		assertEquals("The second another message", AnotherLanguageTestIni.SECOND_MESSAGE.getFormat());
+
+		filepath = Objects.requireNonNull(LanguageLoaderTest.class.getClassLoader().getResource("language-empty.ini")).getFile();
+		String finalFilepath = filepath;
+		assertThrows(LanguageException.class, () -> LanguageLoader.loadEnumerations(new File(finalFilepath)));
 	}
 
 	@Test
@@ -97,6 +102,12 @@ public class LanguageLoaderTest {
 		assertEquals("The fourth message", LanguageTestIni.FOURTH_MESSAGE.getFormat());
 		assertEquals("The first another message", AnotherLanguageTestIni.FIRST_MESSAGE.getFormat());
 		assertEquals("The second another message", AnotherLanguageTestIni.SECOND_MESSAGE.getFormat());
+
+		this.resetLanguageMessages();
+
+		filepath = Objects.requireNonNull(LanguageLoaderTest.class.getClassLoader().getResource("empty")).getFile();
+		String finalFilepath = filepath;
+		assertThrows(LanguageException.class, () -> LanguageLoader.autoLoad(new File(finalFilepath)));
 	}
 
 	private void resetLanguageMessages() {

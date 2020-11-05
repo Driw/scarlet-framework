@@ -78,6 +78,10 @@ public class TestBinaryUtils {
 		assertEquals(BinaryUtils.newShort(true, max, zero), (short) 0x00FF);
 		assertEquals(BinaryUtils.newShort(true, max, one), (short) 0x01FF);
 		assertEquals(BinaryUtils.newShort(true, max, max), (short) 0xFFFF);
+
+		assertThrows(BinaryUtilsRuntimeException.class, () -> BinaryUtils.newShort(false, (byte[]) null));
+		assertThrows(BinaryUtilsRuntimeException.class, () -> BinaryUtils.newShort(false, new byte[0]));
+		assertThrows(BinaryUtilsRuntimeException.class, () -> BinaryUtils.newShort(false, new byte[3]));
 	}
 
 	@Test

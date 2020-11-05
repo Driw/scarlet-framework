@@ -15,6 +15,8 @@ public class TestHexadecimalUtils {
 	@Test
 	@DisplayName("Has hexadecimal format")
 	public void testHasHexFormat() {
+		assertFalse(HexadecimalUtils.hasHexFormat(null));
+		assertFalse(HexadecimalUtils.hasHexFormat(""));
 		assertTrue(HexadecimalUtils.hasHexFormat("0x0"));
 		assertTrue(HexadecimalUtils.hasHexFormat("0"));
 		assertTrue(HexadecimalUtils.hasHexFormat("1"));
@@ -51,6 +53,8 @@ public class TestHexadecimalUtils {
 	@Test
 	@DisplayName("Is a hexadecimal valid value")
 	public void testIsHex() {
+		assertFalse(HexadecimalUtils.isHex(null, 1));
+		assertFalse(HexadecimalUtils.isHex("", 1));
 		assertTrue(HexadecimalUtils.isHex("0", 1));
 		assertTrue(HexadecimalUtils.isHex("00", 1));
 		assertTrue(HexadecimalUtils.isHex("000", 1));
@@ -253,12 +257,20 @@ public class TestHexadecimalUtils {
 		assertEquals(Long.MAX_VALUE, HexadecimalUtils.parseHexLong("7FFFFFFFFFFFFFFF"));
 		assertEquals(Long.MAX_VALUE, HexadecimalUtils.parseHexLong("0x7FFFFFFFFFFFFFFF"));
 
+		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.parseHexByte(null));
+		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.parseHexByte(""));
 		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.parseHexByte("80"));
 		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.parseHexByte("0x80"));
+		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.parseHexShort(null));
+		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.parseHexShort(""));
 		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.parseHexShort("8000"));
 		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.parseHexShort("0x8000"));
+		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.parseHexInt(null));
+		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.parseHexInt(""));
 		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.parseHexInt("80000000"));
 		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.parseHexInt("0x80000000"));
+		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.parseHexLong(null));
+		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.parseHexLong(""));
 		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.parseHexLong("8000000000000000"));
 		assertThrows(HexadecimalUtilsRuntimeException.class, () -> HexadecimalUtils.parseHexLong("0x8000000000000000"));
 	}
