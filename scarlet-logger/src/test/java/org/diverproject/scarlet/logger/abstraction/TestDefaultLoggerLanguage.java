@@ -14,6 +14,8 @@ import static org.diverproject.scarlet.util.ScarletUtils.nameOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.diverproject.scarlet.language.Language;
+import org.diverproject.scarlet.logger.LoggerObserver;
+import org.diverproject.scarlet.logger.LoggerSubject;
 import org.diverproject.scarlet.logger.MessageOutput;
 import org.diverproject.scarlet.util.StringUtils;
 import org.junit.jupiter.api.DisplayName;
@@ -31,10 +33,7 @@ public class TestDefaultLoggerLanguage {
 		}
 
 		@Override
-		public void setFormat(String format) {
-		}
-
-		;
+		public void setFormat(String format) { }
 
 		@Override
 		public int getCode() {
@@ -48,10 +47,7 @@ public class TestDefaultLoggerLanguage {
 		}
 
 		@Override
-		public void setFormat(String format) {
-		}
-
-		;
+		public void setFormat(String format) { }
 
 		@Override
 		public int getCode() {
@@ -83,7 +79,7 @@ public class TestDefaultLoggerLanguage {
 
 	@Test
 	@DisplayName("Internal logger")
-	public void testIntegernalLogger() {
+	public void testInternalLogger() {
 		DefaultLoggerLanguage defaultLoggerLanguage = this.newDefaultLoggerLanguage();
 
 		defaultLoggerLanguage.internalLogger(NONE, MESSAGE.getFormat(), null); String origin = this.getOrigin();
@@ -300,7 +296,19 @@ public class TestDefaultLoggerLanguage {
 	}
 
 	private DefaultLoggerLanguage newDefaultLoggerLanguage() {
-		return new DefaultLoggerLanguage("default") {
+		LoggerSubject loggerSubject = new DefaultLoggerSubject();
+		loggerSubject.unregister(DefaultLoggerObserver.getInstance());
+		loggerSubject.register(new LoggerObserver() {
+			@Override
+			public void onMessage(String message) {
+			}
+
+			@Override
+			public void onMessage(LoggerSubject subject, MessageOutput message) {
+				this.onMessage(message.getOutput());
+			}
+		});
+		return new DefaultLoggerLanguage("default", loggerSubject) {
 			@Override
 			public String getCurrentDateFormatted() {
 				return DATE;

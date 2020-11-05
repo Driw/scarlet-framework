@@ -13,6 +13,8 @@ import static org.diverproject.scarlet.logger.abstraction.DefaultLoggerLevel.WAR
 import static org.diverproject.scarlet.util.ScarletUtils.nameOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.diverproject.scarlet.logger.LoggerObserver;
+import org.diverproject.scarlet.logger.LoggerSubject;
 import org.diverproject.scarlet.logger.MessageOutput;
 import org.diverproject.scarlet.util.StringUtils;
 import org.junit.jupiter.api.DisplayName;
@@ -268,7 +270,19 @@ public class TestDefaultLogger {
 	}
 
 	private DefaultLogger newDefaultLogger() {
-		return new DefaultLogger("default") {
+		LoggerSubject loggerSubject = new DefaultLoggerSubject();
+		loggerSubject.unregister(DefaultLoggerObserver.getInstance());
+		loggerSubject.register(new LoggerObserver() {
+			@Override
+			public void onMessage(String message) {
+			}
+
+			@Override
+			public void onMessage(LoggerSubject subject, MessageOutput message) {
+				this.onMessage(message.getOutput());
+			}
+		});
+		return new DefaultLogger("default", loggerSubject) {
 			@Override
 			public String getCurrentDateFormatted() {
 				return DATE;
