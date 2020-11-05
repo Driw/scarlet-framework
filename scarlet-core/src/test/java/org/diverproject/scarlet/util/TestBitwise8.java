@@ -1,5 +1,6 @@
 package org.diverproject.scarlet.util;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -8,6 +9,23 @@ import org.junit.jupiter.api.Test;
 
 @DisplayName("Bitwise8 (8 bits)")
 public class TestBitwise8 {
+
+	@Test
+	@DisplayName("Constructor")
+	public void testConstructor() {
+		Bitwise8 bitwise = new Bitwise8();
+		assertEquals((byte) 0, bitwise.getValue());
+		assertEquals(Bitwise8.DEFAULT_PROPERTIES, bitwise.getProperties());
+
+		bitwise = new Bitwise8((byte) 1);
+		assertEquals((byte) 1, bitwise.getValue());
+		assertEquals(Bitwise8.DEFAULT_PROPERTIES, bitwise.getProperties());
+
+		String[] properties = new String[] { "FIRST", "SECOND", "THIRD" };
+		bitwise = new Bitwise8(properties);
+		assertEquals((byte) 0, bitwise.getValue());
+		assertEquals(properties, bitwise.getProperties());
+	}
 
 	@Test
 	@DisplayName("Has bit property")
@@ -99,4 +117,5 @@ public class TestBitwise8 {
 		assertFalse(bitwise.has(second));
 		assertFalse(bitwise.has(third));
 	}
+
 }
