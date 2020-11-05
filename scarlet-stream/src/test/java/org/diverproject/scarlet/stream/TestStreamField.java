@@ -14,11 +14,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
+import java.util.function.Function;
 
 @DisplayName("Stream Field")
 public class TestStreamField {
 
-	private static final AllFields ALL_FIELDS = new AllFields();
+	private final AllFields ALL_FIELDS = new AllFields();
 
 	@Test
 	public void testThenDoWithSupplier() throws IllegalAccessException {
@@ -41,23 +42,35 @@ public class TestStreamField {
 		assertNull(allFields.getStringValue());
 		assertNull(allFields.getAllFields());
 
-		StreamField streamField = new StreamField();
+		Function<String, Field> allFieldsArrayField = (fieldName) -> {
+			try {
+				Field field = allFields.getClass().getDeclaredField(fieldName);
+				field.setAccessible(true);
+				return field;
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 
-		for (Field field : allFields.getClass().getDeclaredFields()) {
-			field.setAccessible(true);
-			streamField.reset().setField(field).of(allFields)
-				.is(Byte.class, Byte.TYPE).thenDo(this::getByte)
-				.is(Short.class, Short.TYPE).thenDo(this::getShort)
-				.is(Integer.class, Integer.TYPE).thenDo(this::getInt)
-				.is(Long.class, Long.TYPE).thenDo(this::getLong)
-				.is(Float.class, Float.TYPE).thenDo(this::getFloat)
-				.is(Double.class, Double.TYPE).thenDo(this::getDouble)
-				.is(Boolean.class, Boolean.TYPE).thenDo(this::getBoolean)
-				.is(Character.class, Character.TYPE).thenDo(this::getChar)
-				.is(String.class).thenDo(this::getString)
-				.is(Object.class).thenDo(this::getObject);
-			field.setAccessible(false);
-		}
+		StreamField streamField = new StreamField();
+		streamField.reset().setField(allFieldsArrayField.apply("byteValue")).of(allFields).is(Byte.TYPE).thenDo(this::getByte);
+		streamField.reset().setField(allFieldsArrayField.apply("shortValue")).of(allFields).is(Short.TYPE).thenDo(this::getShort);
+		streamField.reset().setField(allFieldsArrayField.apply("intValue")).of(allFields).is(Integer.TYPE).thenDo(this::getInt);
+		streamField.reset().setField(allFieldsArrayField.apply("longValue")).of(allFields).is(Long.TYPE).thenDo(this::getLong);
+		streamField.reset().setField(allFieldsArrayField.apply("floatValue")).of(allFields).is(Float.TYPE).thenDo(this::getFloat);
+		streamField.reset().setField(allFieldsArrayField.apply("doubleValue")).of(allFields).is(Double.TYPE).thenDo(this::getDouble);
+		streamField.reset().setField(allFieldsArrayField.apply("booleanValue")).of(allFields).is(Boolean.TYPE).thenDo(this::getBoolean);
+		streamField.reset().setField(allFieldsArrayField.apply("charValue")).of(allFields).is(Character.TYPE).thenDo(this::getChar);
+		streamField.reset().setField(allFieldsArrayField.apply("byteObjectValue")).of(allFields).is(Byte.class).thenDo(this::getByteObject);
+		streamField.reset().setField(allFieldsArrayField.apply("shortObjectValue")).of(allFields).is(Short.class).thenDo(this::getShortObject);
+		streamField.reset().setField(allFieldsArrayField.apply("intObjectValue")).of(allFields).is(Integer.class).thenDo(this::getIntObject);
+		streamField.reset().setField(allFieldsArrayField.apply("longObjectValue")).of(allFields).is(Long.class).thenDo(this::getLongObject);
+		streamField.reset().setField(allFieldsArrayField.apply("floatObjectValue")).of(allFields).is(Float.class).thenDo(this::getFloatObject);
+		streamField.reset().setField(allFieldsArrayField.apply("doubleObjectValue")).of(allFields).is(Double.class).thenDo(this::getDoubleObject);
+		streamField.reset().setField(allFieldsArrayField.apply("booleanObjectValue")).of(allFields).is(Boolean.class).thenDo(this::getBooleanObject);
+		streamField.reset().setField(allFieldsArrayField.apply("charObjectValue")).of(allFields).is(Character.class).thenDo(this::getCharObject);
+		streamField.reset().setField(allFieldsArrayField.apply("stringValue")).of(allFields).is(String.class).thenDo(this::getString);
+		streamField.reset().setField(allFieldsArrayField.apply("allFields")).of(allFields).is(Object.class).thenDo(this::getObject);
 
 		assertEquals(Byte.MAX_VALUE, allFields.getByteValue());
 		assertEquals(Short.MAX_VALUE, allFields.getShortValue());
@@ -79,7 +92,7 @@ public class TestStreamField {
 	}
 
 	@Test
-	public void testThenDoWithConsumer() throws IllegalAccessException {
+	public void testThenDoWithConsumer() throws Exception {
 		AllFieldsArray allFieldsArray = new AllFieldsArray();
 		assertNull(allFieldsArray.getByteValue());
 		assertNull(allFieldsArray.getShortValue());
@@ -92,31 +105,35 @@ public class TestStreamField {
 		assertNull(allFieldsArray.getStringValue());
 		assertNull(allFieldsArray.getAllFields());
 
-		StreamField streamField = new StreamField();
+		Function<String, Field> allFieldsArrayField = (fieldName) -> {
+			try {
+				Field field = allFieldsArray.getClass().getDeclaredField(fieldName);
+				field.setAccessible(true);
+				return field;
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		};
 
-		for (Field field : allFieldsArray.getClass().getDeclaredFields()) {
-			field.setAccessible(true);
-			streamField.reset().setField(field).of(allFieldsArray)
-				.isArray(Byte.TYPE).thenDo(this::getBytes)
-				.isArray(Short.TYPE).thenDo(this::getShorts)
-				.isArray(Integer.TYPE).thenDo(this::getInts)
-				.isArray(Long.TYPE).thenDo(this::getLongs)
-				.isArray(Float.TYPE).thenDo(this::getFloats)
-				.isArray(Double.TYPE).thenDo(this::getDoubles)
-				.isArray(Boolean.TYPE).thenDo(this::getBooleans)
-				.isArray(Character.TYPE).thenDo(this::getChars)
-				.isArray(Byte.class).thenDo(this::getBytesObject)
-				.isArray(Short.class).thenDo(this::getShortsObject)
-				.isArray(Integer.class).thenDo(this::getIntsObject)
-				.isArray(Long.class).thenDo(this::getLongsObject)
-				.isArray(Float.class).thenDo(this::getFloatsObject)
-				.isArray(Double.class).thenDo(this::getDoublesObject)
-				.isArray(Boolean.class).thenDo(this::getBooleansObject)
-				.isArray(Character.class).thenDo(this::getCharsObject)
-				.isArray(String.class).thenDo(this::getStrings)
-				.isArray(Object.class).thenDo(this::getObjects);
-			field.setAccessible(false);
-		}
+		StreamField streamField = new StreamField();
+		streamField.reset().setField(allFieldsArrayField.apply("byteValue")).of(allFieldsArray).isArray(Byte.TYPE).thenDo(this::getBytes);
+		streamField.reset().setField(allFieldsArrayField.apply("shortValue")).of(allFieldsArray).isArray(Short.TYPE).thenDo(this::getShorts);
+		streamField.reset().setField(allFieldsArrayField.apply("intValue")).of(allFieldsArray).isArray(Integer.TYPE).thenDo(this::getInts);
+		streamField.reset().setField(allFieldsArrayField.apply("longValue")).of(allFieldsArray).isArray(Long.TYPE).thenDo(this::getLongs);
+		streamField.reset().setField(allFieldsArrayField.apply("floatValue")).of(allFieldsArray).isArray(Float.TYPE).thenDo(this::getFloats);
+		streamField.reset().setField(allFieldsArrayField.apply("doubleValue")).of(allFieldsArray).isArray(Double.TYPE).thenDo(this::getDoubles);
+		streamField.reset().setField(allFieldsArrayField.apply("booleanValue")).of(allFieldsArray).isArray(Boolean.TYPE).thenDo(this::getBooleans);
+		streamField.reset().setField(allFieldsArrayField.apply("charValue")).of(allFieldsArray).isArray(Character.TYPE).thenDo(this::getChars);
+		streamField.reset().setField(allFieldsArrayField.apply("byteObjectValue")).of(allFieldsArray).isArray(Byte.class).thenDo(this::getBytesObject);
+		streamField.reset().setField(allFieldsArrayField.apply("shortObjectValue")).of(allFieldsArray).isArray(Short.class).thenDo(this::getShortsObject);
+		streamField.reset().setField(allFieldsArrayField.apply("intObjectValue")).of(allFieldsArray).isArray(Integer.class).thenDo(this::getIntsObject);
+		streamField.reset().setField(allFieldsArrayField.apply("longObjectValue")).of(allFieldsArray).isArray(Long.class).thenDo(this::getLongsObject);
+		streamField.reset().setField(allFieldsArrayField.apply("floatObjectValue")).of(allFieldsArray).isArray(Float.class).thenDo(this::getFloatsObject);
+		streamField.reset().setField(allFieldsArrayField.apply("doubleObjectValue")).of(allFieldsArray).isArray(Double.class).thenDo(this::getDoublesObject);
+		streamField.reset().setField(allFieldsArrayField.apply("booleanObjectValue")).of(allFieldsArray).isArray(Boolean.class).thenDo(this::getBooleansObject);
+		streamField.reset().setField(allFieldsArrayField.apply("charObjectValue")).of(allFieldsArray).isArray(Character.class).thenDo(this::getCharsObject);
+		streamField.reset().setField(allFieldsArrayField.apply("stringValue")).of(allFieldsArray).isArray(String.class).thenDo(this::getStrings);
+		streamField.reset().setField(allFieldsArrayField.apply("allFields")).of(allFieldsArray).isArray(Object.class).thenDo(this::getObjects);
 
 		assertArrayEquals(this.getBytes(), allFieldsArray.getByteValue());
 		assertArrayEquals(this.getShorts(), allFieldsArray.getShortValue());
@@ -159,6 +176,38 @@ public class TestStreamField {
 	}
 
 	private char getChar() {
+		return Character.MAX_VALUE;
+	}
+
+	private Byte getByteObject() {
+		return Byte.MAX_VALUE;
+	}
+
+	private Short getShortObject() {
+		return Short.MAX_VALUE;
+	}
+
+	private Integer getIntObject() {
+		return Integer.MAX_VALUE;
+	}
+
+	private Long getLongObject() {
+		return Long.MAX_VALUE;
+	}
+
+	private Float getFloatObject() {
+		return Float.MAX_VALUE;
+	}
+
+	private Double getDoubleObject() {
+		return Double.MAX_VALUE;
+	}
+
+	private Boolean getBooleanObject() {
+		return true;
+	}
+
+	private Character getCharObject() {
 		return Character.MAX_VALUE;
 	}
 
@@ -247,7 +296,6 @@ public class TestStreamField {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	private static class AllFields {
-
 		private byte byteValue;
 		private short shortValue;
 		private int intValue;
@@ -273,7 +321,6 @@ public class TestStreamField {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	private static class AllFieldsArray {
-
 		private byte[] byteValue;
 		private short[] shortValue;
 		private int[] intValue;
