@@ -10,6 +10,7 @@ import org.diverproject.scarlet.context.InstanceEntry;
 import org.diverproject.scarlet.context.Logger;
 import org.diverproject.scarlet.context.LoggerFactory;
 import org.diverproject.scarlet.context.reflection.ClassUtils;
+import org.diverproject.scarlet.context.reflection.ReflectionInstanceUtils;
 import org.diverproject.scarlet.context.reflection.ReflectionInterfaceUtils;
 import org.diverproject.scarlet.context.reflection.ReflectionUtils;
 import org.diverproject.scarlet.context.utils.ContextStreamUtils;
@@ -34,7 +35,7 @@ public class DefaultManagerContext implements ManagerContext {
 
 	public DefaultManagerContext() {
 		this.setManagerInstances(new TreeMap<>());
-		this.setManagerQueue(ReflectionInterfaceUtils.getInstanceOf(ManagerQueue.class));
+		this.setManagerQueue(ReflectionInstanceUtils.getInstanceOf(ManagerQueue.class));
 	}
 
 	@Override

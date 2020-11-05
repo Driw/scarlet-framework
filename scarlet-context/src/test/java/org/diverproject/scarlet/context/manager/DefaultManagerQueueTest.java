@@ -50,25 +50,25 @@ public class DefaultManagerQueueTest {
 		Manager secondManagerNoOrder = new DefaultManager();
 
 		Optional<Integer> nextThirdManagerOrder = this.managerQueue.findOrderIndex(thirdManagerOrder);
-		assertTrue(nextThirdManagerOrder.isEmpty());
+		assertFalse(nextThirdManagerOrder.isPresent());
 		assertTrue(this.managerQueue.add(thirdManagerOrder));
 
 		Optional<Integer> nextFirstManagerOrder = this.managerQueue.findOrderIndex(firstManagerOrder);
-		assertFalse(nextFirstManagerOrder.isEmpty());
+		assertTrue(nextFirstManagerOrder.isPresent());
 		assertEquals(0, nextFirstManagerOrder.get());
 		assertTrue(this.managerQueue.add(firstManagerOrder));
 
 		Optional<Integer> nextSecondManagerOrder = this.managerQueue.findOrderIndex(secondManagerOrder);
-		assertFalse(nextSecondManagerOrder.isEmpty());
+		assertTrue(nextSecondManagerOrder.isPresent());
 		assertEquals(1, nextSecondManagerOrder.get());
 		assertTrue(this.managerQueue.add(secondManagerOrder));
 
 		Optional<Integer> nextFirstManagerNoOrder = this.managerQueue.findOrderIndex(firstManagerNoOrder);
-		assertTrue(nextFirstManagerNoOrder.isEmpty());
+		assertFalse(nextFirstManagerNoOrder.isPresent());
 		assertTrue(this.managerQueue.add(firstManagerNoOrder));
 
 		Optional<Integer> nextSecondManagerNoOrder = this.managerQueue.findOrderIndex(firstManagerNoOrder);
-		assertTrue(nextSecondManagerNoOrder.isEmpty());
+		assertFalse(nextSecondManagerNoOrder.isPresent());
 		assertTrue(this.managerQueue.add(secondManagerNoOrder));
 	}
 

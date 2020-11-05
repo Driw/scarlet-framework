@@ -3,6 +3,7 @@ package org.diverproject.scarlet.context;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.diverproject.scarlet.context.manager.ManagerContext;
+import org.diverproject.scarlet.context.reflection.ReflectionInstanceUtils;
 import org.diverproject.scarlet.context.reflection.ReflectionInterfaceUtils;
 import org.diverproject.scarlet.context.reflection.ReflectionUtils;
 import org.diverproject.scarlet.context.singleton.SingletonContext;
@@ -25,7 +26,8 @@ public class DefaultScarletContext implements ScarletContext {
 
 	public DefaultScarletContext() {
 		this.setInstances(new TreeMap<>());
-		this.setSingletonContext(ReflectionInterfaceUtils.getInstanceOf(SingletonContext.class));
+		this.setSingletonContext(ReflectionInstanceUtils.getInstanceOf(SingletonContext.class));
+		this.setManagerContext(ReflectionInstanceUtils.getInstanceOf(ManagerContext.class));
 	}
 
 	@Override

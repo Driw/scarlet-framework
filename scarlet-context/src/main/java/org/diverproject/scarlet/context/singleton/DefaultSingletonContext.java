@@ -9,6 +9,7 @@ import org.diverproject.scarlet.context.LoggerFactory;
 import org.diverproject.scarlet.context.ScarletContext;
 import org.diverproject.scarlet.context.reflection.ClassUtils;
 import org.diverproject.scarlet.context.reflection.ReflectionAnnotationUtils;
+import org.diverproject.scarlet.context.reflection.ReflectionInstanceUtils;
 import org.diverproject.scarlet.context.reflection.ReflectionInterfaceUtils;
 import org.diverproject.scarlet.context.reflection.ReflectionUtils;
 import org.diverproject.scarlet.logger.LoggerLanguage;
@@ -44,7 +45,7 @@ public class DefaultSingletonContext implements SingletonContext {
 
 		String singletonKey = this.generateKeyFor(singletonClass);
 		T singletonInstance = singletonClass.isInterface() ?
-			ReflectionInterfaceUtils.getInstanceOf(singletonClass) :
+			ReflectionInstanceUtils.getInstanceOf(singletonClass) :
 			ReflectionUtils.createInstanceOfEmptyConstructor(singletonClass);
 
 		return new DefaultInstanceEntry<>(singletonKey, singletonInstance);
@@ -75,7 +76,7 @@ public class DefaultSingletonContext implements SingletonContext {
 	}
 
 	protected boolean hasSingletonAnnotation(Class<?> singletonClass) {
-		return !ReflectionAnnotationUtils.getClassWithAnnotation(singletonClass, Singleton.class).isEmpty();
+		return !ReflectionAnnotationUtils.getClassWithAnnotation(singletonClass, Singleton.class).isPresent();
 	}
 
 	private <T> String generateKeyFor(Class<T> singletonClass) {

@@ -6,13 +6,22 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.diverproject.scarlet.ScarletRuntimeException;
+import org.diverproject.scarlet.context.reflection.ReflectionInstanceUtils;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.mockito.Mockito;
+import org.mockito.stubbing.Answer;
 
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class DefaultScarletContextTest {
+
+	@BeforeAll
+	public static void beforeAll() {
+		TestUtils.initialize();
+	}
 
 	@Test
 	@DisplayName("Initialize")

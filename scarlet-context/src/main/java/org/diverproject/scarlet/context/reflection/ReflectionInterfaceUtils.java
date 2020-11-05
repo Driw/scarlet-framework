@@ -29,10 +29,4 @@ public class ReflectionInterfaceUtils {
 			.max(ReflectionUtils.maxPriorityAnnotation());
 	}
 
-	@SuppressWarnings("unchecked")
-	public static <I> I getInstanceOf(Class<I> interfaceClass) {
-		return (I) getImplementationOf(interfaceClass)
-			.map(ReflectionUtils::createInstanceOfEmptyConstructor)
-			.orElseThrow(() -> ReflectionInterfaceExceptionFactory.getInstanceOfUnimplementedInterface(interfaceClass));
-	}
 }

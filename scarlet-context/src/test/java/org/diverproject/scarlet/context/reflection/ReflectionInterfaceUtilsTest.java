@@ -37,10 +37,10 @@ public class ReflectionInterfaceUtilsTest {
 	@Test
 	@DisplayName("Get Instance Of")
 	public void getInstanceOf() {
-		TheInterface theInterface = ReflectionInterfaceUtils.getInstanceOf(TheInterface.class);
+		TheInterface theInterface = ReflectionInstanceUtils.getInstanceOf(TheInterface.class);
 		assertTrue(theInterface instanceof TheInterfaceExtendedInterface);
 
-		assertThrows(ReflectionInterfaceException.class, () -> ReflectionInterfaceUtils.getInstanceOf(InterfaceNotImplemented.class));
+		assertThrows(ReflectionInterfaceException.class, () -> ReflectionInstanceUtils.getInstanceOf(InterfaceNotImplemented.class));
 	}
 
 	public interface TheInterface { }
