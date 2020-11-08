@@ -31,4 +31,5 @@ public enum ManagerContextLanguage implements Language {
 	public int getCode() {
 		return this.ordinal() + 1;
 	}
+
 }

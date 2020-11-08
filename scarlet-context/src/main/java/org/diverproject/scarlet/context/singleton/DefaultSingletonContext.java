@@ -10,7 +10,6 @@ import org.diverproject.scarlet.context.ScarletContext;
 import org.diverproject.scarlet.context.reflection.ClassUtils;
 import org.diverproject.scarlet.context.reflection.ReflectionAnnotationUtils;
 import org.diverproject.scarlet.context.reflection.ReflectionInstanceUtils;
-import org.diverproject.scarlet.context.reflection.ReflectionInterfaceUtils;
 import org.diverproject.scarlet.context.reflection.ReflectionUtils;
 import org.diverproject.scarlet.logger.LoggerLanguage;
 

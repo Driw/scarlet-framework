@@ -3,7 +3,6 @@ package org.diverproject.scarlet.context.reflection;
 import org.diverproject.scarlet.context.Priority;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -12,7 +11,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
-public class ReflectionUtils {
+public final class ReflectionUtils {
 
 	private ReflectionUtils() { }
 
@@ -91,27 +90,6 @@ public class ReflectionUtils {
 	public static <T> boolean isInstanceOf(Object object, Class<T> targetClass) {
 		return object.getClass().equals(targetClass) || getAllInheritances(object.getClass())
 			.contains(targetClass);
-	}
-
-	public static void setField(Object object, String key, String value) {
-		try {
-			Field field = object.getClass().getDeclaredField(key);
-			boolean accessible = field.isAccessible();
-
-			if (!accessible)
-				field.setAccessible(true);
-
-			try {
-				field.set(object, value);
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			}
-
-			if (!accessible)
-				field.setAccessible(true);
-		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
-		}
 	}
 
 }

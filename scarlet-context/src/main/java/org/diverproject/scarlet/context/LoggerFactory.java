@@ -7,6 +7,8 @@ public class LoggerFactory {
 
 	private static LoggerBuilder loggerBuilder = new DefaultLoggerBuilder();
 
+	private LoggerFactory() { }
+
 	public static Logger get(Class<?> aClass) {
 		if (ScarletLoggers.getInstance().contains(aClass.getName())) {
 			LoggerLanguage loggerLanguage = ScarletLoggers.getInstance().get(aClass.getName());

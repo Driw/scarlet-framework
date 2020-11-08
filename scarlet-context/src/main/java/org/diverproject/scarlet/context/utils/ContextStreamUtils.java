@@ -1,7 +1,5 @@
 package org.diverproject.scarlet.context.utils;
 
-import org.diverproject.scarlet.context.manager.Manager;
-
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;

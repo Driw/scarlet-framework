@@ -7,7 +7,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
-public class ReflectionAnnotationUtils {
+public final class ReflectionAnnotationUtils {
+
+	private ReflectionAnnotationUtils() { }
 
 	public static Set<Class<?>> getAllAnnotatedBy(Class<? extends Annotation> singletonClass) {
 		return getReflections().getTypesAnnotatedWith(singletonClass);
@@ -23,4 +25,5 @@ public class ReflectionAnnotationUtils {
 			.filter(aClass -> Objects.nonNull(aClass.getAnnotation(annotationClass)))
 			.findFirst();
 	}
+
 }

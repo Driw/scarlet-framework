@@ -6,10 +6,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ReflectionInterfaceUtils {
+public final class ReflectionInterfaceUtils {
 
-	private ReflectionInterfaceUtils() {
-	}
+	private ReflectionInterfaceUtils() { }
 
 	public static <I> Set<Class<?>> getAllImplementationsOf(Class<I> interfaceClass) {
 		if (!interfaceClass.isInterface()) {

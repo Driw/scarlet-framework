@@ -2,7 +2,6 @@ package org.diverproject.scarlet.context;
 
 import org.diverproject.scarlet.context.manager.ManagerContext;
 import org.diverproject.scarlet.context.reflection.ReflectionInstanceUtils;
-import org.diverproject.scarlet.context.reflection.ReflectionInterfaceUtils;
 import org.diverproject.scarlet.context.singleton.SingletonContext;
 
 public interface ScarletContext {
@@ -21,4 +20,5 @@ public interface ScarletContext {
 
 		return scarletContext;
 	}
+
 }

@@ -1,9 +1,8 @@
 package org.diverproject.scarlet.context.reflection;
 
-public class ReflectionInstanceUtils {
+public final class ReflectionInstanceUtils {
 
-	private ReflectionInstanceUtils() {
-	}
+	private ReflectionInstanceUtils() { }
 
 	@SuppressWarnings("unchecked")
 	public static <I> I getInstanceOf(Class<I> interfaceClass) {

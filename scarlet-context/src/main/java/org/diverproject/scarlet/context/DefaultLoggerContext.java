@@ -16,4 +16,5 @@ public class DefaultLoggerContext extends DefaultLoggerLanguage implements Logge
 	public DefaultLoggerContext(String name, LoggerSubject loggerOutputSubject) {
 		super(name, loggerOutputSubject);
 	}
+
 }

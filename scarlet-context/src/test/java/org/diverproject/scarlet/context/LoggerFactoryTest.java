@@ -19,7 +19,7 @@ public class LoggerFactoryTest {
 		assertEquals(loggerFactoryTest, LoggerFactory.get(LoggerFactoryTest.class));
 
 		ScarletLoggers.getInstance().add(LoggerClassExample.class.getName(), LoggerClassExample.class);
-		assertThrows(ScarletRuntimeContextException.class, () -> LoggerFactory.get(LoggerClassExample.class));
+		assertThrows(ScarletContextException.class, () -> LoggerFactory.get(LoggerClassExample.class));
 	}
 
 	@Test
