@@ -1,7 +1,9 @@
 package org.diverproject.scarlet.language;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -10,6 +12,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,10 +27,11 @@ public class LanguageLoaderTest {
 		String filepath = Objects.requireNonNull(LanguageLoaderTest.class.getClassLoader().getResource("language.ini")).getFile();
 		File file = new File(filepath);
 		List<LanguageMapper> languageMappers = LanguageLoader.loadLanguageMapper(file);
-		assertEquals(languageMappers.size(), 2);
+		assertEquals(3, languageMappers.size());
 
 		LanguageMapper languageTestIni = this.search(languageMappers, "org.diverproject.scarlet.language.LanguageTestIni");
-		assertEquals("org.diverproject.scarlet.language.LanguageTestIni", languageTestIni.getClasspath());
+		assertNotNull(languageTestIni);
+		assertEquals("org.diverproject.scarlet.language.LanguageTestIni", languageTestIni.getClassPath());
 		assertTrue(languageTestIni.getMessages().containsKey("FIRST_MESSAGE"));
 		assertTrue(languageTestIni.getMessages().containsKey("SECOND_MESSAGE"));
 		assertTrue(languageTestIni.getMessages().containsKey("THIRD_MESSAGE"));
@@ -38,13 +44,22 @@ public class LanguageLoaderTest {
 		assertNull(languageTestIni.getMessages().get("FIFTH_MESSAGE"));
 
 		LanguageMapper anotherLanguageTestIni = this.search(languageMappers, "org.diverproject.scarlet.language.AnotherLanguageTestIni");
-		assertEquals("org.diverproject.scarlet.language.AnotherLanguageTestIni", anotherLanguageTestIni.getClasspath());
+		assertNotNull(anotherLanguageTestIni);
+		assertEquals("org.diverproject.scarlet.language.AnotherLanguageTestIni", anotherLanguageTestIni.getClassPath());
 		assertTrue(anotherLanguageTestIni.getMessages().containsKey("FIRST_MESSAGE"));
 		assertTrue(anotherLanguageTestIni.getMessages().containsKey("SECOND_MESSAGE"));
 		assertFalse(anotherLanguageTestIni.getMessages().containsKey("THIRD_MESSAGE"));
 		assertEquals("The first another message", anotherLanguageTestIni.getMessages().get("FIRST_MESSAGE"));
 		assertEquals("The second another message", anotherLanguageTestIni.getMessages().get("SECOND_MESSAGE"));
 		assertNull(anotherLanguageTestIni.getMessages().get("THIRD_MESSAGE"));
+
+		LanguageMapper notLanguageIni = this.search(languageMappers, "org.diverproject.scarlet.language.NotLanguageIni");
+		assertNotNull(notLanguageIni);
+		assertEquals("org.diverproject.scarlet.language.NotLanguageIni",notLanguageIni.getClassPath());
+		assertTrue(notLanguageIni.getMessages().containsKey("UNKNOWN_LANGUAGE"));
+		assertEquals("That enumeration constants it's not a language enum", notLanguageIni.getMessages().get("UNKNOWN_LANGUAGE"));
+
+		assertThrows(LanguageException.class, () -> LanguageLoader.loadLanguageMapper(new File("unknown-path")));
 	}
 
 	@Test
@@ -108,6 +123,16 @@ public class LanguageLoaderTest {
 		filepath = Objects.requireNonNull(LanguageLoaderTest.class.getClassLoader().getResource("empty")).getFile();
 		String finalFilepath = filepath;
 		assertThrows(LanguageException.class, () -> LanguageLoader.autoLoad(new File(finalFilepath)));
+
+		File[] files = new File(filepath).listFiles();
+		assertNotNull(filepath);
+		assertEquals(1, Objects.requireNonNull(files).length);
+		File fileToLock = files[0];
+		FileChannel fileChannel = FileChannel.open(fileToLock.toPath(), StandardOpenOption.WRITE);
+		FileLock fileLock = fileChannel.lock();
+		assertThrows(LanguageException.class, () -> LanguageLoader.autoLoad(fileToLock.getParentFile()));
+		fileLock.close();
+		fileChannel.close();
 	}
 
 	private void resetLanguageMessages() {
@@ -121,7 +146,7 @@ public class LanguageLoaderTest {
 
 	private LanguageMapper search(List<LanguageMapper> languageMappers, String name) {
 		for (LanguageMapper languageMapper : languageMappers)
-			if (languageMapper.getClasspath().equals(name))
+			if (languageMapper.getClassPath().equals(name))
 				return languageMapper;
 
 		return null;

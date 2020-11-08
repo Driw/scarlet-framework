@@ -4,8 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @LanguageAutoloader
-public enum AnotherLanguageTestIni implements Language
-{
+public enum AnotherLanguageTestIni implements Language {
 	FIRST_MESSAGE		("First"),
 	SECOND_MESSAGE		("Second"),
 
@@ -21,8 +20,8 @@ public enum AnotherLanguageTestIni implements Language
 	}
 
 	@Override
-	public int getCode()
-	{
-		return this.ordinal();
+	public int getCode() {
+		return this.ordinal() + 1;
 	}
+
 }

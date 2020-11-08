@@ -1,15 +1,19 @@
 package org.diverproject.scarlet.language;
 
+import static org.diverproject.scarlet.util.StringUtils.nvl;
+
 import org.ini4j.Wini;
 import org.reflections.Reflections;
 
 import java.io.File;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class LanguageUnloader {
 
-	private static final File DEFAULT_FOLDER = null;
+	public static final String DEFAULT_FOLDER_PATH = Objects.requireNonNull(LanguageUnloader.class.getClassLoader().getResource("")).getFile();
+	private static final File DEFAULT_FOLDER = new File(DEFAULT_FOLDER_PATH);
 	private static final boolean DEFAULT_SEPARATED = false;
 	private static final boolean DEFAULT_NAMED = true;
 	private static final String DEFAULT_PACKAGE_NAME = "";
@@ -33,10 +37,13 @@ public class LanguageUnloader {
 	}
 
 	public static Set<Wini> autoUnload(File folder, boolean separated, boolean named, String packageName) {
+		if (Objects.isNull(folder)) throw LanguageError.autoUnloaderNullFolder();
+		if (!folder.exists()) throw LanguageError.autoUnloaderFolderNotExists(folder);
+
 		Set<Wini> winis = new HashSet<>();
 
 		Wini wini = null;
-		Reflections reflections = new Reflections(packageName);
+		Reflections reflections = new Reflections(nvl(packageName, ""));
 		Set<Class<?>> languagesAutoloader = reflections.getTypesAnnotatedWith(LanguageAutoloader.class);
 
 		for (Class<?> languageAutoloader : languagesAutoloader) {
@@ -44,7 +51,7 @@ public class LanguageUnloader {
 
 			if (separated || wini == null) {
 				String filename = LanguageLoader.getLanguageFilename(languageAutoloader);
-				File file = folder != null ? new File(folder, filename) : null;
+				File file = new File(folder, filename);
 				wini = new Wini();
 				wini.setFile(file);
 				winis.add(wini);
@@ -65,4 +72,5 @@ public class LanguageUnloader {
 				wini.add(section, option, language.getFormat());
 			}
 	}
+
 }

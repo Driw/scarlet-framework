@@ -7,8 +7,7 @@ import java.util.TreeMap;
 
 @Data
 public class LanguageMapper {
-
-	private String classpath;
+	private String classPath;
 	private Map<String, String> messages;
 
 	public LanguageMapper() {

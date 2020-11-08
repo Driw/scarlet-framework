@@ -25,4 +25,5 @@ public enum LanguageTestIni implements Language {
 	public int getCode() {
 		return this.ordinal() + 1;
 	}
+
 }

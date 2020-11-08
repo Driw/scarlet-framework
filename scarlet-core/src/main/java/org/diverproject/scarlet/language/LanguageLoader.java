@@ -1,9 +1,5 @@
 package org.diverproject.scarlet.language;
 
-import static org.diverproject.scarlet.util.language.LanguageLanguage.EMPTY_LANGUAGE_FILE;
-import static org.diverproject.scarlet.util.language.LanguageLanguage.INPUT_EXCEPTION;
-import static org.diverproject.scarlet.util.language.LanguageLanguage.LANGUAGE_NOT_FOUND;
-
 import org.ini4j.Profile.Section;
 import org.ini4j.Wini;
 import org.reflections.Reflections;
@@ -17,15 +13,14 @@ import java.util.Set;
 
 public class LanguageLoader {
 
-	private LanguageLoader() {
-	}
+	private LanguageLoader() { }
 
 	public static List<LanguageMapper> loadLanguageMapper(File file) throws LanguageException {
 		try {
 			Wini wini = new Wini(file);
 			return loadLanguageMapper(wini);
 		} catch (IOException e) {
-			throw new LanguageException(e, INPUT_EXCEPTION, file.getAbsolutePath());
+			throw LanguageError.loadLanguageMapperIOException(e, file);
 		}
 	}
 
@@ -37,7 +32,7 @@ public class LanguageLoader {
 			Section section = languageSection.getValue();
 
 			LanguageMapper languageMapper = new LanguageMapper();
-			languageMapper.setClasspath(classpath);
+			languageMapper.setClassPath(classpath);
 			languageMappers.add(languageMapper);
 
 			for (Entry<String, String> languageEntry : section.entrySet())
@@ -53,7 +48,7 @@ public class LanguageLoader {
 		List<LanguageMapper> languageMappers = loadLanguageMapper(file);
 
 		for (LanguageMapper languageMapper : languageMappers) {
-			if (!languageMapper.getClasspath().equals(enumeration.getName()))
+			if (!languageMapper.getClassPath().equals(enumeration.getName()))
 				continue;
 
 			affected += loadEnumLanguageMapper(enumConstants, languageMapper);
@@ -69,11 +64,11 @@ public class LanguageLoader {
 		for (LanguageMapper languageMapper : languageMappers) {
 			try {
 
-				Class<?> classz = Class.forName(languageMapper.getClasspath());
+				Class<?> classz = Class.forName(languageMapper.getClassPath());
 				Object[] enumConstants = classz.getEnumConstants();
 				affected += loadEnumLanguageMapper(enumConstants, languageMapper);
 			} catch (ClassNotFoundException e) {
-				throw new LanguageException(e, LANGUAGE_NOT_FOUND, file.getAbsolutePath());
+				throw LanguageError.languageNotFound(e, file);
 			}
 		}
 
@@ -95,20 +90,18 @@ public class LanguageLoader {
 				continue;
 
 			try {
-
 				Wini wini = new Wini(file);
 				List<LanguageMapper> languageMappers = loadLanguageMapper(wini);
 
 				if (languageMappers.isEmpty())
-					throw new LanguageException(EMPTY_LANGUAGE_FILE, file.getAbsolutePath());
+					throw LanguageError.emptyLanguage(file);
 
 				if (languageMappers.size() == 1) {
 					LanguageMapper languageMapper = languageMappers.get(0);
 					affected += loadEnumLanguageMapper(enumConstants, languageMapper);
 				}
-
 			} catch (IOException e) {
-				throw new LanguageException(e, INPUT_EXCEPTION, file.getAbsolutePath());
+				throw LanguageError.autoLoaderIOException(e, folder);
 			}
 		}
 
