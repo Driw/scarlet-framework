@@ -32,6 +32,7 @@ import java.security.SecureRandom;
 import java.text.Normalizer;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 
 public class StringUtils {
 
@@ -141,11 +142,9 @@ public class StringUtils {
 	}
 
 	public static String trimRight(String str, String sequence) {
-		if (str == null) throw new StringUtilsRuntimeException(TRIM_STRING);
-		if (sequence == null) throw new StringUtilsRuntimeException(TRIM_SEQUENCE_NULL);
-		if (sequence.isEmpty()) throw new StringUtilsRuntimeException(TRIM_SEQUENCE_EMPTY);
-		if (sequence.length() > str.length()) return str;
-		if (str.equals(sequence)) return "";
+		Optional<String> valitation = trimValidate(str, sequence);
+
+		if (valitation.isPresent()) return valitation.get();
 
 		int maxOffset = str.length() - sequence.length();
 
@@ -158,11 +157,9 @@ public class StringUtils {
 	}
 
 	public static String trimLeft(String str, String sequence) {
-		if (str == null) throw new StringUtilsRuntimeException(TRIM_STRING);
-		if (sequence == null) throw new StringUtilsRuntimeException(TRIM_SEQUENCE_NULL);
-		if (sequence.isEmpty()) throw new StringUtilsRuntimeException(TRIM_SEQUENCE_EMPTY);
-		if (sequence.length() > str.length()) return str;
-		if (str.equals(sequence)) return "";
+		Optional<String> valitation = trimValidate(str, sequence);
+
+		if (valitation.isPresent()) return valitation.get();
 
 		int maxOffset = str.length() - sequence.length();
 
@@ -172,6 +169,16 @@ public class StringUtils {
 					return offset == 0 ? str : str.substring(offset + i);
 
 		return "";
+	}
+
+	private static Optional<String> trimValidate(String str, String sequence) {
+		if (str == null) throw new StringUtilsRuntimeException(TRIM_STRING);
+		if (sequence == null) throw new StringUtilsRuntimeException(TRIM_SEQUENCE_NULL);
+		if (sequence.isEmpty()) throw new StringUtilsRuntimeException(TRIM_SEQUENCE_EMPTY);
+		if (sequence.length() > str.length()) return Optional.of(str);
+		if (str.equals(sequence)) return Optional.of("");
+
+		return Optional.empty();
 	}
 
 	public static int countOf(String str, char c) {
