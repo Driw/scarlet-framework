@@ -4,7 +4,6 @@ import org.diverproject.scarlet.language.Language;
 
 import java.util.Collection;
 import java.util.function.BooleanSupplier;
-import java.util.function.Supplier;
 
 public class ScarletUtils {
 
