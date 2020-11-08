@@ -1,5 +1,6 @@
 package org.diverproject.scarlet.context;
 
+import org.diverproject.scarlet.context.reflection.ReflectionConfig;
 import org.diverproject.scarlet.context.reflection.ReflectionInstanceUtils;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
@@ -46,6 +47,21 @@ public final class TestUtils {
 
 			return null;
 		});
+	}
+
+	public static void setHereAsPackageReflection() {
+		String classThatHaveCall = new Exception().getStackTrace()[1].getClassName();
+
+		try {
+			String packageName = Class.forName(classThatHaveCall).getPackage().getName();
+			ReflectionConfig.setPackage(packageName);
+		} catch (ClassNotFoundException e) {
+			throw new ScarletContextException(e);
+		}
+	}
+
+	public static void resetPackageReflection() {
+		ReflectionConfig.setPackage(null);
 	}
 
 }

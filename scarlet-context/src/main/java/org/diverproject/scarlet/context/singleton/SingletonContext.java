@@ -7,6 +7,7 @@ import java.util.Map;
 
 public interface SingletonContext {
 	Map<String, Object> initialize(ScarletContext scarletContext);
-	<T> InstanceEntry<String, T> createInstanceAndRegister(Class<T> singletonClass);
+	<T> InstanceEntry<String, T> createInstance(String singletonKey, Class<T> singletonClass);
 	<T> T get(Class<T> singletonClass);
+	<T> T get(Class<T> singletonClass, String singletonKey);
 }

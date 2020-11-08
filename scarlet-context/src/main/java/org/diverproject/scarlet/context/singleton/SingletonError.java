@@ -17,4 +17,9 @@ public class SingletonError {
 	public static SingletonException singletonClassNotAnnotated(Class<?> singletonClass) {
 		return new SingletonException(SingletonLanguage.SINGLETON_CLASS_NOT_ANNOTATED, nameOf(singletonClass));
 	}
+
+	public static SingletonException generateKeyForNotASingleton(Class<?> singletonClass) {
+		return new SingletonException(SingletonLanguage.GENERATE_KEY_FOR_NOT_A_SINGLETON, nameOf(singletonClass));
+	}
+
 }

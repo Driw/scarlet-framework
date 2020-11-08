@@ -11,6 +11,7 @@ public enum SingletonLanguage implements Language {
 	SINGLETON_NOT_FOUND						("singleton not found (key: %s, className: %s)"),
 	CANNOT_CAST_SINGLETON					("cannot cast singleton instance into singleton class informed (singletonInstance: %s, singletonClass: %s)"),
 	SINGLETON_CLASS_NOT_ANNOTATED			("cannot create a singleton instance of a class without @Singleton annotation (className: %s)"),
+	GENERATE_KEY_FOR_NOT_A_SINGLETON		("cannot generate a singleton key of a class without @Singleton annotation (className: %s)"),
 
 	;
 
@@ -26,4 +27,5 @@ public enum SingletonLanguage implements Language {
 	public int getCode() {
 		return this.ordinal() + 1;
 	}
+
 }
