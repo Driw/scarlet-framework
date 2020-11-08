@@ -8,7 +8,7 @@ import org.diverproject.scarlet.util.exceptions.NumberUtilsRuntimeException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DoubleUtils extends NumberUtils {
+public final class DoubleUtils extends NumberUtils {
 
 	private DoubleUtils() { }
 

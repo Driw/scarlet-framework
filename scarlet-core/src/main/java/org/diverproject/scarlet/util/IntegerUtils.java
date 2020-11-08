@@ -4,7 +4,7 @@ import static org.diverproject.scarlet.util.language.NumberUtilsLanguage.INTEGER
 
 import org.diverproject.scarlet.util.exceptions.NumberUtilsRuntimeException;
 
-public class IntegerUtils extends NumberUtils {
+public final class IntegerUtils extends NumberUtils {
 
 	private IntegerUtils() { }
 

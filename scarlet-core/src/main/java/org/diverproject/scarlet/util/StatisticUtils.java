@@ -1,6 +1,6 @@
 package org.diverproject.scarlet.util;
 
-public class StatisticUtils {
+public final class StatisticUtils {
 
 	private StatisticUtils() { }
 

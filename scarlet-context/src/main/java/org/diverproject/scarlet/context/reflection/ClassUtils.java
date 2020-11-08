@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
 
-public class ClassUtils {
+public final class ClassUtils {
 
 	private ClassUtils() {
 	}

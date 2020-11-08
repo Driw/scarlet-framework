@@ -15,7 +15,7 @@ import static org.diverproject.scarlet.util.language.HexadecimalUtilsLanguage.TO
 
 import org.diverproject.scarlet.util.exceptions.HexadecimalUtilsRuntimeException;
 
-public class HexadecimalUtils {
+public final class HexadecimalUtils {
 
 	public static final String HEXADECIMAL_REGEX = "^0[xX](?<value>[0-9a-fA-F]+)$";
 	public static final int HEX_BYTE_SIZE = Byte.BYTES * 2;

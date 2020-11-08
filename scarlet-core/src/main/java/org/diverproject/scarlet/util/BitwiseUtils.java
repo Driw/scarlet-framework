@@ -1,6 +1,6 @@
 package org.diverproject.scarlet.util;
 
-public class BitwiseUtils {
+public final class BitwiseUtils {
 
 	private BitwiseUtils() { }
 

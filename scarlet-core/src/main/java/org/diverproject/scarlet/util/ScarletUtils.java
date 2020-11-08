@@ -5,7 +5,7 @@ import org.diverproject.scarlet.language.Language;
 import java.util.Collection;
 import java.util.function.BooleanSupplier;
 
-public class ScarletUtils {
+public final class ScarletUtils {
 
 	private ScarletUtils() { }
 

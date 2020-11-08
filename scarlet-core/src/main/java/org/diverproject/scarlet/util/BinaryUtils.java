@@ -10,7 +10,7 @@ import static org.diverproject.scarlet.util.language.BinaryUtilsLanguage.SHIFT_O
 
 import org.diverproject.scarlet.util.exceptions.BinaryUtilsRuntimeException;
 
-public class BinaryUtils {
+public final class BinaryUtils {
 
 	public static final byte ZERO = 0x00;
 

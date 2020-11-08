@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class BooleanUtils {
+public final class BooleanUtils {
 
 	private static final List<String> FALSE_VALUES;
 	private static final List<String> TRUE_VALUES;

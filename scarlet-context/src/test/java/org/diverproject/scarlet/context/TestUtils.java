@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class TestUtils {
+public final class TestUtils {
 
 	private static MockedStatic<ReflectionInstanceUtils> reflectionInstanceUtils;
 

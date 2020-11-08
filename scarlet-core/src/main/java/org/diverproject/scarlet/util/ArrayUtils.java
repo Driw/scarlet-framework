@@ -10,7 +10,7 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Iterator;
 
-public class ArrayUtils {
+public final class ArrayUtils {
 
 	public static final int MIN_SUB_ARRAY_LENGTH = 1;
 	public static final String DEFAULT_JOIN_SEPARATOR = ", ";

@@ -1,6 +1,6 @@
 package org.diverproject.scarlet.util;
 
-public class BitUtils {
+public final class BitUtils {
 
 	private BitUtils() { }
 

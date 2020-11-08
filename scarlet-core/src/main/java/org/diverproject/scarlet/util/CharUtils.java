@@ -1,6 +1,6 @@
 package org.diverproject.scarlet.util;
 
-public class CharUtils
+public final class CharUtils
 {
 	private CharUtils() { }
 }

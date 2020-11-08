@@ -4,7 +4,7 @@ import static org.diverproject.scarlet.util.language.NumberUtilsLanguage.SHORT_P
 
 import org.diverproject.scarlet.util.exceptions.NumberUtilsRuntimeException;
 
-public class ByteUtils extends NumberUtils {
+public final class ByteUtils extends NumberUtils {
 
 	private ByteUtils() { }
 
