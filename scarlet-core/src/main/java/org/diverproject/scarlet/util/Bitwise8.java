@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class Bitwise8 {
 
-	public static final String[] DEFAULT_PROPERTIES = new String[] {
+	private static final String[] DEFAULT_PROPERTIES = new String[] {
 		"0x00000001", "0x00000002", "0x00000004", "0x00000008", "0x00000010", "0x00000020", "0x00000040", "0x00000080",
 	};
 
@@ -44,4 +44,10 @@ public class Bitwise8 {
 	public void remove(byte property) {
 		this.value = BitwiseUtils.remove(this.value, property);
 	}
+
+	@Override
+	public String toString() {
+		return "Bitwise8{value=" +this.getValue()+ ", properties=" +BitwiseUtils.toString(this.getValue(), this.getProperties(), DEFAULT_PROPERTIES)+ "}";
+	}
+
 }

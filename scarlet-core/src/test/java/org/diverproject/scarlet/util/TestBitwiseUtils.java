@@ -371,14 +371,14 @@ public class TestBitwiseUtils {
 	public void testToString() {
 		String[] properties = new String[]{"A", "B", "C"};
 
-		assertEquals("", BitwiseUtils.toString(0x00, properties));
-		assertEquals("A", BitwiseUtils.toString(0x01, properties));
-		assertEquals("B", BitwiseUtils.toString(0x02, properties));
-		assertEquals("A|B", BitwiseUtils.toString(0x03, properties));
-		assertEquals("C", BitwiseUtils.toString(0x04, properties));
-		assertEquals("A|C", BitwiseUtils.toString(0x05, properties));
-		assertEquals("B|C", BitwiseUtils.toString(0x06, properties));
-		assertEquals("A|B|C", BitwiseUtils.toString(0x07, properties));
-		assertEquals("", BitwiseUtils.toString(0x08, properties));
+		assertEquals("", BitwiseUtils.toString(0x00, properties, new String[0]));
+		assertEquals("A", BitwiseUtils.toString(0x01, properties, new String[0]));
+		assertEquals("B", BitwiseUtils.toString(0x02, properties, new String[0]));
+		assertEquals("A|B", BitwiseUtils.toString(0x03, properties, new String[0]));
+		assertEquals("C", BitwiseUtils.toString(0x04, properties, new String[0]));
+		assertEquals("A|C", BitwiseUtils.toString(0x05, properties, new String[0]));
+		assertEquals("B|C", BitwiseUtils.toString(0x06, properties, new String[0]));
+		assertEquals("A|B|C", BitwiseUtils.toString(0x07, properties, new String[0]));
+		assertEquals("", BitwiseUtils.toString(0x08, properties, new String[0]));
 	}
 }

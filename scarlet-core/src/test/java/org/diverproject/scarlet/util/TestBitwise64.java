@@ -15,11 +15,11 @@ public class TestBitwise64 {
 	public void testConstructor() {
 		Bitwise64 bitwise = new Bitwise64();
 		assertEquals((byte) 0, bitwise.getValue());
-		assertEquals(Bitwise64.DEFAULT_PROPERTIES, bitwise.getProperties());
+		assertEquals(64, bitwise.getProperties().length);
 
 		bitwise = new Bitwise64((byte) 1);
 		assertEquals((byte) 1, bitwise.getValue());
-		assertEquals(Bitwise64.DEFAULT_PROPERTIES, bitwise.getProperties());
+		assertEquals(64, bitwise.getProperties().length);
 
 		String[] properties = new String[] { "FIRST", "SECOND", "THIRD" };
 		bitwise = new Bitwise64(properties);

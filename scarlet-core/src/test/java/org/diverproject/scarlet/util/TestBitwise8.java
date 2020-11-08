@@ -15,11 +15,11 @@ public class TestBitwise8 {
 	public void testConstructor() {
 		Bitwise8 bitwise = new Bitwise8();
 		assertEquals((byte) 0, bitwise.getValue());
-		assertEquals(Bitwise8.DEFAULT_PROPERTIES, bitwise.getProperties());
+		assertEquals(8, bitwise.getProperties().length);
 
 		bitwise = new Bitwise8((byte) 1);
 		assertEquals((byte) 1, bitwise.getValue());
-		assertEquals(Bitwise8.DEFAULT_PROPERTIES, bitwise.getProperties());
+		assertEquals(8, bitwise.getProperties().length);
 
 		String[] properties = new String[] { "FIRST", "SECOND", "THIRD" };
 		bitwise = new Bitwise8(properties);

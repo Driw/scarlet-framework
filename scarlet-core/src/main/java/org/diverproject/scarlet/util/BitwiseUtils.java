@@ -52,13 +52,19 @@ public class BitwiseUtils {
 		return (value -= value & property);
 	}
 
-	public static String toString(int value, String[] propertys) {
+	public static String toString(long value, String[] properties, String[] defaultProperties) {
+		String separator = "|";
 		StringBuilder builder = new StringBuilder();
 
-		for (int i = 0; i < propertys.length; i++)
-			if (has(value, 1 << i))
-				builder.append(propertys[i] + "|");
+		for (int i = 0; i < defaultProperties.length || i < properties.length; i++)
+			if (has(value, 1 << i)) {
+				if (i < properties.length)
+					builder.append(properties[i]).append(separator);
+				else
+					builder.append(defaultProperties[i]).append(separator);
+			}
 
-		return builder.length() == 0 ? "" : StringUtils.substr(builder.toString(), 0, -1);
+		return builder.length() == 0 ? "" : StringUtils.substr(builder.toString(), 0, -separator.length());
 	}
+
 }
