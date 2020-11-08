@@ -1,8 +1,9 @@
 package org.diverproject.scarlet.util.exceptions;
 
+import org.diverproject.scarlet.ScarletRuntimeException;
 import org.diverproject.scarlet.util.language.BinaryUtilsLanguage;
 
-public class BinaryUtilsRuntimeException extends ScarletUtilRuntimeException {
+public class BinaryUtilsRuntimeException extends ScarletRuntimeException {
 
 	private static final long serialVersionUID = 4439419903823149948L;
 
