@@ -310,4 +310,13 @@ public class TestVersion {
 		assertEquals("1.2.0.3", new Version(1, 2).build(3).toString());
 	}
 
+	@Test
+	@DisplayName("Hash code")
+	public void testHashCode() {
+		assertEquals(new Version(1).hashCode(), new Version(1).hashCode());
+		assertEquals(new Version(1, 2).hashCode(), new Version(1, 2).hashCode());
+		assertEquals(new Version(1, 2, 3).hashCode(), new Version(1, 2, 3).hashCode());
+		assertEquals(new Version(1, 2, 3, 4).hashCode(), new Version(1, 2, 3, 4).hashCode());
+	}
+
 }

@@ -126,12 +126,7 @@ public class Version implements Comparable<Version> {
 		if (!(obj instanceof Version))
 			return false;
 
-		Version version = (Version) obj;
-
-		return version.major() == this.major() &&
-			version.minor() == this.minor() &&
-			version.fix() == this.fix() &&
-			version.build() == this.build();
+		return this.hashCode() == obj.hashCode();
 	}
 
 	@Override

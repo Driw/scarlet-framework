@@ -96,33 +96,33 @@ public class TestNumberUtils {
 	@Test
 	@DisplayName("Compare String numbers")
 	public void testCompareStringNumbers() {
-		assertEquals(NumberUtils.compareStringNumber("a", "1"), NumberUtils.COMPARE_FAILURE);
-		assertEquals(NumberUtils.compareStringNumber("1", "a"), NumberUtils.COMPARE_FAILURE);
-		assertEquals(NumberUtils.compareStringNumber("a", "a"), NumberUtils.COMPARE_FAILURE);
+		assertEquals(NumberUtils.COMPARE_FAILURE, NumberUtils.compareStringNumber("a", "1"));
+		assertEquals(NumberUtils.COMPARE_FAILURE, NumberUtils.compareStringNumber("1", "a"));
+		assertEquals(NumberUtils.COMPARE_FAILURE, NumberUtils.compareStringNumber("a", "a"));
 
-		assertEquals(NumberUtils.compareStringNumber("-1", "-1"), NumberUtils.COMPARE_EQUALS);
-		assertEquals(NumberUtils.compareStringNumber("0", "0"), NumberUtils.COMPARE_EQUALS);
-		assertEquals(NumberUtils.compareStringNumber("1", "1"), NumberUtils.COMPARE_EQUALS);
-		assertEquals(NumberUtils.compareStringNumber("+1", "1"), NumberUtils.COMPARE_EQUALS);
-		assertEquals(NumberUtils.compareStringNumber("1", "+1"), NumberUtils.COMPARE_EQUALS);
+		assertEquals(NumberUtils.COMPARE_EQUALS, NumberUtils.compareStringNumber("-1", "-1"));
+		assertEquals(NumberUtils.COMPARE_EQUALS, NumberUtils.compareStringNumber("0", "0"));
+		assertEquals(NumberUtils.COMPARE_EQUALS, NumberUtils.compareStringNumber("1", "1"));
+		assertEquals(NumberUtils.COMPARE_EQUALS, NumberUtils.compareStringNumber("+1", "1"));
+		assertEquals(NumberUtils.COMPARE_EQUALS, NumberUtils.compareStringNumber("1", "+1"));
 
-		assertEquals(NumberUtils.compareStringNumber("-2", "-1"), NumberUtils.COMPARE_MINOR);
-		assertEquals(NumberUtils.compareStringNumber("-20", "-1"), NumberUtils.COMPARE_MINOR);
-		assertEquals(NumberUtils.compareStringNumber("-20", "-2"), NumberUtils.COMPARE_MINOR);
-		assertEquals(NumberUtils.compareStringNumber("-20", "-3"), NumberUtils.COMPARE_MINOR);
-		assertEquals(NumberUtils.compareStringNumber("1", "2"), NumberUtils.COMPARE_MINOR);
-		assertEquals(NumberUtils.compareStringNumber("1", "20"), NumberUtils.COMPARE_MINOR);
-		assertEquals(NumberUtils.compareStringNumber("2", "20"), NumberUtils.COMPARE_MINOR);
-		assertEquals(NumberUtils.compareStringNumber("3", "20"), NumberUtils.COMPARE_MINOR);
+		assertEquals(NumberUtils.COMPARE_MINOR, NumberUtils.compareStringNumber("-2", "-1"));
+		assertEquals(NumberUtils.COMPARE_MINOR, NumberUtils.compareStringNumber("-20", "-1"));
+		assertEquals(NumberUtils.COMPARE_MINOR, NumberUtils.compareStringNumber("-20", "-2"));
+		assertEquals(NumberUtils.COMPARE_MINOR, NumberUtils.compareStringNumber("-20", "-3"));
+		assertEquals(NumberUtils.COMPARE_MINOR, NumberUtils.compareStringNumber("1", "2"));
+		assertEquals(NumberUtils.COMPARE_MINOR, NumberUtils.compareStringNumber("1", "20"));
+		assertEquals(NumberUtils.COMPARE_MINOR, NumberUtils.compareStringNumber("2", "20"));
+		assertEquals(NumberUtils.COMPARE_MINOR, NumberUtils.compareStringNumber("3", "20"));
 
-		assertEquals(NumberUtils.compareStringNumber("-1", "-2"), NumberUtils.COMPARE_MAJOR);
-		assertEquals(NumberUtils.compareStringNumber("-1", "-20"), NumberUtils.COMPARE_MAJOR);
-		assertEquals(NumberUtils.compareStringNumber("-2", "-20"), NumberUtils.COMPARE_MAJOR);
-		assertEquals(NumberUtils.compareStringNumber("-3", "-20"), NumberUtils.COMPARE_MAJOR);
-		assertEquals(NumberUtils.compareStringNumber("2", "1"), NumberUtils.COMPARE_MAJOR);
-		assertEquals(NumberUtils.compareStringNumber("20", "1"), NumberUtils.COMPARE_MAJOR);
-		assertEquals(NumberUtils.compareStringNumber("20", "2"), NumberUtils.COMPARE_MAJOR);
-		assertEquals(NumberUtils.compareStringNumber("20", "3"), NumberUtils.COMPARE_MAJOR);
+		assertEquals(NumberUtils.COMPARE_MAJOR, NumberUtils.compareStringNumber("-1", "-2"));
+		assertEquals(NumberUtils.COMPARE_MAJOR, NumberUtils.compareStringNumber("-1", "-20"));
+		assertEquals(NumberUtils.COMPARE_MAJOR, NumberUtils.compareStringNumber("-2", "-20"));
+		assertEquals(NumberUtils.COMPARE_MAJOR, NumberUtils.compareStringNumber("-3", "-20"));
+		assertEquals(NumberUtils.COMPARE_MAJOR, NumberUtils.compareStringNumber("2", "1"));
+		assertEquals(NumberUtils.COMPARE_MAJOR, NumberUtils.compareStringNumber("20", "1"));
+		assertEquals(NumberUtils.COMPARE_MAJOR, NumberUtils.compareStringNumber("20", "2"));
+		assertEquals(NumberUtils.COMPARE_MAJOR, NumberUtils.compareStringNumber("20", "3"));
 	}
 
 	@Test

@@ -74,6 +74,7 @@ public class TestDoubleUtils {
 		assertFalse(DoubleUtils.isSafeDouble("+1a.1"));
 		assertFalse(DoubleUtils.isSafeDouble("+1.a1"));
 		assertFalse(DoubleUtils.isSafeDouble("+1.1a"));
+		assertTrue(DoubleUtils.isSafeDouble("1,0"));
 	}
 
 	@Test
