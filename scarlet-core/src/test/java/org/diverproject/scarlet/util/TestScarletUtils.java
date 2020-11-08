@@ -30,9 +30,9 @@ public class TestScarletUtils {
 	@Test
 	@DisplayName("NVL")
 	public void testNvl() {
-		assertEquals(ScarletUtils.nvl(1, 1), 1);
-		assertEquals(ScarletUtils.nvl(1, null), 1);
-		assertEquals(ScarletUtils.nvl(null, 1), 1);
+		assertEquals(1, ScarletUtils.nvl(1, 1));
+		assertEquals(1, ScarletUtils.nvl(1, null));
+		assertEquals(1, ScarletUtils.nvl(null, 1));
 		assertNull(ScarletUtils.nvl(null, null));
 	}
 
