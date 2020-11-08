@@ -120,8 +120,8 @@ public class Version implements Comparable<Version> {
 		if (obj == this)
 			return true;
 
-		if (obj instanceof Long || obj instanceof Integer)
-			return Objects.equals(this.toInt(), obj);
+		if (obj instanceof Long) return Objects.equals(this.toInt(), ((Long) obj).intValue());
+		if (obj instanceof Integer) return Objects.equals(this.toInt(), obj);
 
 		if (!(obj instanceof Version))
 			return false;
