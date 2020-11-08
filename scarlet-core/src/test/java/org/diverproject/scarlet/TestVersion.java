@@ -221,6 +221,8 @@ public class TestVersion {
 		assertTrue(versionA.equals(versionB));
 		assertTrue(versionA.equals(0x010203));
 		assertTrue(versionB.equals(0x010203));
+		assertTrue(versionA.equals(0x010203L));
+		assertTrue(versionB.equals(0x010203L));
 
 		versionA.set(1, 2, 3, 3);
 		versionB.set(1, 2, 3, 0);
@@ -235,36 +237,48 @@ public class TestVersion {
 		assertFalse(versionA.equals(versionB));
 		assertTrue(versionA.equals(0x010200));
 		assertTrue(versionB.equals(0x010203));
+		assertTrue(versionA.equals(0x010200L));
+		assertTrue(versionB.equals(0x010203L));
 
 		versionA.set(1, 2, 3, 4);
 		versionB.set(1, 2, 0, 4);
 		assertFalse(versionA.equals(versionB));
 		assertTrue(versionA.equals(0x010203));
 		assertTrue(versionB.equals(0x010200));
+		assertTrue(versionA.equals(0x010203L));
+		assertTrue(versionB.equals(0x010200L));
 
 		versionA.set(1, 0, 3, 4);
 		versionB.set(1, 2, 3, 4);
 		assertFalse(versionA.equals(versionB));
 		assertTrue(versionA.equals(0x010003));
 		assertTrue(versionB.equals(0x010203));
+		assertTrue(versionA.equals(0x010003L));
+		assertTrue(versionB.equals(0x010203L));
 
 		versionA.set(1, 2, 3, 4);
 		versionB.set(1, 0, 3, 4);
 		assertFalse(versionA.equals(versionB));
 		assertTrue(versionA.equals(0x010203));
 		assertTrue(versionB.equals(0x010003));
+		assertTrue(versionA.equals(0x010203L));
+		assertTrue(versionB.equals(0x010003L));
 
 		versionA.set(0, 2, 3, 4);
 		versionB.set(1, 2, 3, 4);
 		assertFalse(versionA.equals(versionB));
 		assertTrue(versionA.equals(0x000203));
 		assertTrue(versionB.equals(0x010203));
+		assertTrue(versionA.equals(0x000203L));
+		assertTrue(versionB.equals(0x010203L));
 
 		versionA.set(1, 2, 3, 4);
 		versionB.set(0, 2, 3, 4);
 		assertFalse(versionA.equals(versionB));
 		assertTrue(versionA.equals(0x010203));
 		assertTrue(versionB.equals(0x000203));
+		assertTrue(versionA.equals(0x010203L));
+		assertTrue(versionB.equals(0x000203L));
 	}
 
 	@Test
