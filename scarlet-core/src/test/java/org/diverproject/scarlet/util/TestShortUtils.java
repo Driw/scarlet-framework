@@ -2,6 +2,7 @@ package org.diverproject.scarlet.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -51,50 +52,34 @@ class TestShortUtils {
 	@Test
 	@DisplayName("Parse string to short")
 	public void testParseShort() {
-		assertEquals(ShortUtils.parseShort("-32768"), -32768);
-		assertEquals(ShortUtils.parseShort("-1"), -1L);
-		assertEquals(ShortUtils.parseShort("0"), 0L);
-		assertEquals(ShortUtils.parseShort("1"), 1L);
-		assertEquals(ShortUtils.parseShort("+32767"), 32767);
+		assertEquals(-32768, ShortUtils.parseShort("-32768"));
+		assertEquals(-1L, ShortUtils.parseShort("-1"));
+		assertEquals(0L, ShortUtils.parseShort("0"));
+		assertEquals(1L, ShortUtils.parseShort("1"));
+		assertEquals(32767, ShortUtils.parseShort("+32767"));
 
-		assertEquals(ShortUtils.parseShort("-32769", (short) 0), (short) 0);
-		assertEquals(ShortUtils.parseShort("32768", (short) 0), (short) 0);
-		assertEquals(ShortUtils.parseShort(" 1", (short) 0), (short) 0);
-		assertEquals(ShortUtils.parseShort("A", (short) 0), (short) 0);
-		assertEquals(ShortUtils.parseShort("1A", (short) 0), (short) 0);
-		assertEquals(ShortUtils.parseShort("A1", (short) 0), (short) 0);
+		assertEquals((short) 0, ShortUtils.parseShort("-32769", (short) 0));
+		assertEquals((short) 0, ShortUtils.parseShort("32768", (short) 0));
+		assertEquals((short) 0, ShortUtils.parseShort(" 1", (short) 0));
+		assertEquals((short) 0, ShortUtils.parseShort("A", (short) 0));
+		assertEquals((short) 0, ShortUtils.parseShort("1A", (short) 0));
+		assertEquals((short) 0, ShortUtils.parseShort("A1", (short) 0));
 
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			ShortUtils.parseShort(null);
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			ShortUtils.parseShort("");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			ShortUtils.parseShort("-32769");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			ShortUtils.parseShort("32768");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			ShortUtils.parseShort(" 1");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			ShortUtils.parseShort("A");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			ShortUtils.parseShort("1A");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			ShortUtils.parseShort("A1");
-		});
+		assertThrows(NumberUtilsRuntimeException.class, () -> ShortUtils.parseShort(null));
+		assertThrows(NumberUtilsRuntimeException.class, () -> ShortUtils.parseShort(""));
+		assertThrows(NumberUtilsRuntimeException.class, () -> ShortUtils.parseShort("-32769"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> ShortUtils.parseShort("32768"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> ShortUtils.parseShort(" 1"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> ShortUtils.parseShort("A"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> ShortUtils.parseShort("1A"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> ShortUtils.parseShort("A1"));
 	}
 
 	@Test
 	@DisplayName("Parse string to short object")
 	public void testParseShortObject() {
-		assertEquals(ShortUtils.parseShortObject(null), null);
-		assertEquals(ShortUtils.parseShortObject(""), null);
+		assertNull(ShortUtils.parseShortObject(null));
+		assertNull(ShortUtils.parseShortObject(""));
 		assertEquals(ShortUtils.parseShortObject("-32768"), (short) -32768);
 		assertEquals(ShortUtils.parseShortObject("-1"), (short) -1L);
 		assertEquals(ShortUtils.parseShortObject("-32768"), (short) -32768);
@@ -110,33 +95,21 @@ class TestShortUtils {
 		assertEquals(ShortUtils.parseShortObject("1A", (short) 0), (short) 0);
 		assertEquals(ShortUtils.parseShortObject("A1", (short) 0), (short) 0);
 
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			ShortUtils.parseShortObject("-32769");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			ShortUtils.parseShortObject("32768");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			ShortUtils.parseShortObject(" 1");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			ShortUtils.parseShortObject("A");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			ShortUtils.parseShortObject("1A");
-		});
-		assertThrows(NumberUtilsRuntimeException.class, () -> {
-			ShortUtils.parseShortObject("A1");
-		});
+		assertThrows(NumberUtilsRuntimeException.class, () -> ShortUtils.parseShortObject("-32769"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> ShortUtils.parseShortObject("32768"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> ShortUtils.parseShortObject(" 1"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> ShortUtils.parseShortObject("A"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> ShortUtils.parseShortObject("1A"));
+		assertThrows(NumberUtilsRuntimeException.class, () -> ShortUtils.parseShortObject("A1"));
 	}
 
 	@Test
 	@DisplayName("Parse unsigned byte")
 	public void testParseUnsignedByte() {
-		assertEquals(ShortUtils.parseUnsignedByte((byte) 0x00), 0x00L);
-		assertEquals(ShortUtils.parseUnsignedByte((byte) 0x7F), 0x7FL);
-		assertEquals(ShortUtils.parseUnsignedByte((byte) 0x80), 0x80L);
-		assertEquals(ShortUtils.parseUnsignedByte((byte) 0xFF), 0xFFL);
+		assertEquals(0x00L, ShortUtils.parseUnsignedByte((byte) 0x00));
+		assertEquals(0x7FL, ShortUtils.parseUnsignedByte((byte) 0x7F));
+		assertEquals(0x80L, ShortUtils.parseUnsignedByte((byte) 0x80));
+		assertEquals(0xFFL, ShortUtils.parseUnsignedByte((byte) 0xFF));
 	}
 
 	@Test

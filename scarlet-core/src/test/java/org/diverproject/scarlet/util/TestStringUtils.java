@@ -18,12 +18,12 @@ public class TestStringUtils {
 	@Test
 	@DisplayName("Trait null values")
 	public void testNvl() {
-		assertEquals(StringUtils.nvl(null), "");
-		assertEquals(StringUtils.nvl(""), "");
-		assertEquals(StringUtils.nvl("a"), "a");
-		assertEquals(StringUtils.nvl(null, "aaa"), "aaa");
-		assertEquals(StringUtils.nvl("bbb", "aaa"), "bbb");
-		assertEquals(StringUtils.nvl("", "aaa"), "");
+		assertEquals("", StringUtils.nvl(null));
+		assertEquals("", StringUtils.nvl(""));
+		assertEquals("a", StringUtils.nvl("a"));
+		assertEquals("aaa", StringUtils.nvl(null, "aaa"));
+		assertEquals("bbb", StringUtils.nvl("bbb", "aaa"));
+		assertEquals("", StringUtils.nvl("", "aaa"));
 	}
 
 	@Test

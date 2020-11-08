@@ -52,11 +52,11 @@ class TestByteUtils {
 	@Test
 	@DisplayName("Parse string to byte")
 	public void testParseByte() {
-		assertEquals(ByteUtils.parseByte("-128"), -128);
-		assertEquals(ByteUtils.parseByte("-1"), -1L);
-		assertEquals(ByteUtils.parseByte("0"), 0L);
-		assertEquals(ByteUtils.parseByte("1"), 1L);
-		assertEquals(ByteUtils.parseByte("+127"), 127);
+		assertEquals(-128, ByteUtils.parseByte("-128"));
+		assertEquals(-1L, ByteUtils.parseByte("-1"));
+		assertEquals(0L, ByteUtils.parseByte("0"));
+		assertEquals(1L, ByteUtils.parseByte("1"));
+		assertEquals(127, ByteUtils.parseByte("+127"));
 
 		assertEquals(ByteUtils.parseByte("-129", (byte) 0), (byte) 0);
 		assertEquals(ByteUtils.parseByte("128", (byte) 0), (byte) 0);

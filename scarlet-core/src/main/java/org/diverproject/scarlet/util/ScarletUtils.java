@@ -3,6 +3,7 @@ package org.diverproject.scarlet.util;
 import org.diverproject.scarlet.language.Language;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.function.BooleanSupplier;
 
 public final class ScarletUtils {
@@ -17,49 +18,39 @@ public final class ScarletUtils {
 	}
 
 	public static <T> T nvl(T value, T nullValue) {
-		return value == null ? nullValue : value;
+		return Objects.isNull(value) ? nullValue : value;
 	}
 
-	public static void notANull(Object obj) {
-		notANull(obj, (String) null);
+	public static void nonNull(Object obj) {
+		nonNull(obj, (String) null);
 	}
 
-	public static void notANull(Object obj, String message) {
-		if (obj == null) {
-			if (message == null)
+	public static void nonNull(Object obj, String message) {
+		if (Objects.isNull(obj)) {
+			if (Objects.isNull(message))
 				throw new NullPointerException();
 
 			throw new NullPointerException(message);
 		}
 	}
 
-	public static void notANull(Object obj, Language language) {
-		if (obj == null) {
-			if (language == null)
-				throw new NullPointerException();
-
-			throw new NullPointerException(language.getFormat());
-		}
+	public static void nonNull(Object obj, Language language) {
+		nonNull(obj, language.getFormat());
 	}
 
-	public static void notANull(Object obj, Language language, Object... args) {
-		if (obj == null) {
-			if (language == null)
-				throw new NullPointerException();
-
-			throw new NullPointerException(String.format(language.getFormat(), args));
-		}
+	public static void nonNull(Object obj, Language language, Object... args) {
+		nonNull(obj, String.format(language.getFormat(), args));
 	}
 
 	public static int collectionSize(Collection<?> collection) {
-		return collection == null ? 0 : collection.size();
+		return Objects.isNull(collection) ? 0 : collection.size();
 	}
 
 	public static void sleep(int milliseconds) {
 		try {
 			Thread.sleep(milliseconds);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			throw ScarletUtilsError.sleep(e);
 		}
 	}
 
