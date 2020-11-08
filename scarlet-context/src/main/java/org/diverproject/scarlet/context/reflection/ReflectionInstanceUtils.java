@@ -10,4 +10,5 @@ public final class ReflectionInstanceUtils {
 			.map(ReflectionUtils::createInstanceOfEmptyConstructor)
 			.orElseThrow(() -> ReflectionInterfaceExceptionFactory.getInstanceOfUnimplementedInterface(interfaceClass));
 	}
+
 }
