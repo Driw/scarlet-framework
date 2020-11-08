@@ -27,7 +27,7 @@ public class DefaultManagerContext implements ManagerContext {
 
 	private static final Logger logger = LoggerFactory.get(ManagerContext.class);
 
-	private boolean requestQueueReload;
+	private boolean running;
 	private boolean initialized;
 	private Map<String, Manager> managerInstances;
 	private ManagerQueue managerQueue;
@@ -55,6 +55,8 @@ public class DefaultManagerContext implements ManagerContext {
 		if (Objects.nonNull(oldManager)) {
 			logger.info(ManagerContextLanguage.MANAGER_REPLACED_BY_ANOTHER, instanceEntry.getKey(), instanceEntry.getValue(), nameOf(oldManager));
 		}
+
+		this.getManagerQueue().add(instanceEntry.getValue());
 	}
 
 	@Override
@@ -76,14 +78,14 @@ public class DefaultManagerContext implements ManagerContext {
 
 	@Override
 	public boolean isAlive() {
-		return Objects.nonNull(this.getThread()) && this.getThread().isAlive();
+		return Objects.nonNull(this.getThread()) && this.getThread().isAlive() && this.isRunning();
 	}
 
 	@Override
 	public void start() {
 		Thread thread = this.getThread(); // TODO add as specification
 
-		if (Objects.isNull(thread) || Thread.currentThread().equals(thread)) {
+		if (!Objects.isNull(thread) && Thread.currentThread().equals(thread)) {
 			this.run();
 		} else {
 			this.startAsParallelThread();
@@ -146,18 +148,20 @@ public class DefaultManagerContext implements ManagerContext {
 	}
 
 	private void startAsParallelThread() {
-		Thread thread;
 		thread = new Thread(this.threadRunnable());
 		thread.setName(nameOf(this)); // TODO add as configuration
 		thread.setDaemon(true);
 		thread.start();
+		this.setThread(thread);
 	}
 
 	protected Runnable threadRunnable() {
 		return DefaultManagerContext.this::run;
 	}
 
-	protected void run() {
+	public void run() {
+		this.setRunning(true);
+
 		while (DefaultManagerContext.this.isAlive()) {
 			for (Manager manager : DefaultManagerContext.this.getManagerQueue()) {
 				DefaultManagerContext.this.touchManager(manager);
@@ -166,26 +170,7 @@ public class DefaultManagerContext implements ManagerContext {
 	}
 
 	protected void touchManager(Manager manager) {
-		switch (manager.getStatus()) {
-			case STARTING:
-				manager.start();
-				break;
-
-			case RUNNING:
-				manager.tick();
-				break;
-
-			case STOPPING:
-				manager.stop();
-				break;
-
-			case RESTARTING:
-				manager.restart();
-				break;
-
-			case FINISHING:
-				manager.finish();
-				break;
-		}
+		manager.tick();
 	}
+
 }
