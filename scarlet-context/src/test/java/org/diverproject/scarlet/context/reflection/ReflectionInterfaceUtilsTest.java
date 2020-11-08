@@ -24,6 +24,8 @@ public class ReflectionInterfaceUtilsTest {
 		assertTrue(theInterfaceImplementations.contains(TheInterfaceExtendedInterface.class));
 		assertFalse(theInterfaceImplementations.contains(TheInterface.class));
 		assertFalse(theInterfaceImplementations.contains(TheInterfaceExtended.class));
+
+		assertThrows(ReflectionInterfaceException.class, () -> ReflectionInterfaceUtils.getAllImplementationsOf(TheInterfaceConcrete.class));
 	}
 
 	@Test

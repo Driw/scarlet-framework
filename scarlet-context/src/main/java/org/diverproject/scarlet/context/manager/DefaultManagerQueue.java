@@ -62,7 +62,7 @@ public class DefaultManagerQueue implements ManagerQueue {
 
 	public boolean hasOrderBetween(Manager previousManager, Manager nextManager, Manager manager) {
 		if (Objects.isNull(previousManager) && Objects.isNull(nextManager)) {
-			return true;
+			return false;
 		}
 
 		if (Objects.isNull(previousManager)) {

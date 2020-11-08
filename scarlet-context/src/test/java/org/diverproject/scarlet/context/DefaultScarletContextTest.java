@@ -6,14 +6,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.diverproject.scarlet.ScarletRuntimeException;
-import org.diverproject.scarlet.context.reflection.ReflectionInstanceUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.mockito.Mockito;
-import org.mockito.stubbing.Answer;
+
+import java.util.List;
 
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class DefaultScarletContextTest {
@@ -43,8 +42,13 @@ public class DefaultScarletContextTest {
 
 		Object object = new Object();
 		scarletContext.registerSingleton("aKey", object);
+		scarletContext.registerSingleton("aKey", object);
+		scarletContext.registerSingleton("bKey", null);
 		assertEquals(object, scarletContext.getInstance("aKey"));
 		assertEquals(object, scarletContext.getInstance(Object.class, "aKey"));
+		assertNull(scarletContext.getInstance(Object.class, "bKey"));
+
+		assertThrows(ScarletContextException.class, () -> scarletContext.getInstance(List.class, "aKey"));
 	}
 
 }

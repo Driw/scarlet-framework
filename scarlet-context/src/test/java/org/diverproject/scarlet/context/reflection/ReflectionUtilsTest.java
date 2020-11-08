@@ -64,7 +64,9 @@ public class ReflectionUtilsTest {
 		assertNotNull(ReflectionUtils.createInstanceOfEmptyConstructor(PrivateConstructor.class));
 		assertNotNull(ReflectionUtils.createInstanceOfEmptyConstructor(ProtectedConstructor.class));
 		assertNotNull(ReflectionUtils.createInstanceOfEmptyConstructor(PublicConstructor.class));
+
 		assertThrows(ReflectionException.class, () -> ReflectionUtils.createInstanceOfEmptyConstructor(NonEmptyConstructor.class));
+		assertThrows(ReflectionException.class, () -> ReflectionUtils.createInstanceOfEmptyConstructor(ConstructorWithException.class));
 	}
 
 	@Test
@@ -147,6 +149,7 @@ public class ReflectionUtilsTest {
 	private static class ProtectedConstructor { protected ProtectedConstructor() { } }
 	private static class PublicConstructor { public PublicConstructor() { } }
 	private static class NonEmptyConstructor { public NonEmptyConstructor(Object... args) { } }
+	private static class ConstructorWithException { public ConstructorWithException() { throw new RuntimeException(); } }
 	private static interface NonExtendedInterface { }
 	private static interface ThirdChildInterface { }
 	private static interface SecondChildInterface extends ThirdChildInterface { }

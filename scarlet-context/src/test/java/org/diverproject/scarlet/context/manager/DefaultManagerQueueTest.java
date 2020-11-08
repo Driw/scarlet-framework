@@ -76,6 +76,7 @@ public class DefaultManagerQueueTest {
 	public void testHasOrderBetween() {
 		assertThrows(IllegalArgumentException.class, () -> this.managerQueue.hasOrderBetween(new DefaultManager(), null, newDefaultManager(1)));
 
+		assertFalse(this.managerQueue.hasOrderBetween(null, null, new DefaultManager()));
 		assertFalse(this.managerQueue.hasOrderBetween(null, new DefaultManager(), new DefaultManager()));
 		assertFalse(this.managerQueue.hasOrderBetween(new DefaultManager(), new DefaultManager(), new DefaultManager()));
 

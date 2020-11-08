@@ -6,26 +6,30 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.diverproject.scarlet.context.utils.Pair;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 
 import java.util.List;
 
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class DefaultOptionContextTest {
 
 	private DefaultOptionContext optionContext;
 
-	@Test
 	@BeforeEach
 	public void beforeEach() {
 		this.optionContext = new DefaultOptionContext();
 	}
 
 	@Test
-	public void Test01_ParseArguments() {
+	public void testParseArguments() {
 		List<Pair<String, String>> pairs = this.optionContext.parseArguments(new String[] { "var=textOne", "v=\"text two\"" });
+		assertEquals(2, pairs.size());
+		assertEquals("var", pairs.get(0).getFirstValue());
+		assertEquals("textOne", pairs.get(0).getSecondValue());
+		assertEquals("v", pairs.get(1).getFirstValue());
+		assertEquals("text two", pairs.get(1).getSecondValue());
+
+		this.optionContext.setPrefix("prefix_");
+		pairs = this.optionContext.parseArguments(new String[] { "prefix_var=textOne", "prefix_v=\"text two\"" });
 		assertEquals(2, pairs.size());
 		assertEquals("var", pairs.get(0).getFirstValue());
 		assertEquals("textOne", pairs.get(0).getSecondValue());
@@ -34,7 +38,7 @@ public class DefaultOptionContextTest {
 	}
 
 	@Test
-	public void Test02_GetString() {
+	public void testGetString() {
 		this.optionContext.initialize(new String[] { "var=textOne", "v=\"textTwo\"" });
 		assertEquals("textOne", this.optionContext.getString("var"));
 		assertEquals("textOne", this.optionContext.getString("var", "defaultValue"));
@@ -45,7 +49,7 @@ public class DefaultOptionContextTest {
 	}
 
 	@Test
-	public void Test02_GetInt() {
+	public void testGetInt() {
 		this.optionContext.initialize(new String[] { "var=1", "v=\"3\"" });
 		assertEquals(1, this.optionContext.getInt("var"));
 		assertEquals(1, this.optionContext.getInt("var", 2));
@@ -56,7 +60,7 @@ public class DefaultOptionContextTest {
 	}
 
 	@Test
-	public void Test03_GetFloat() {
+	public void testGetFloat() {
 		this.optionContext.initialize(new String[] { "var=1.1", "v=\"3.1\"" });
 		assertEquals(1.1F, this.optionContext.getFloat("var"));
 		assertEquals(1.1F, this.optionContext.getFloat("var", 2.1F));
@@ -67,7 +71,7 @@ public class DefaultOptionContextTest {
 	}
 
 	@Test
-	public void Test03_HasBoolean() {
+	public void testHasBoolean() {
 		this.optionContext.initialize(new String[] { "var=true", "v=\"no\"" });
 		assertTrue(this.optionContext.hasBoolean("var"));
 		assertTrue(this.optionContext.hasBoolean("var", false));

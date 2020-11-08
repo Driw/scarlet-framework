@@ -43,6 +43,7 @@ public class DefaultOptionContext implements OptionContext {
 		if (Objects.nonNull(this.getPrefix())) {
 			args = Arrays.stream(args)
 				.filter(option -> option.startsWith(prefix))
+				.map(option -> option.substring(prefix.length()))
 				.toArray(String[]::new);
 		}
 

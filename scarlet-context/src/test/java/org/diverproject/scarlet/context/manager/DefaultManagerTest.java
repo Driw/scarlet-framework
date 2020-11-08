@@ -15,7 +15,7 @@ public class DefaultManagerTest {
 	}
 
 	@Test
-	public void Test01_Tick() {
+	public void testTick() {
 		assertEquals(ManagerStatus.IDLE, this.manager.getStatus());
 
 		this.manager.tick();
@@ -39,25 +39,28 @@ public class DefaultManagerTest {
 	}
 
 	@Test
-	public void Test02_Start() {
+	public void testStart() {
 		this.manager.start();
 		assertEquals(ManagerStatus.STARTING, this.manager.getStatus());
+		this.manager.tick();
+		assertEquals(ManagerStatus.RUNNING, this.manager.getStatus());
+		this.manager.tick();
 	}
 
 	@Test
-	public void Test03_RESTART() {
+	public void testRestart() {
 		this.manager.restart();
 		assertEquals(ManagerStatus.RESTARTING, this.manager.getStatus());
 	}
 
 	@Test
-	public void Test04_Stop() {
+	public void testStop() {
 		this.manager.stop();
 		assertEquals(ManagerStatus.STOPPING, this.manager.getStatus());
 	}
 
 	@Test
-	public void Test05_Finish() {
+	public void testFinish() {
 		this.manager.finish();
 		assertEquals(ManagerStatus.FINISHING, this.manager.getStatus());
 	}
