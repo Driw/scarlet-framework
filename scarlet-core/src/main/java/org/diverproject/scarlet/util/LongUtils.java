@@ -4,12 +4,12 @@ import static org.diverproject.scarlet.util.language.NumberUtilsLanguage.LONG_PA
 
 import org.diverproject.scarlet.util.exceptions.NumberUtilsRuntimeException;
 
-public final class LongUtils extends NumberUtils {
+public final class LongUtils {
 
 	private LongUtils() { }
 
 	public static boolean isLong(String str) {
-		return hasNumberRange(str, Long.MIN_VALUE, Long.MAX_VALUE);
+		return NumberUtils.hasNumberRange(str, Long.MIN_VALUE, Long.MAX_VALUE);
 	}
 
 	public static boolean isAllLong(String[] array) {

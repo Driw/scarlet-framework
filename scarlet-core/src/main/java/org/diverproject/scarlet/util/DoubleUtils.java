@@ -8,13 +8,13 @@ import org.diverproject.scarlet.util.exceptions.NumberUtilsRuntimeException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public final class DoubleUtils extends NumberUtils {
+public final class DoubleUtils {
 
 	private DoubleUtils() { }
 
 	public static boolean isSafeDouble(String str) {
-		if (isFloatFormat(str))
-			return getPattern().matcher(str).find();
+		if (NumberUtils.isFloatFormat(str))
+			return NumberUtils.getPattern().matcher(str).find();
 
 		return false;
 	}
@@ -60,11 +60,11 @@ public final class DoubleUtils extends NumberUtils {
 		Pattern pattern = null;
 
 		if (dotType && commaType) {
-			pattern = PATTERN_ANY;
+			pattern = NumberUtils.PATTERN_ANY;
 		} else if (dotType) {
-			pattern = PATTERN_DOT;
+			pattern = NumberUtils.PATTERN_DOT;
 		} else if (commaType) {
-			pattern = PATTERN_COMMA;
+			pattern = NumberUtils.PATTERN_COMMA;
 		}
 
 		if (pattern == null)

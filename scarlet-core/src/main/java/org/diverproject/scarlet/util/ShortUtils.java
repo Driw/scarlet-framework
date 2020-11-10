@@ -4,13 +4,12 @@ import static org.diverproject.scarlet.util.language.NumberUtilsLanguage.SHORT_P
 
 import org.diverproject.scarlet.util.exceptions.NumberUtilsRuntimeException;
 
-public final class ShortUtils extends NumberUtils {
+public final class ShortUtils {
 
-	private ShortUtils() {
-	}
+	private ShortUtils() { }
 
 	public static boolean isShort(String str) {
-		return hasNumberRange(str, Short.MIN_VALUE, Short.MAX_VALUE);
+		return NumberUtils.hasNumberRange(str, Short.MIN_VALUE, Short.MAX_VALUE);
 	}
 
 	public static boolean isAllShort(String[] array) {

@@ -4,12 +4,12 @@ import static org.diverproject.scarlet.util.language.NumberUtilsLanguage.SHORT_P
 
 import org.diverproject.scarlet.util.exceptions.NumberUtilsRuntimeException;
 
-public final class ByteUtils extends NumberUtils {
+public final class ByteUtils {
 
 	private ByteUtils() { }
 
 	public static boolean isByte(String str) {
-		return hasNumberRange(str, Byte.MIN_VALUE, Byte.MAX_VALUE);
+		return NumberUtils.hasNumberRange(str, Byte.MIN_VALUE, Byte.MAX_VALUE);
 	}
 
 	public static boolean isAllByte(String[] array) {

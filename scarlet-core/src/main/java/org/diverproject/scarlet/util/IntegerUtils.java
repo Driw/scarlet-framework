@@ -4,12 +4,12 @@ import static org.diverproject.scarlet.util.language.NumberUtilsLanguage.INTEGER
 
 import org.diverproject.scarlet.util.exceptions.NumberUtilsRuntimeException;
 
-public final class IntegerUtils extends NumberUtils {
+public final class IntegerUtils {
 
 	private IntegerUtils() { }
 
 	public static boolean isInteger(String str) {
-		return hasNumberRange(str, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		return NumberUtils.hasNumberRange(str, Integer.MIN_VALUE, Integer.MAX_VALUE);
 	}
 
 	public static boolean isAllInteger(String[] array) {

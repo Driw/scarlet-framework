@@ -34,7 +34,7 @@ public class NumberUtils {
 	public static final int COMPARE_MINOR = 3;
 	private static final int COMPARE_CONTINUE = 4;
 
-	protected NumberUtils() { }
+	private NumberUtils() { }
 
 	public static boolean hasIntegerFormat(String str) {
 		if (StringUtils.isEmpty(str)) return false;
