@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 
 @DisplayName("Array Utils")
-public class TestArrayUtils {
+public class ArrayUtilsTest {
 
 	@Test
 	@DisplayName("Join")

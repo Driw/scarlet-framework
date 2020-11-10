@@ -8,7 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Bitwise (32 bits)")
-public class TestBitwise {
+public class BitwiseTest {
 
 	@Test
 	@DisplayName("Constructor")

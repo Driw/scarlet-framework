@@ -8,7 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Test Boolean Utils")
-public class TestBooleanUtils {
+public class BooleanUtilsTest {
 
 	@Test
 	public void test() {

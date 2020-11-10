@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Statistic Utils")
-public class TestStatisticUtils {
+public class StatisticUtilsTest {
 
 	@Test
 	@DisplayName("Percentage")

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Integer Utils")
-class TestIntegerUtils {
+class IntegerUtilsTest {
 
 	@Test
 	@DisplayName("String is int number")

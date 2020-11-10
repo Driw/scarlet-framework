@@ -8,7 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Bitwise Utils")
-public class TestBitwiseUtils {
+public class BitwiseUtilsTest {
 
 	@Test
 	@DisplayName("Has bit property (8 bits)")

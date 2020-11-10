@@ -11,7 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Short Utils")
-class TestShortUtils {
+class ShortUtilsTest {
 
 	@Test
 	@DisplayName("String is short number")

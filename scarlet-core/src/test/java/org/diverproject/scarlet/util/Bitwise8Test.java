@@ -7,22 +7,22 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("Bitwise (64 bits)")
-public class TestBitwise64 {
+@DisplayName("Bitwise8 (8 bits)")
+public class Bitwise8Test {
 
 	@Test
 	@DisplayName("Constructor")
 	public void testConstructor() {
-		Bitwise64 bitwise = new Bitwise64();
+		Bitwise8 bitwise = new Bitwise8();
 		assertEquals((byte) 0, bitwise.getValue());
-		assertEquals(64, bitwise.getProperties().length);
+		assertEquals(8, bitwise.getProperties().length);
 
-		bitwise = new Bitwise64((byte) 1);
+		bitwise = new Bitwise8((byte) 1);
 		assertEquals((byte) 1, bitwise.getValue());
-		assertEquals(64, bitwise.getProperties().length);
+		assertEquals(8, bitwise.getProperties().length);
 
 		String[] properties = new String[] { "FIRST", "SECOND", "THIRD" };
-		bitwise = new Bitwise64(properties);
+		bitwise = new Bitwise8(properties);
 		assertEquals((byte) 0, bitwise.getValue());
 		assertEquals(properties, bitwise.getProperties());
 	}
@@ -30,32 +30,32 @@ public class TestBitwise64 {
 	@Test
 	@DisplayName("Has bit property")
 	public void hasProperty() {
-		long first = 0x01;
-		long second = 0x02;
-		long third = 0x04;
-		long all = first + second + third;
+		byte first = 0x01;
+		byte second = 0x02;
+		byte third = 0x04;
+		byte all = (byte) (first + second + third);
 
-		Bitwise64 bitwise = new Bitwise64(all);
+		Bitwise8 bitwise = new Bitwise8(all);
 		assertTrue(bitwise.has(first));
 		assertTrue(bitwise.has(second));
 		assertTrue(bitwise.has(third));
 
-		bitwise = new Bitwise64(all - first);
+		bitwise = new Bitwise8((byte) (all - first));
 		assertFalse(bitwise.has(first));
 		assertTrue(bitwise.has(second));
 		assertTrue(bitwise.has(third));
 
-		bitwise = new Bitwise64(all - second);
+		bitwise = new Bitwise8((byte) (all - second));
 		assertTrue(bitwise.has(first));
 		assertFalse(bitwise.has(second));
 		assertTrue(bitwise.has(third));
 
-		bitwise = new Bitwise64(all - third);
+		bitwise = new Bitwise8((byte) (all - third));
 		assertTrue(bitwise.has(first));
 		assertTrue(bitwise.has(second));
 		assertFalse(bitwise.has(third));
 
-		bitwise = new Bitwise64();
+		bitwise = new Bitwise8();
 		assertFalse(bitwise.has(first));
 		assertFalse(bitwise.has(second));
 		assertFalse(bitwise.has(third));
@@ -64,11 +64,11 @@ public class TestBitwise64 {
 	@Test
 	@DisplayName("set property")
 	public void setProperty() {
-		long first = 0x01;
-		long second = 0x02;
-		long third = 0x04;
+		byte first = 0x01;
+		byte second = 0x02;
+		byte third = 0x04;
 
-		Bitwise64 bitwise = new Bitwise64();
+		Bitwise8 bitwise = new Bitwise8();
 		assertFalse(bitwise.has(first));
 		assertFalse(bitwise.has(second));
 		assertFalse(bitwise.has(third));
@@ -92,12 +92,12 @@ public class TestBitwise64 {
 	@Test
 	@DisplayName("set property")
 	public void removeProperty() {
-		long first = 0x01;
-		long second = 0x02;
-		long third = 0x04;
-		long all = first + second + third;
+		byte first = 0x01;
+		byte second = 0x02;
+		byte third = 0x04;
+		byte all = (byte) (first + second + third);
 
-		Bitwise64 bitwise = new Bitwise64(all);
+		Bitwise8 bitwise = new Bitwise8(all);
 		assertTrue(bitwise.has(first));
 		assertTrue(bitwise.has(second));
 		assertTrue(bitwise.has(third));
@@ -117,4 +117,5 @@ public class TestBitwise64 {
 		assertFalse(bitwise.has(second));
 		assertFalse(bitwise.has(third));
 	}
+
 }

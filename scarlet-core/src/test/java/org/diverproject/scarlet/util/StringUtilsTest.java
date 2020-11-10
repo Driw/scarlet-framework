@@ -13,7 +13,7 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("String Utils")
-public class TestStringUtils {
+public class StringUtilsTest {
 
 	@Test
 	@DisplayName("Trait null values")
@@ -578,8 +578,8 @@ public class TestStringUtils {
 	public void testGetSimpleNameOf() {
 		assertEquals(StringClass.class.getSimpleName(), StringUtils.getSimpleNameOf(StringClass.class.getName()));
 		assertEquals(StringClass.class.getSimpleName(), StringUtils.getSimpleNameOf(StringClass.class.getSimpleName()));
-		assertEquals(TestStringUtils.class.getSimpleName(), StringUtils.getSimpleNameOf(TestStringUtils.class.getName()));
-		assertEquals(TestStringUtils.class.getSimpleName(), StringUtils.getSimpleNameOf(TestStringUtils.class.getSimpleName()));
+		assertEquals(StringUtilsTest.class.getSimpleName(), StringUtils.getSimpleNameOf(StringUtilsTest.class.getName()));
+		assertEquals(StringUtilsTest.class.getSimpleName(), StringUtils.getSimpleNameOf(StringUtilsTest.class.getSimpleName()));
 	}
 
 	@Test

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Hexadecimal Utils")
-public class TestHexadecimalUtils {
+public class HexadecimalUtilsTest {
 
 	@Test
 	@DisplayName("Has hexadecimal format")

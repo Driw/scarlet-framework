@@ -8,7 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Binary Utils")
-public class TestBinaryUtils {
+public class BinaryUtilsTest {
 
 	@Test
 	@DisplayName("Calculate shift bitwise")

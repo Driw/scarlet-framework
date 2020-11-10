@@ -11,7 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Float Utils")
-public class TestFloatUtils {
+public class FloatUtilsTest {
 
 	@Test
 	@DisplayName("Is a safe float value")

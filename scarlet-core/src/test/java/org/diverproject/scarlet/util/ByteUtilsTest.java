@@ -11,7 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Byte Utils")
-class TestByteUtils {
+class ByteUtilsTest {
 
 	@Test
 	@DisplayName("String is byte number")

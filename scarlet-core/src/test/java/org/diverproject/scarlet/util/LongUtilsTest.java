@@ -11,7 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Long Utils")
-class TestLongUtils {
+class LongUtilsTest {
 
 	@Test
 	@DisplayName("String is long number")

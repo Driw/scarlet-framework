@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 
 @DisplayName("Double Utils")
-public class TestDoubleUtils {
+public class DoubleUtilsTest {
 
 	@Test
 	@DisplayName("Is a safe Double value")

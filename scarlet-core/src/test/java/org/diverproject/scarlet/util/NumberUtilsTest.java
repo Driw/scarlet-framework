@@ -11,7 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Number Utils")
-public class TestNumberUtils {
+public class NumberUtilsTest {
 
 	@Test
 	@DisplayName("Has integer format")

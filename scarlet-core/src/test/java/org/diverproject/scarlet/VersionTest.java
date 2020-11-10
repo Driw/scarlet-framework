@@ -10,7 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Version")
-public class TestVersion {
+public class VersionTest {
 
 	@Test
 	@DisplayName("Constructor")

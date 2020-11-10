@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @DisplayName("Scarlet Utils")
-public class TestScarletUtils {
+public class ScarletUtilsTest {
 
 	@Test
 	@DisplayName("Name of Object or Class")
