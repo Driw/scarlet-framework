@@ -32,11 +32,11 @@ public class TestDefaultBufferReader {
 	@DisplayName("Reading a byte array")
 	public void testReadByteArray() {
 		DefaultBufferReader defaultBufferReader = getDefaultBufferReader();
-		assertArrayEquals(ArrayUtils.subArray(BYTES, 0, 5), defaultBufferReader.read(5));
-		assertArrayEquals(ArrayUtils.subArray(BYTES, 5, 5), defaultBufferReader.read(5));
+		assertArrayEquals(ArrayUtils.cutArray(BYTES, 0, 5), defaultBufferReader.read(5));
+		assertArrayEquals(ArrayUtils.cutArray(BYTES, 5, 5), defaultBufferReader.read(5));
 
 		defaultBufferReader = getDefaultBufferReader();
-		assertArrayEquals(ArrayUtils.subArray(BYTES, 0, 6), defaultBufferReader.read(6));
+		assertArrayEquals(ArrayUtils.cutArray(BYTES, 0, 6), defaultBufferReader.read(6));
 		DefaultBufferReader finalDefaultBufferReader = defaultBufferReader;
 		assertThrows(BufferRuntimeException.class, () -> finalDefaultBufferReader.read(5));
 	}
@@ -49,7 +49,7 @@ public class TestDefaultBufferReader {
 		assertThrows(BufferRuntimeException.class, defaultBufferReader::read);
 		defaultBufferReader.reset();
 		assertEquals(BYTES[0], defaultBufferReader.read());
-		assertArrayEquals(ArrayUtils.subArray(BYTES, 1, 9), defaultBufferReader.read(9));
+		assertArrayEquals(ArrayUtils.cutArray(BYTES, 1, 9), defaultBufferReader.read(9));
 	}
 
 	@Test

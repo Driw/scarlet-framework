@@ -34,7 +34,7 @@ public class TestDefaultBufferOutput {
 		assertEquals(0, defaultBufferOutput.offset());
 		assertTrue(defaultBufferOutput.isEmpty());
 
-		byte[] bytes = ArrayUtils.subArray(BYTES, 0, 5);
+		byte[] bytes = ArrayUtils.cutArray(BYTES, 0, 5);
 		defaultBufferOutput = getDefaultBufferOutput(new byte[BYTES.length]);
 		defaultBufferOutput.put(bytes);
 		assertArrayEquals(bytes, defaultBufferOutput.flush());

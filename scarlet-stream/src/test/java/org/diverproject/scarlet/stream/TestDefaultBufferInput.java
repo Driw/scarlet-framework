@@ -115,7 +115,7 @@ public class TestDefaultBufferInput {
 		assertThrows(BufferRuntimeException.class, bufferInput::getByte);
 		bufferInput.reset();
 		assertEquals(BYTES[0], bufferInput.getByte());
-		assertArrayEquals(ArrayUtils.subArray(BYTES, 1, BYTES.length - 1), bufferInput.getBytes(BYTES.length - 1));
+		assertArrayEquals(ArrayUtils.cutArray(BYTES, 1, BYTES.length - 1), bufferInput.getBytes(BYTES.length - 1));
 	}
 
 	@Test

@@ -34,7 +34,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 
-public final class StringUtils {
+public final class StringUtils extends org.apache.commons.lang3.StringUtils {
 
 	public static final String ACCENTS = "çÇáéíóúýÁÉÍÓÚÝàèìòùÀÈÌÒÙãõñäëïöüÿÄËÏÖÜÃÕÑâêîôûÂÊÎÔÛÅåÅ";
 	public static final String UNACCENTS = "cCaeiouyAEIOUYaeiouAEIOUaonaeiouyAEIOUAONaeiouAEIOUAaA";
@@ -347,7 +347,7 @@ public final class StringUtils {
 		String[] split = new String[splitLength];
 
 		for (int i = 0; i < split.length; i++)
-			split[i] = new String(ArrayUtils.subArray(chars, i * length, length));
+			split[i] = new String(ArrayUtils.cutArray(chars, i * length, length));
 
 		return split;
 	}
@@ -537,7 +537,7 @@ public final class StringUtils {
 
 		for (int i = 1; i < bytes.length; i++)
 			if (bytes[i] == 0x00)
-				return new String(ArrayUtils.subArray(bytes, 0, i));
+				return new String(ArrayUtils.cutArray(bytes, 0, i));
 
 		return new String(bytes);
 	}

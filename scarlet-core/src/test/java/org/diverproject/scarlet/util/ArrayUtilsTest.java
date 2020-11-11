@@ -24,6 +24,8 @@ public class ArrayUtilsTest {
 		assertEquals("a;b;c;d;e", ArrayUtils.join(";", items));
 		assertEquals("a, b, c, d, e", ArrayUtils.join(Arrays.asList(items).iterator()));
 		assertEquals("a;b;c;d;e", ArrayUtils.join(Arrays.asList(items).iterator(), ";"));
+		assertEquals("a,b,null", ArrayUtils.join(",", "a", "b", null));
+		assertEquals("", ArrayUtils.join());
 	}
 
 	@Test
@@ -37,6 +39,15 @@ public class ArrayUtilsTest {
 		assertTrue(ArrayUtils.in("d", items));
 		assertTrue(ArrayUtils.in("e", items));
 		assertFalse(ArrayUtils.in("f", items));
+		assertTrue(ArrayUtils.in(null, "a", "b", null));
+	}
+
+	@Test
+	@DisplayName("Has value inside of iterator")
+	public void testInIterator() {
+		assertFalse(ArrayUtils.inIterator(0, Arrays.asList(1, 2, 3).listIterator()));
+		assertTrue(ArrayUtils.inIterator(1, Arrays.asList(1, 2, 3).listIterator()));
+		assertTrue(ArrayUtils.inIterator(null, Arrays.asList(1, 2, 3, null).listIterator()));
 	}
 
 	@Test
@@ -52,114 +63,114 @@ public class ArrayUtilsTest {
 
 	@Test
 	@DisplayName("Sub array (generic)")
-	public void testSubArrayGeneric() {
+	public void testCutArrayGeneric() {
 		String[] array = new String[]{"a", "b", "c", "d", "e"};
 
-		assertArrayEquals(new String[]{"a"}, ArrayUtils.subArray(array, 0, 1));
-		assertArrayEquals(new String[]{"a", "b", "c"}, ArrayUtils.subArray(array, 0, 3));
-		assertArrayEquals(new String[]{"c"}, ArrayUtils.subArray(array, 2, 1));
-		assertArrayEquals(new String[]{"c", "d", "e"}, ArrayUtils.subArray(array, 2, 3));
+		assertArrayEquals(new String[]{"a"}, ArrayUtils.cutArray(array, 0, 1));
+		assertArrayEquals(new String[]{"a", "b", "c"}, ArrayUtils.cutArray(array, 0, 3));
+		assertArrayEquals(new String[]{"c"}, ArrayUtils.cutArray(array, 2, 1));
+		assertArrayEquals(new String[]{"c", "d", "e"}, ArrayUtils.cutArray(array, 2, 3));
 
-		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, -1, 1));
-		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, 0, 0));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, -1, 1));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, 0, 0));
 	}
 
 	@Test
 	@DisplayName("Sub array (primitive char)")
-	public void testSubArrayChar() {
+	public void testCutArrayChar() {
 		char[] array = new char[]{0x01, 0x02, 0x03, 0x04, 0x05};
 
-		assertArrayEquals(new char[]{0x01}, ArrayUtils.subArray(array, 0, 1));
-		assertArrayEquals(new char[]{0x01, 0x02, 0x03}, ArrayUtils.subArray(array, 0, 3));
-		assertArrayEquals(new char[]{0x03}, ArrayUtils.subArray(array, 2, 1));
-		assertArrayEquals(new char[]{0x03, 0x04, 0x05}, ArrayUtils.subArray(array, 2, 3));
+		assertArrayEquals(new char[]{0x01}, ArrayUtils.cutArray(array, 0, 1));
+		assertArrayEquals(new char[]{0x01, 0x02, 0x03}, ArrayUtils.cutArray(array, 0, 3));
+		assertArrayEquals(new char[]{0x03}, ArrayUtils.cutArray(array, 2, 1));
+		assertArrayEquals(new char[]{0x03, 0x04, 0x05}, ArrayUtils.cutArray(array, 2, 3));
 
-		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, -1, 1));
-		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, 0, 0));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, -1, 1));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, 0, 0));
 	}
 
 	@Test
 	@DisplayName("Sub array (primitive byte)")
-	public void testSubArrayByte() {
+	public void testCutArrayByte() {
 		byte[] array = new byte[]{0x01, 0x02, 0x03, 0x04, 0x05};
 
-		assertArrayEquals(new byte[]{0x01}, ArrayUtils.subArray(array, 0, 1));
-		assertArrayEquals(new byte[]{0x01, 0x02, 0x03}, ArrayUtils.subArray(array, 0, 3));
-		assertArrayEquals(new byte[]{0x03}, ArrayUtils.subArray(array, 2, 1));
-		assertArrayEquals(new byte[]{0x03, 0x04, 0x05}, ArrayUtils.subArray(array, 2, 3));
+		assertArrayEquals(new byte[]{0x01}, ArrayUtils.cutArray(array, 0, 1));
+		assertArrayEquals(new byte[]{0x01, 0x02, 0x03}, ArrayUtils.cutArray(array, 0, 3));
+		assertArrayEquals(new byte[]{0x03}, ArrayUtils.cutArray(array, 2, 1));
+		assertArrayEquals(new byte[]{0x03, 0x04, 0x05}, ArrayUtils.cutArray(array, 2, 3));
 
-		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, -1, 1));
-		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, 0, 0));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, -1, 1));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, 0, 0));
 	}
 
 	@Test
 	@DisplayName("Sub array (primitive short)")
-	public void testSubArrayShort() {
+	public void testCutArrayShort() {
 		short[] array = new short[]{0x01, 0x02, 0x03, 0x04, 0x05};
 
-		assertArrayEquals(new short[]{0x01}, ArrayUtils.subArray(array, 0, 1));
-		assertArrayEquals(new short[]{0x01, 0x02, 0x03}, ArrayUtils.subArray(array, 0, 3));
-		assertArrayEquals(new short[]{0x03}, ArrayUtils.subArray(array, 2, 1));
-		assertArrayEquals(new short[]{0x03, 0x04, 0x05}, ArrayUtils.subArray(array, 2, 3));
+		assertArrayEquals(new short[]{0x01}, ArrayUtils.cutArray(array, 0, 1));
+		assertArrayEquals(new short[]{0x01, 0x02, 0x03}, ArrayUtils.cutArray(array, 0, 3));
+		assertArrayEquals(new short[]{0x03}, ArrayUtils.cutArray(array, 2, 1));
+		assertArrayEquals(new short[]{0x03, 0x04, 0x05}, ArrayUtils.cutArray(array, 2, 3));
 
-		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, -1, 1));
-		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, 0, 0));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, -1, 1));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, 0, 0));
 	}
 
 	@Test
 	@DisplayName("Sub array (primitive int)")
-	public void testSubArrayInt() {
+	public void testCutArrayInt() {
 		int[] array = new int[]{0x01, 0x02, 0x03, 0x04, 0x05};
 
-		assertArrayEquals(new int[]{0x01}, ArrayUtils.subArray(array, 0, 1));
-		assertArrayEquals(new int[]{0x01, 0x02, 0x03}, ArrayUtils.subArray(array, 0, 3));
-		assertArrayEquals(new int[]{0x03}, ArrayUtils.subArray(array, 2, 1));
-		assertArrayEquals(new int[]{0x03, 0x04, 0x05}, ArrayUtils.subArray(array, 2, 3));
+		assertArrayEquals(new int[]{0x01}, ArrayUtils.cutArray(array, 0, 1));
+		assertArrayEquals(new int[]{0x01, 0x02, 0x03}, ArrayUtils.cutArray(array, 0, 3));
+		assertArrayEquals(new int[]{0x03}, ArrayUtils.cutArray(array, 2, 1));
+		assertArrayEquals(new int[]{0x03, 0x04, 0x05}, ArrayUtils.cutArray(array, 2, 3));
 
-		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, -1, 1));
-		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, 0, 0));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, -1, 1));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, 0, 0));
 	}
 
 	@Test
 	@DisplayName("Sub array (primitive long)")
-	public void testSubArrayLong() {
+	public void testCutArrayLong() {
 		long[] array = new long[]{0x01, 0x02, 0x03, 0x04, 0x05};
 
-		assertArrayEquals(new long[]{0x01}, ArrayUtils.subArray(array, 0, 1));
-		assertArrayEquals(new long[]{0x01, 0x02, 0x03}, ArrayUtils.subArray(array, 0, 3));
-		assertArrayEquals(new long[]{0x03}, ArrayUtils.subArray(array, 2, 1));
-		assertArrayEquals(new long[]{0x03, 0x04, 0x05}, ArrayUtils.subArray(array, 2, 3));
+		assertArrayEquals(new long[]{0x01}, ArrayUtils.cutArray(array, 0, 1));
+		assertArrayEquals(new long[]{0x01, 0x02, 0x03}, ArrayUtils.cutArray(array, 0, 3));
+		assertArrayEquals(new long[]{0x03}, ArrayUtils.cutArray(array, 2, 1));
+		assertArrayEquals(new long[]{0x03, 0x04, 0x05}, ArrayUtils.cutArray(array, 2, 3));
 
-		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, -1, 1));
-		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, 0, 0));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, -1, 1));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, 0, 0));
 	}
 
 	@Test
 	@DisplayName("Sub array (primitive float)")
-	public void testSubArrayFloat() {
+	public void testCutArrayFloat() {
 		float[] array = new float[]{0x01, 0x02, 0x03, 0x04, 0x05};
 
-		assertArrayEquals(new float[]{0x01}, ArrayUtils.subArray(array, 0, 1));
-		assertArrayEquals(new float[]{0x01, 0x02, 0x03}, ArrayUtils.subArray(array, 0, 3));
-		assertArrayEquals(new float[]{0x03}, ArrayUtils.subArray(array, 2, 1));
-		assertArrayEquals(new float[]{0x03, 0x04, 0x05}, ArrayUtils.subArray(array, 2, 3));
+		assertArrayEquals(new float[]{0x01}, ArrayUtils.cutArray(array, 0, 1));
+		assertArrayEquals(new float[]{0x01, 0x02, 0x03}, ArrayUtils.cutArray(array, 0, 3));
+		assertArrayEquals(new float[]{0x03}, ArrayUtils.cutArray(array, 2, 1));
+		assertArrayEquals(new float[]{0x03, 0x04, 0x05}, ArrayUtils.cutArray(array, 2, 3));
 
-		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, -1, 1));
-		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, 0, 0));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, -1, 1));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, 0, 0));
 	}
 
 	@Test
 	@DisplayName("Sub array (primitive double)")
-	public void testSubArrayDouble() {
+	public void testCutArrayDouble() {
 		double[] array = new double[]{0x01, 0x02, 0x03, 0x04, 0x05};
 
-		assertArrayEquals(new double[]{0x01}, ArrayUtils.subArray(array, 0, 1));
-		assertArrayEquals(new double[]{0x01, 0x02, 0x03}, ArrayUtils.subArray(array, 0, 3));
-		assertArrayEquals(new double[]{0x03}, ArrayUtils.subArray(array, 2, 1));
-		assertArrayEquals(new double[]{0x03, 0x04, 0x05}, ArrayUtils.subArray(array, 2, 3));
+		assertArrayEquals(new double[]{0x01}, ArrayUtils.cutArray(array, 0, 1));
+		assertArrayEquals(new double[]{0x01, 0x02, 0x03}, ArrayUtils.cutArray(array, 0, 3));
+		assertArrayEquals(new double[]{0x03}, ArrayUtils.cutArray(array, 2, 1));
+		assertArrayEquals(new double[]{0x03, 0x04, 0x05}, ArrayUtils.cutArray(array, 2, 3));
 
-		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, -1, 1));
-		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.subArray(array, 0, 0));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, -1, 1));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, 0, 0));
 	}
 
 	@Test

@@ -26,7 +26,7 @@ public class DefaultBufferOutput extends DefaultOutput implements BufferOutput {
 			return new byte[0];
 
 		byte[] data = this.getByteBuffer().data();
-		byte[] flushed = ArrayUtils.subArray(data, 0, this.offset());
+		byte[] flushed = ArrayUtils.cutArray(data, 0, this.offset());
 		int length = this.isDynamic() ? this.capacity() : this.capacity() - this.offset();
 		byte[] newData = new byte[length];
 

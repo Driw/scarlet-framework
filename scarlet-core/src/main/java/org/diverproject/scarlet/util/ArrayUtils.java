@@ -9,8 +9,9 @@ import org.diverproject.scarlet.util.exceptions.ArrayUtilsRuntimeException;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Objects;
 
-public final class ArrayUtils {
+public final class ArrayUtils extends org.apache.commons.lang3.ArrayUtils {
 
 	public static final int MIN_SUB_ARRAY_LENGTH = 1;
 	public static final String DEFAULT_JOIN_SEPARATOR = ", ";
@@ -69,55 +70,6 @@ public final class ArrayUtils {
 		return index >= 0 && index < array.length;
 	}
 
-	public static Byte[] primitiveArrayToObject(byte... array) {
-		Byte[] newArray = new Byte[array.length];
-		System.arraycopy(array, 0, newArray, 0, array.length);
-
-		return newArray;
-	}
-
-	public static Short[] primitiveArrayToObject(short... array) {
-		Short[] newArray = new Short[array.length];
-		System.arraycopy(array, 0, newArray, 0, array.length);
-
-		return newArray;
-	}
-
-	public static Integer[] primitiveArrayToObject(int... array) {
-		Integer[] newArray = new Integer[array.length];
-		System.arraycopy(array, 0, newArray, 0, array.length);
-
-		return newArray;
-	}
-
-	public static Long[] primitiveArrayToObject(long... array) {
-		Long[] newArray = new Long[array.length];
-		System.arraycopy(array, 0, newArray, 0, array.length);
-
-		return newArray;
-	}
-
-	public static Float[] primitiveArrayToObject(float... array) {
-		Float[] newArray = new Float[array.length];
-		System.arraycopy(array, 0, newArray, 0, array.length);
-
-		return newArray;
-	}
-
-	public static Double[] primitiveArrayToObject(double... array) {
-		Double[] newArray = new Double[array.length];
-		System.arraycopy(array, 0, newArray, 0, array.length);
-
-		return newArray;
-	}
-
-	public static Character[] primitiveArrayToObject(char... array) {
-		Character[] newArray = new Character[array.length];
-		System.arraycopy(array, 0, newArray, 0, array.length);
-
-		return newArray;
-	}
-
 	private static int validateSubArray(int offset, int length, int arrayLength) {
 		if (length < MIN_SUB_ARRAY_LENGTH)
 			throw new ArrayUtilsRuntimeException(SUB_ARRAY_LENGTH_INVALID);
@@ -128,7 +80,7 @@ public final class ArrayUtils {
 		return length;
 	}
 
-	public static <T> T[] subArray(T[] array, int offset, int length) {
+	public static <T> T[] cutArray(T[] array, int offset, int length) {
 		if (array == null)
 			throw new ArrayUtilsRuntimeException(SUB_ARRAY_NULL);
 
@@ -146,7 +98,7 @@ public final class ArrayUtils {
 		return sub;
 	}
 
-	public static char[] subArray(char[] array, int offset, int length) {
+	public static char[] cutArray(char[] array, int offset, int length) {
 		if (array == null)
 			throw new ArrayUtilsRuntimeException(SUB_ARRAY_NULL);
 
@@ -162,7 +114,7 @@ public final class ArrayUtils {
 		return sub;
 	}
 
-	public static byte[] subArray(byte[] array, int offset, int length) {
+	public static byte[] cutArray(byte[] array, int offset, int length) {
 		if (array == null)
 			throw new ArrayUtilsRuntimeException(SUB_ARRAY_NULL);
 
@@ -178,7 +130,7 @@ public final class ArrayUtils {
 		return sub;
 	}
 
-	public static short[] subArray(short[] array, int offset, int length) {
+	public static short[] cutArray(short[] array, int offset, int length) {
 		if (array == null)
 			throw new ArrayUtilsRuntimeException(SUB_ARRAY_NULL);
 
@@ -194,7 +146,7 @@ public final class ArrayUtils {
 		return sub;
 	}
 
-	public static int[] subArray(int[] array, int offset, int length) {
+	public static int[] cutArray(int[] array, int offset, int length) {
 		if (array == null)
 			throw new ArrayUtilsRuntimeException(SUB_ARRAY_NULL);
 
@@ -210,7 +162,7 @@ public final class ArrayUtils {
 		return sub;
 	}
 
-	public static long[] subArray(long[] array, int offset, int length) {
+	public static long[] cutArray(long[] array, int offset, int length) {
 		if (array == null)
 			throw new ArrayUtilsRuntimeException(SUB_ARRAY_NULL);
 
@@ -226,7 +178,7 @@ public final class ArrayUtils {
 		return sub;
 	}
 
-	public static float[] subArray(float[] array, int offset, int length) {
+	public static float[] cutArray(float[] array, int offset, int length) {
 		if (array == null)
 			throw new ArrayUtilsRuntimeException(SUB_ARRAY_NULL);
 
@@ -242,7 +194,7 @@ public final class ArrayUtils {
 		return sub;
 	}
 
-	public static double[] subArray(double[] array, int offset, int length) {
+	public static double[] cutArray(double[] array, int offset, int length) {
 		if (array == null)
 			throw new ArrayUtilsRuntimeException(SUB_ARRAY_NULL);
 
@@ -322,10 +274,17 @@ public final class ArrayUtils {
 		return newArray;
 	}
 
-	public static <T> boolean contains(T[] items, T value) {
-		for (T item : items)
-			if (item.equals(value))
+	public static <T> boolean contains(T value, Iterable<T> items) {
+		if (Objects.isNull(items)) return false;
+
+		Iterator<T> iterator = items.iterator();
+
+		while (iterator.hasNext()) {
+			T iteration = iterator.next();
+
+			if ((Objects.isNull(value) && Objects.isNull(iteration)) || Objects.equals(iterator.next(), value))
 				return true;
+		}
 
 		return false;
 	}
