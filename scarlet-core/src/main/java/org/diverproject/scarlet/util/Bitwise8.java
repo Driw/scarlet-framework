@@ -5,9 +5,7 @@ import lombok.Data;
 @Data
 public class Bitwise8 {
 
-	private static final String[] DEFAULT_PROPERTIES = new String[] {
-		"0x00000001", "0x00000002", "0x00000004", "0x00000008", "0x00000010", "0x00000020", "0x00000040", "0x00000080",
-	};
+	private static final String[] DEFAULT_PROPERTIES = new String[] { "0x01", "0x02", "0x04", "0x08", "0x10", "0x20", "0x40", "0x80" };
 
 	private byte value;
 	private String[] properties;

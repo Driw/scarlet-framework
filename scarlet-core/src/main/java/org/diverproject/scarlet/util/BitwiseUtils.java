@@ -57,7 +57,7 @@ public final class BitwiseUtils {
 		StringBuilder builder = new StringBuilder();
 
 		for (int i = 0; i < defaultProperties.length || i < properties.length; i++)
-			if (has(value, 1 << i)) {
+			if (has(value, 1L << (long) i)) {
 				if (i < properties.length)
 					builder.append(properties[i]).append(separator);
 				else

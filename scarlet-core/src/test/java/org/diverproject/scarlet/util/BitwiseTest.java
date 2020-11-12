@@ -117,4 +117,12 @@ public class BitwiseTest {
 		assertFalse(bitwise.has(second));
 		assertFalse(bitwise.has(third));
 	}
+
+	@Test
+	public void testToString() {
+		String[] properties = new String[] { "FIRST", "SECOND", "THIRD" };
+		Bitwise bitwise = new Bitwise(15, properties);
+		assertEquals("Bitwise{value=15, properties=FIRST|SECOND|THIRD|0x00000008}", bitwise.toString());
+	}
+
 }

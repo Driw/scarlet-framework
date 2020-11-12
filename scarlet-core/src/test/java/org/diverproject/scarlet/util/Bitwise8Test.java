@@ -118,4 +118,11 @@ public class Bitwise8Test {
 		assertFalse(bitwise.has(third));
 	}
 
+	@Test
+	public void testToString() {
+		String[] properties = new String[] { "FIRST", "SECOND", "THIRD" };
+		Bitwise8 bitwise = new Bitwise8((byte) 15, properties);
+		assertEquals("Bitwise8{value=15, properties=FIRST|SECOND|THIRD|0x08}", bitwise.toString());
+	}
+
 }

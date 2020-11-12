@@ -6,8 +6,8 @@ import lombok.Data;
 public class Bitwise16 {
 
 	private static final String[] DEFAULT_PROPERTIES = new String[] {
-		"0x00000001", "0x00000002", "0x00000004", "0x00000008", "0x00000010", "0x00000020", "0x00000040", "0x00000080",
-		"0x00000100", "0x00000200", "0x00000400", "0x00000800", "0x00001000", "0x00002000", "0x00004000", "0x00008000",
+		"0x0001", "0x0002", "0x0004", "0x0008", "0x0010", "0x0020", "0x0040", "0x0080",
+		"0x0100", "0x0200", "0x0400", "0x0800", "0x1000", "0x2000", "0x4000", "0x8000",
 	};
 
 	private short value;
@@ -48,7 +48,7 @@ public class Bitwise16 {
 
 	@Override
 	public String toString() {
-		return "Bitwise{value=" +this.getValue()+ ", properties=" +BitwiseUtils.toString(this.getValue(), this.getProperties(), DEFAULT_PROPERTIES)+ "}";
+		return "Bitwise16{value=" +this.getValue()+ ", properties=" +BitwiseUtils.toString(this.getValue(), this.getProperties(), DEFAULT_PROPERTIES)+ "}";
 	}
 
 }
