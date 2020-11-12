@@ -1,6 +1,6 @@
 package org.diverproject.scarlet.util;
 
-public final class CharUtils extends org.apache.commons.lang3.CharSequenceUtils {
+public final class CharUtils {
 
 	private CharUtils() { }
 

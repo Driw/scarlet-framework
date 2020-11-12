@@ -46,6 +46,7 @@ public final class ScarletUtils {
 		return Objects.isNull(collection) ? 0 : collection.size();
 	}
 
+	@SuppressWarnings("squid:S2142")
 	public static void sleep(int milliseconds) {
 		try {
 			Thread.sleep(milliseconds);

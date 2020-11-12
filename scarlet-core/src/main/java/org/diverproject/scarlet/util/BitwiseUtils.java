@@ -8,10 +8,12 @@ public final class BitwiseUtils {
 		return (value & property) == property;
 	}
 
+	@SuppressWarnings("squid:S1121")
 	public static byte set(byte value, byte property) {
 		return (value |= property);
 	}
 
+	@SuppressWarnings("squid:S1121")
 	public static byte remove(byte value, byte property) {
 		return (value -= value & property);
 	}
@@ -20,10 +22,12 @@ public final class BitwiseUtils {
 		return (value & property) == property;
 	}
 
+	@SuppressWarnings("squid:S1121")
 	public static short set(short value, short property) {
 		return (value |= property);
 	}
 
+	@SuppressWarnings("squid:S1121")
 	public static short remove(short value, short property) {
 		return (value -= value & property);
 	}
@@ -32,10 +36,12 @@ public final class BitwiseUtils {
 		return (value & property) == property;
 	}
 
+	@SuppressWarnings("squid:S1121")
 	public static int set(int value, int property) {
 		return (value |= property);
 	}
 
+	@SuppressWarnings("squid:S1121")
 	public static int remove(int value, int property) {
 		return (value -= value & property);
 	}
@@ -44,10 +50,12 @@ public final class BitwiseUtils {
 		return (value & property) == property;
 	}
 
+	@SuppressWarnings("squid:S1121")
 	public static long set(long value, long property) {
 		return (value |= property);
 	}
 
+	@SuppressWarnings("squid:S1121")
 	public static long remove(long value, long property) {
 		return (value -= value & property);
 	}
