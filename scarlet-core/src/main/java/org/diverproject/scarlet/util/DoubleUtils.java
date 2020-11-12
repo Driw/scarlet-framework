@@ -79,7 +79,7 @@ public final class DoubleUtils {
 			String signal = matcher.group("signal");
 
 			doubleParser.setRaw(raw);
-			doubleParser.setPositive(signal.isEmpty() || signal.equals("+"));
+			doubleParser.setPositive(!signal.equals("-"));
 			doubleParser.setExpression(!matcher.group("exponent").isEmpty());
 			doubleParser.setValue(matcher.group("value"));
 

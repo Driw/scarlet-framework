@@ -80,7 +80,7 @@ public final class FloatUtils {
 			String signal = matcher.group("signal");
 
 			floatParser.setRaw(raw);
-			floatParser.setPositive(signal.isEmpty() || signal.equals("+"));
+			floatParser.setPositive(!signal.equals("-"));
 			floatParser.setExpression(!matcher.group("exponent").isEmpty());
 			floatParser.setValue(matcher.group("value"));
 
