@@ -9,7 +9,7 @@ import org.diverproject.scarlet.util.exceptions.StringUtilsRuntimeException;
 
 import java.util.regex.Pattern;
 
-public final class NumberUtils extends org.apache.commons.lang3.math.NumberUtils {
+public final class NumberUtils {
 
 	public static final int DECIMAL_DOT_TYPE = 1;
 	public static final int DECIMAL_COMMA_TYPE = 2;

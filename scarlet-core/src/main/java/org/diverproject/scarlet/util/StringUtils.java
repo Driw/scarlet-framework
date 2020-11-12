@@ -34,7 +34,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 
-public final class StringUtils extends org.apache.commons.lang3.StringUtils {
+public final class StringUtils {
 
 	public static final String ACCENTS = "çÇáéíóúýÁÉÍÓÚÝàèìòùÀÈÌÒÙãõñäëïöüÿÄËÏÖÜÃÕÑâêîôûÂÊÎÔÛÅåÅ";
 	public static final String UNACCENTS = "cCaeiouyAEIOUYaeiouAEIOUaonaeiouyAEIOUAONaeiouAEIOUAaA";

@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Objects;
 
-public final class ArrayUtils extends org.apache.commons.lang3.ArrayUtils {
+public final class ArrayUtils {
 
 	public static final int MIN_SUB_ARRAY_LENGTH = 1;
 	public static final String DEFAULT_JOIN_SEPARATOR = ", ";
