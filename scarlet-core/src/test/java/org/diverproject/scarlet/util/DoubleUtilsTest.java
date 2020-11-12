@@ -11,8 +11,6 @@ import org.diverproject.scarlet.util.exceptions.NumberUtilsRuntimeException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-
 @DisplayName("Double Utils")
 public class DoubleUtilsTest {
 
@@ -255,6 +253,8 @@ public class DoubleUtilsTest {
 	@Test
 	@DisplayName("Parse double values as Object")
 	public void testParseDoubleObject() {
+		assertNull(DoubleUtils.parseDoubleObject(null));
+		assertNull(DoubleUtils.parseDoubleObject(""));
 		assertEquals(123.123D, DoubleUtils.parseDoubleObject("123.123"));
 	}
 
@@ -320,6 +320,8 @@ public class DoubleUtilsTest {
 				parser.parseDouble();
 			});
 		}
+
+		assertThrows(NumberUtilsRuntimeException.class, () -> DoubleUtils.parseDouble("123", 4, parser));
 	}
 
 	@Test

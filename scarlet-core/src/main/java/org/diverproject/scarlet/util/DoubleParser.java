@@ -3,9 +3,6 @@ package org.diverproject.scarlet.util;
 import static org.diverproject.scarlet.util.language.NumberUtilsLanguage.DOUBLE_PARSER_EXPONENT;
 import static org.diverproject.scarlet.util.language.NumberUtilsLanguage.DOUBLE_PARSER_PRECISION;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 import org.diverproject.scarlet.util.exceptions.NumberUtilsRuntimeException;
 
 import java.util.Objects;
