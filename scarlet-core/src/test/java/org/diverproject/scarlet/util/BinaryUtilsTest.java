@@ -79,8 +79,8 @@ public class BinaryUtilsTest {
 		assertEquals(BinaryUtils.newShort(true, max, one), (short) 0x01FF);
 		assertEquals(BinaryUtils.newShort(true, max, max), (short) 0xFFFF);
 
-		assertThrows(BinaryUtilsRuntimeException.class, () -> BinaryUtils.newShort(false, (byte[]) null));
-		assertThrows(BinaryUtilsRuntimeException.class, () -> BinaryUtils.newShort(false, new byte[0]));
+		assertThrows(BinaryUtilsRuntimeException.class, () -> BinaryUtils.newShort(false));
+		assertThrows(BinaryUtilsRuntimeException.class, () -> BinaryUtils.newShort(false, null));
 		assertThrows(BinaryUtilsRuntimeException.class, () -> BinaryUtils.newShort(false, new byte[3]));
 	}
 
@@ -120,6 +120,10 @@ public class BinaryUtilsTest {
 		assertEquals(0x00FF0000, BinaryUtils.newInt(true, max, zero));
 		assertEquals(0x01FF0000, BinaryUtils.newInt(true, max, one));
 		assertEquals(0xFFFF0000, BinaryUtils.newInt(true, max, max));
+
+		assertThrows(BinaryUtilsRuntimeException.class, () -> BinaryUtils.newInt(false));
+		assertThrows(BinaryUtilsRuntimeException.class, () -> BinaryUtils.newInt(false, null));
+		assertThrows(BinaryUtilsRuntimeException.class, () -> BinaryUtils.newInt(false, new byte[5]));
 	}
 
 	@Test
@@ -158,5 +162,9 @@ public class BinaryUtilsTest {
 		assertEquals(0x00FF000000000000L, BinaryUtils.newLong(true, max, zero));
 		assertEquals(0x01FF000000000000L, BinaryUtils.newLong(true, max, one));
 		assertEquals(0xFFFF000000000000L, BinaryUtils.newLong(true, max, max));
+
+		assertThrows(BinaryUtilsRuntimeException.class, () -> BinaryUtils.newLong(false));
+		assertThrows(BinaryUtilsRuntimeException.class, () -> BinaryUtils.newLong(false, null));
+		assertThrows(BinaryUtilsRuntimeException.class, () -> BinaryUtils.newLong(false, new byte[9]));
 	}
 }

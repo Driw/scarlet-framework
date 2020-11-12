@@ -139,6 +139,13 @@ public class FloatUtilsTest {
 	}
 
 	@Test
+	void testParseFloatObject() {
+		assertNull(FloatUtils.parseFloatObject(null));
+		assertNull(FloatUtils.parseFloatObject(""));
+		assertEquals(123.123F, FloatUtils.parseFloatObject("123.123"));
+	}
+
+	@Test
 	@DisplayName("Float values")
 	public void testParseFloat() {
 		assertEquals(123f, FloatUtils.parseFloat("123"));
@@ -239,6 +246,7 @@ public class FloatUtilsTest {
 		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("-123,", NumberUtils.DECIMAL_DOT_TYPE));
 		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("-,123", NumberUtils.DECIMAL_DOT_TYPE));
 		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("-123,123", NumberUtils.DECIMAL_DOT_TYPE));
+		assertThrows(NumberUtilsRuntimeException.class, () -> FloatUtils.parseFloat("123.123", 4));
 	}
 
 	@Test

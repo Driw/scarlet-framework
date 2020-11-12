@@ -71,6 +71,7 @@ public class ArrayUtilsTest {
 		assertArrayEquals(new String[]{"c"}, ArrayUtils.cutArray(array, 2, 1));
 		assertArrayEquals(new String[]{"c", "d", "e"}, ArrayUtils.cutArray(array, 2, 3));
 
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray((Object[]) null, -1, 1));
 		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, -1, 1));
 		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, 0, 0));
 	}
@@ -85,8 +86,9 @@ public class ArrayUtilsTest {
 		assertArrayEquals(new char[]{0x03}, ArrayUtils.cutArray(array, 2, 1));
 		assertArrayEquals(new char[]{0x03, 0x04, 0x05}, ArrayUtils.cutArray(array, 2, 3));
 
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray((char[]) null, -1, 1));
 		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, -1, 1));
-		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, 0, 0));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, array.length + 1, 0));
 	}
 
 	@Test
@@ -99,8 +101,9 @@ public class ArrayUtilsTest {
 		assertArrayEquals(new byte[]{0x03}, ArrayUtils.cutArray(array, 2, 1));
 		assertArrayEquals(new byte[]{0x03, 0x04, 0x05}, ArrayUtils.cutArray(array, 2, 3));
 
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray((byte[]) null, -1, 1));
 		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, -1, 1));
-		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, 0, 0));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, array.length + 1, 0));
 	}
 
 	@Test
@@ -113,8 +116,9 @@ public class ArrayUtilsTest {
 		assertArrayEquals(new short[]{0x03}, ArrayUtils.cutArray(array, 2, 1));
 		assertArrayEquals(new short[]{0x03, 0x04, 0x05}, ArrayUtils.cutArray(array, 2, 3));
 
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray((short[]) null, -1, 1));
 		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, -1, 1));
-		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, 0, 0));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, array.length + 1, 0));
 	}
 
 	@Test
@@ -127,8 +131,9 @@ public class ArrayUtilsTest {
 		assertArrayEquals(new int[]{0x03}, ArrayUtils.cutArray(array, 2, 1));
 		assertArrayEquals(new int[]{0x03, 0x04, 0x05}, ArrayUtils.cutArray(array, 2, 3));
 
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray((int[]) null, -1, 1));
 		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, -1, 1));
-		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, 0, 0));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, array.length + 1, 0));
 	}
 
 	@Test
@@ -141,8 +146,9 @@ public class ArrayUtilsTest {
 		assertArrayEquals(new long[]{0x03}, ArrayUtils.cutArray(array, 2, 1));
 		assertArrayEquals(new long[]{0x03, 0x04, 0x05}, ArrayUtils.cutArray(array, 2, 3));
 
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray((long[]) null, -1, 1));
 		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, -1, 1));
-		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, 0, 0));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, array.length + 1, 0));
 	}
 
 	@Test
@@ -155,8 +161,9 @@ public class ArrayUtilsTest {
 		assertArrayEquals(new float[]{0x03}, ArrayUtils.cutArray(array, 2, 1));
 		assertArrayEquals(new float[]{0x03, 0x04, 0x05}, ArrayUtils.cutArray(array, 2, 3));
 
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray((float[]) null, -1, 1));
 		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, -1, 1));
-		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, 0, 0));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, array.length + 1, 0));
 	}
 
 	@Test
@@ -169,8 +176,9 @@ public class ArrayUtilsTest {
 		assertArrayEquals(new double[]{0x03}, ArrayUtils.cutArray(array, 2, 1));
 		assertArrayEquals(new double[]{0x03, 0x04, 0x05}, ArrayUtils.cutArray(array, 2, 3));
 
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray((double[]) null, -1, 1));
 		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, -1, 1));
-		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, 0, 0));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, array.length + 1, 0));
 	}
 
 	@Test
