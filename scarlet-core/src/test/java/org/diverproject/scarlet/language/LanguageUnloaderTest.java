@@ -128,4 +128,5 @@ public class LanguageUnloaderTest {
 		AnotherLanguageTestIni.FIRST_MESSAGE.setFormat("The first another message");
 		AnotherLanguageTestIni.SECOND_MESSAGE.setFormat("The second another message");
 	}
+
 }

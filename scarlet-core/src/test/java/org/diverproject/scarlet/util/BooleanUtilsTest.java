@@ -2,6 +2,7 @@ package org.diverproject.scarlet.util;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.DisplayName;
@@ -32,4 +33,21 @@ public class BooleanUtilsTest {
 		assertTrue(BooleanUtils.parseBoolean("2", true));
 		assertNull(BooleanUtils.parseBoolean("2", null));
 	}
+
+	@Test
+	public void testAddTrueValue() {
+		assertThrows(IllegalArgumentException.class, () -> BooleanUtils.parseBoolean("y"));
+		assertTrue(BooleanUtils.addTrueValue("y"));
+		assertFalse(BooleanUtils.addTrueValue("y"));
+		assertTrue(BooleanUtils.parseBoolean("y"));
+	}
+
+	@Test
+	public void testAddFalseValue() {
+		assertThrows(IllegalArgumentException.class, () -> BooleanUtils.parseBoolean("n"));
+		assertTrue(BooleanUtils.addFalseValue("n"));
+		assertFalse(BooleanUtils.addFalseValue("n"));
+		assertFalse(BooleanUtils.parseBoolean("n"));
+	}
+
 }

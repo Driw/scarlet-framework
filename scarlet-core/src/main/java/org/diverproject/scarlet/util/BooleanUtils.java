@@ -1,17 +1,18 @@
 package org.diverproject.scarlet.util;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Optional;
+import java.util.Set;
 
 public final class BooleanUtils {
 
-	private static final List<String> FALSE_VALUES;
-	private static final List<String> TRUE_VALUES;
+	private static final Set<String> FALSE_VALUES;
+	private static final Set<String> TRUE_VALUES;
 
 	static {
-		FALSE_VALUES = Arrays.asList("false", "no", "0");
-		TRUE_VALUES = Arrays.asList("true", "yes", "1");
+		FALSE_VALUES = new LinkedHashSet<>(Arrays.asList("false", "no", "0"));
+		TRUE_VALUES = new LinkedHashSet<>(Arrays.asList("true", "yes", "1"));
 	}
 
 	private BooleanUtils() { }
