@@ -13,6 +13,7 @@ import static org.diverproject.scarlet.logger.abstraction.DefaultLoggerLevel.WAR
 import static org.diverproject.scarlet.util.ScarletUtils.nameOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.diverproject.scarlet.logger.LoggerObserver;
 import org.diverproject.scarlet.logger.LoggerSubject;
 import org.diverproject.scarlet.logger.MessageOutput;
@@ -311,7 +312,7 @@ public class TestDefaultLoggerFile {
 		assertEquals(lines.poll(), String.format("[EXCEPT] %s | %s - %s; %s: %s", DATE, origin4, MESSAGE, nameOf(exception), exception.getMessage()));
 		assertEquals(lines.poll(), String.format("[EXCEPT] %s | %s - %s; %s: %s", DATE, origin5, MESSAGE_FORMATTED, nameOf(exception), exception.getMessage()));
 
-		String exceptionTrace = String.format("[EXCEPT] %s | %s - %s", DATE, origin6, StringUtils.getStackTrace(exception));
+		String exceptionTrace = String.format("[EXCEPT] %s | %s - %s", DATE, origin6, ExceptionUtils.getStackTrace(exception));
 
 		for (String line : exceptionTrace.split("\\r?\\n"))
 			assertEquals(lines.poll(), line);

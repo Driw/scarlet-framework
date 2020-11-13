@@ -13,6 +13,7 @@ import static org.diverproject.scarlet.logger.abstraction.DefaultLoggerLevel.WAR
 import static org.diverproject.scarlet.util.ScarletUtils.nameOf;
 
 import lombok.Data;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.diverproject.scarlet.logger.Logger;
 import org.diverproject.scarlet.logger.LoggerLevel;
 import org.diverproject.scarlet.logger.LoggerSubject;
@@ -223,7 +224,7 @@ public abstract class AbstractLogger implements Logger {
 
 	@Override
 	public void trace(Exception e) {
-		this.internalLogger(EXCEPTION, StringUtils.getStackTrace(e), this.buildOrigin());
+		this.internalLogger(EXCEPTION, ExceptionUtils.getStackTrace(e), this.buildOrigin());
 	}
 
 	@Override

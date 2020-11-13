@@ -13,6 +13,7 @@ import static org.diverproject.scarlet.logger.abstraction.DefaultLoggerLevel.WAR
 import static org.diverproject.scarlet.util.ScarletUtils.nameOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.diverproject.scarlet.language.Language;
 import org.diverproject.scarlet.logger.LoggerObserver;
 import org.diverproject.scarlet.logger.LoggerSubject;
@@ -286,7 +287,7 @@ public class TestDefaultLoggerLanguage {
 		assertEquals(this.lastOutput, String.format("[EXCEPT] %s | %s - %s; %s: %s", DATE, origin, MESSAGE_FORMATTED, nameOf(exception), exception.getMessage()));
 
 		defaultLoggerLanguage.trace(exception); origin = this.getOrigin();
-		assertEquals(this.lastOutput, String.format("[EXCEPT] %s | %s - %s", DATE, origin, StringUtils.getStackTrace(exception)));
+		assertEquals(this.lastOutput, String.format("[EXCEPT] %s | %s - %s", DATE, origin, ExceptionUtils.getStackTrace(exception)));
 
 		try {
 			defaultLoggerLanguage.close();
