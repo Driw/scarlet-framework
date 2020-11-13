@@ -29,13 +29,6 @@ public class ScarletRuntimeException extends RuntimeException {
 		this.setStackTrace(e.getStackTrace());
 	}
 
-	public ScarletRuntimeException(Throwable e, Language language) {
-		super(language.getFormat());
-
-		this.language = language;
-		this.setStackTrace(e.getStackTrace());
-	}
-
 	public ScarletRuntimeException(Throwable e, Language language, Object... args) {
 		super(String.format(language.getFormat(), args) + "; " + e.getClass().getSimpleName() + " - " + e.getMessage());
 
