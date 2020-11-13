@@ -96,10 +96,8 @@ public class LanguageLoader {
 				if (languageMappers.isEmpty())
 					throw LanguageError.emptyLanguage(file);
 
-				if (languageMappers.size() == 1) {
-					LanguageMapper languageMapper = languageMappers.get(0);
+				for (LanguageMapper languageMapper : languageMappers)
 					affected += loadEnumLanguageMapper(enumConstants, languageMapper);
-				}
 			} catch (IOException e) {
 				throw LanguageError.autoLoaderIOException(e, folder);
 			}
