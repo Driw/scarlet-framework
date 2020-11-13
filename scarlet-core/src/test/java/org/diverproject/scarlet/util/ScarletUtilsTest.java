@@ -38,6 +38,11 @@ public class ScarletUtilsTest {
 	@Test
 	@DisplayName("Not null with and without message")
 	public void testNotNull() {
+		assertDoesNotThrow(() -> ScarletUtils.nonNull(""));
+		assertDoesNotThrow(() -> ScarletUtils.nonNull("", "Test a empty string"));
+		assertDoesNotThrow(() -> ScarletUtils.nonNull("", new NullLanguage(1, "Test a empty string")));
+		assertDoesNotThrow(() -> ScarletUtils.nonNull("", new NullLanguage(1, "Test a {} string"), "empty"));
+
 		assertThrows(NullPointerException.class, () -> ScarletUtils.nonNull(null));
 		assertThrows(NullPointerException.class, () -> ScarletUtils.nonNull(null, "Test a null nonNull"));
 		assertThrows(NullPointerException.class, () -> ScarletUtils.nonNull(null, new NullLanguage(1, "Test a null nonNull")));
