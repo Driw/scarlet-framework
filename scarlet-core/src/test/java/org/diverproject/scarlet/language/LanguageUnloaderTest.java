@@ -29,7 +29,7 @@ public class LanguageUnloaderTest {
 		Set<Wini> winis = LanguageUnloader.autoUnload();
 		assertEquals(1, winis.size());
 
-		winis = LanguageUnloader.autoUnload(new File(LanguageUnloader.DEFAULT_FOLDER_PATH));
+		winis = LanguageUnloader.autoUnload(new File(LanguageUnloader.DEFAULT_FOLDER_PATH.concat("/en-us")));
 		assertEquals(1, winis.size());
 
 		winis = LanguageUnloader.autoUnload(new File(LanguageUnloader.DEFAULT_FOLDER_PATH), false);
@@ -66,7 +66,7 @@ public class LanguageUnloaderTest {
 
 		File resources = new File(Objects.requireNonNull(LanguageUnloader.class.getClassLoader().getResource("")).getFile());
 		winis = LanguageUnloader.autoUnload(resources, true, true, this.getClass().getPackage().getName());
-		assertEquals(2, winis.size());
+		assertEquals(3, winis.size());
 
 		wini = this.search(winis, AnotherLanguageTestIni.class.getName());
 		assertNotNull(wini);
@@ -89,7 +89,7 @@ public class LanguageUnloaderTest {
 		assertNull(anotherLanguageTestIni.get("FIFTH_MESSAGE"));
 
 		winis = LanguageUnloader.autoUnload(resources, true, false, this.getClass().getPackage().getName());
-		assertEquals(2, winis.size());
+		assertEquals(3, winis.size());
 
 		wini = this.search(winis, AnotherLanguageTestIni.class.getName());
 		assertNotNull(wini);

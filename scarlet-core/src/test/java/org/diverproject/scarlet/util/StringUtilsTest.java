@@ -190,6 +190,7 @@ public class StringUtilsTest {
 		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.pad("a", "a", StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MAX_PAD_TYPE + 1, StringUtils.MIN_PAD_ORIENTATION));
 		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.pad("a", "a", StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MIN_PAD_TYPE, StringUtils.MIN_PAD_ORIENTATION - 1));
 		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.pad("a", "a", StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MIN_PAD_TYPE, StringUtils.MAX_PAD_ORIENTATION + 2));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.rightPad("aaaaa", "a", 1, 3));
 	}
 
 	@Test
@@ -390,11 +391,13 @@ public class StringUtilsTest {
 
 	@Test
 	@DisplayName("Create ident String tab")
-	public void testIdent() {
+	public void testIndent() {
 		assertEquals("", StringUtils.indent(0));
 		assertEquals("	", StringUtils.indent(1));
 		assertEquals("		", StringUtils.indent(2));
 		assertEquals("			", StringUtils.indent(3));
+
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.indent(-1));
 	}
 
 	@Test
@@ -499,6 +502,7 @@ public class StringUtilsTest {
 		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.indexOf("my string", null, 1));
 		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.indexOf("my string", ' ', 0));
 		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.indexOf("my string", " ", 0));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.indexOf("my string", "", 1));
 	}
 
 	@Test

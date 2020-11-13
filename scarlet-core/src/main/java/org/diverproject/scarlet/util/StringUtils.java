@@ -556,19 +556,16 @@ public final class StringUtils {
 		return parseParametersFormat(", ", ": ", args);
 	}
 
-	public static String parseParametersFormat(String parameterSeparetor, String valueSeparetor, Object... args) {
+	public static String parseParametersFormat(String parameterSeparator, String valueSeparator, Object... args) {
 		StringBuilder stringBuilder = new StringBuilder();
 
 		for (int i = 0; i <= args.length - 2; i += 2) {
-			if (args[i] == null)
-				args[i] = "null";
-
-			stringBuilder.append(args[i].toString());
-			stringBuilder.append(valueSeparetor);
-			stringBuilder.append(args[i + 1].toString());
+			stringBuilder.append(args[i]);
+			stringBuilder.append(valueSeparator);
+			stringBuilder.append(args[i + 1]);
 
 			if (i < args.length - 3)
-				stringBuilder.append(parameterSeparetor);
+				stringBuilder.append(parameterSeparator);
 		}
 
 		return stringBuilder.toString();
@@ -638,36 +635,6 @@ public final class StringUtils {
 				stringBuilder.append(String.format("%s=%s, ", args[i], args[i + 1]));
 
 		return String.format("%s[%s]", nameOf(object), StringUtils.substr(stringBuilder.toString(), 0, -2));
-	}
-
-	public static String getStackTrace(Exception e) {
-		String className = e.getClass().getName();
-		String trace = getStackTrace(e.getStackTrace());
-
-		if (StringUtils.isEmpty(e.getMessage()))
-			return className+ "\n" +trace;
-
-		return className+ " - " +e.getMessage()+ "\n" +trace;
-	}
-
-	public static String getStackTrace(Throwable throwable) {
-		String className = throwable.getClass().getName();
-		String trace = getStackTrace(throwable.getStackTrace());
-
-		return className + "\n" + trace;
-	}
-
-	public static String getStackTrace(StackTraceElement[] stackTraceElements) {
-		StringBuilder stringBuilder = new StringBuilder();
-
-		for (StackTraceElement stackTraceElement : stackTraceElements)
-			stringBuilder.append("\tat").append(stackTraceElement.getClassName())
-				.append(".").append(stackTraceElement.getMethodName())
-				.append("(").append(stackTraceElement.getFileName())
-				.append(":").append(stackTraceElement.getLineNumber())
-				.append(")\n");
-
-		return stringBuilder.toString();
 	}
 
 	public static String getSimpleNameOf(String className) {
