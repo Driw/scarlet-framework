@@ -294,6 +294,13 @@ public class ArrayUtilsTest {
 	}
 
 	@Test
+	public void testContains() {
+		assertFalse(ArrayUtils.contains(1, null));
+		assertFalse(ArrayUtils.contains(0, Arrays.asList(1, 2, 3)));
+		assertTrue(ArrayUtils.contains(1, Arrays.asList(1, 2, 3)));
+	}
+
+	@Test
 	@DisplayName("Copy")
 	public void testCopy() {
 		String[] stringSource = new String[]{"ABC", "DEF", "GHI", "JKL", "MNO"};

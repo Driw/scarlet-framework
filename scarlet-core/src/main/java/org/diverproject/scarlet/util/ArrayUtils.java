@@ -277,14 +277,9 @@ public final class ArrayUtils {
 	public static <T> boolean contains(T value, Iterable<T> items) {
 		if (Objects.isNull(items)) return false;
 
-		Iterator<T> iterator = items.iterator();
-
-		while (iterator.hasNext()) {
-			T iteration = iterator.next();
-
-			if ((Objects.isNull(value) && Objects.isNull(iteration)) || Objects.equals(iterator.next(), value))
+		for (T iteration : items)
+			if ((Objects.isNull(value) && Objects.isNull(iteration)) || Objects.equals(iteration, value))
 				return true;
-		}
 
 		return false;
 	}
