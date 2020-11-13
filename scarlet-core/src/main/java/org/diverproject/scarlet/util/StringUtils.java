@@ -414,13 +414,26 @@ public final class StringUtils {
 		if (index < 0 || index > str.length())
 			throw new StringUtilsRuntimeException(new ArrayIndexOutOfBoundsException(index));
 
-		if (index == 0 && str.length() > 0)
-			return c + str;
+		if (index == 0)
+			return Character.toString(c).concat(str);
 
 		if (index == str.length())
-			return str + c;
+			return str.concat(Character.toString(c));
 
 		return substrAt(str, index) + c + str.substring(index);
+	}
+
+	public static String insert(String str, String insertString, int index) {
+		if (index < 0 || index > str.length())
+			throw new StringUtilsRuntimeException(INSERT_OUT_OF_BOUNDS, index);
+
+		if (index == 0)
+			return insertString.concat(str);
+
+		if (index == str.length())
+			return str.concat(insertString);
+
+		return substrAt(str, index).concat(insertString).concat(str.substring(index));
 	}
 
 	public static String capitalize(String string) {
@@ -464,51 +477,23 @@ public final class StringUtils {
 		if (!string.matches("[A-Za-z0-9_]+"))
 			throw new StringUtilsRuntimeException(VAR_UPPER_CASE, string);
 
-		boolean underlined = false;
-		StringBuilder parsed = new StringBuilder();
+		StringBuilder upperCase = new StringBuilder();
+		upperCase.append(Character.toUpperCase(string.charAt(0)));
 
-		for (int i = 0; i < string.length(); i++) {
-			if (needUnderline(string, i)) {
-				if (!underlined) {
-					parsed.append("_");
-					underlined = true;
-				}
-			} else {
-				underlined = false;
+		for (int i = 1; i < string.length(); i++) {
+			if (Character.isDigit(string.charAt(i))) {
+				if (!Character.isDigit(string.charAt(i - 1)))
+					upperCase.append("_");
+			} else if (Character.isUpperCase(string.charAt(i))) {
+				upperCase.append("_");
 			}
 
-			parsed.append(Character.toUpperCase(string.charAt(i)));
+			upperCase.append(Character.toUpperCase(string.charAt(i)));
 		}
 
-		parsed = new StringBuilder(parsed.toString().replaceAll("[_]+", "_"));
+		upperCase = new StringBuilder(upperCase.toString().replaceAll("[_]+", "_"));
 
-		return parsed.toString();
-	}
-
-	private static boolean needUnderline(String string, int i) {
-		return isAlphaNumeric(string, i) && isUnderline(string, i);
-	}
-
-	private static boolean isAlphaNumeric(String string, int i) {
-		return Character.isUpperCase(string.charAt(i)) || Character.isDigit(string.charAt(i));
-	}
-
-	private static boolean isUnderline(String string, int i) {
-		return Character.isDigit(string.charAt(i)) && !Character.isDigit(string.charAt(i - 1)) ||
-			i < string.length() - 1 && Character.isLowerCase(string.charAt(i + 1));
-	}
-
-	public static String insert(String str, String insertString, int index) {
-		if (index < 0 || index > str.length())
-			throw new StringUtilsRuntimeException(INSERT_OUT_OF_BOUNDS, index);
-
-		else if (index == 0 && str.length() > 0)
-			return insertString + str;
-
-		else if (index == str.length())
-			return str + insertString;
-
-		return substrAt(str, index) + insertString + str.substring(index);
+		return upperCase.toString();
 	}
 
 	public static String backspace(String string, int index) {
@@ -608,8 +593,6 @@ public final class StringUtils {
 			str.insert(0, longString.charAt(longString.length() - i - 1));
 		}
 
-		str = new StringBuilder(str.toString().startsWith(thousandSeparator) ? str.substring(1) : str.toString());
-
 		if (negative)
 			str.insert(0, "-");
 
@@ -630,11 +613,17 @@ public final class StringUtils {
 	public static String objectToString(Object object, Object... args) {
 		StringBuilder stringBuilder = new StringBuilder();
 
-		for (int i = 0; i < args.length - 1; i += 2)
-			if (i + 1 != args.length)
-				stringBuilder.append(String.format("%s=%s, ", args[i], args[i + 1]));
+		for (int i = 0; i < args.length; i += 2) {
+			if (stringBuilder.length() != 0)
+				stringBuilder.append(", ");
 
-		return String.format("%s[%s]", nameOf(object), StringUtils.substr(stringBuilder.toString(), 0, -2));
+			stringBuilder.append(args[i]);
+
+			if (i + 1 != args.length)
+				stringBuilder.append("=").append(args[i + 1]);
+		}
+
+		return String.format("%s[%s]", nameOf(object), stringBuilder.toString());
 	}
 
 	public static String getSimpleNameOf(String className) {
@@ -694,6 +683,9 @@ public final class StringUtils {
 				qualifiedName.insert(0, ".");
 		}
 
-		return qualifiedName.length() > maxLength ? qualifiedName.substring(0, maxLength) : qualifiedName.toString();
+		if (qualifiedName.length() > maxLength)
+			return qualifiedName.substring(0, maxLength);
+
+		return qualifiedName.toString();
 	}
 }

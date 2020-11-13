@@ -66,14 +66,15 @@ public class ArrayUtilsTest {
 	public void testCutArrayGeneric() {
 		String[] array = new String[]{"a", "b", "c", "d", "e"};
 
-		assertArrayEquals(new String[]{"a"}, ArrayUtils.cutArray(array, 0, 1));
-		assertArrayEquals(new String[]{"a", "b", "c"}, ArrayUtils.cutArray(array, 0, 3));
-		assertArrayEquals(new String[]{"c"}, ArrayUtils.cutArray(array, 2, 1));
-		assertArrayEquals(new String[]{"c", "d", "e"}, ArrayUtils.cutArray(array, 2, 3));
+		assertArrayEquals(new String[] {"a"}, ArrayUtils.cutArray(array, 0, 1));
+		assertArrayEquals(new String[] {"a", "b", "c"}, ArrayUtils.cutArray(array, 0, 3));
+		assertArrayEquals(new String[] {"c"}, ArrayUtils.cutArray(array, 2, 1));
+		assertArrayEquals(new String[] {"c", "d", "e"}, ArrayUtils.cutArray(array, 2, 3));
 
 		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray((Object[]) null, -1, 1));
 		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, -1, 1));
 		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, 0, 0));
+		assertThrows(ArrayUtilsRuntimeException.class, () -> ArrayUtils.cutArray(array, 5, 1));
 	}
 
 	@Test
@@ -298,6 +299,7 @@ public class ArrayUtilsTest {
 		assertFalse(ArrayUtils.contains(1, null));
 		assertFalse(ArrayUtils.contains(0, Arrays.asList(1, 2, 3)));
 		assertTrue(ArrayUtils.contains(1, Arrays.asList(1, 2, 3)));
+		assertTrue(ArrayUtils.contains(null, Arrays.asList(1, 2, null)));
 	}
 
 	@Test
@@ -326,8 +328,17 @@ public class ArrayUtilsTest {
 			ArrayUtils.copy(stringSource, (stringDestination = new String[stringSource.length]), 1, 5);
 			assertArrayEquals(array(null, "DEF", "GHI", "JKL", "MNO"), stringDestination);
 
-			ArrayUtils.copy(stringSource, (stringDestination = new String[stringSource.length + 1]), 1, 5);
+			ArrayUtils.copy(stringSource, (stringDestination = new String[stringSource.length]), 1, 6);
+			assertArrayEquals(array(null, "DEF", "GHI", "JKL", "MNO"), stringDestination);
+
+			ArrayUtils.copy(stringSource, (stringDestination = new String[stringSource.length + 1]), 1, 6);
 			assertArrayEquals(array(null, "DEF", "GHI", "JKL", "MNO", null), stringDestination);
+
+			ArrayUtils.copy(stringSource, (stringDestination = new String[stringSource.length]), 6, 5);
+			assertArrayEquals(array(null, null, null, null, null), stringDestination);
+
+			ArrayUtils.copy(stringSource, (stringDestination = new String[2]), 2, 2);
+			assertArrayEquals(array(null, null), stringDestination);
 		}
 
 		byte[] byteSource = new byte[]{0, 1, 2, 3, 4};

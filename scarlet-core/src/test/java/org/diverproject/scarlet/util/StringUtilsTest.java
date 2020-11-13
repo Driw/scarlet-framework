@@ -184,13 +184,19 @@ public class StringUtilsTest {
 		// -- Throws
 
 		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.pad(null, "a", StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MIN_PAD_TYPE, StringUtils.MIN_PAD_ORIENTATION));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.pad(null, "a", StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MIN_PAD_TYPE, StringUtils.MAX_PAD_ORIENTATION));
 		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.pad("a", null, StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MIN_PAD_TYPE, StringUtils.MIN_PAD_ORIENTATION));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.pad("a", null, StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MIN_PAD_TYPE, StringUtils.MAX_PAD_ORIENTATION));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.pad("a", "", StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MIN_PAD_TYPE, StringUtils.MIN_PAD_ORIENTATION));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.pad("a", "", StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MIN_PAD_TYPE, StringUtils.MAX_PAD_ORIENTATION));
 		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.pad("a", "a", StringUtils.MIN_PAD_PATTERN_LENGTH - 1, StringUtils.MIN_PAD_TYPE, StringUtils.MIN_PAD_ORIENTATION));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.pad("a", "a", StringUtils.MIN_PAD_PATTERN_LENGTH - 1, StringUtils.MIN_PAD_TYPE, StringUtils.MAX_PAD_ORIENTATION));
 		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.pad("a", "a", StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MIN_PAD_TYPE - 1, StringUtils.MIN_PAD_ORIENTATION));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.pad("a", "a", StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MIN_PAD_TYPE - 1, StringUtils.MAX_PAD_ORIENTATION));
 		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.pad("a", "a", StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MAX_PAD_TYPE + 1, StringUtils.MIN_PAD_ORIENTATION));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.pad("a", "a", StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MAX_PAD_TYPE + 1, StringUtils.MAX_PAD_ORIENTATION));
 		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.pad("a", "a", StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MIN_PAD_TYPE, StringUtils.MIN_PAD_ORIENTATION - 1));
-		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.pad("a", "a", StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MIN_PAD_TYPE, StringUtils.MAX_PAD_ORIENTATION + 2));
-		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.rightPad("aaaaa", "a", 1, 3));
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.pad("a", "a", StringUtils.MIN_PAD_PATTERN_LENGTH, StringUtils.MIN_PAD_TYPE, StringUtils.MAX_PAD_ORIENTATION + 1));
 	}
 
 	@Test
@@ -323,19 +329,21 @@ public class StringUtilsTest {
 		assertEquals("", StringUtils.varUpperCase(""));
 		assertEquals("VAR", StringUtils.varUpperCase("var"));
 		assertEquals("VAR_NAME", StringUtils.varUpperCase("varName"));
-		assertEquals("VAR_NAME_05", StringUtils.varUpperCase("varName05"));
-		assertEquals("VAR_NAME_05", StringUtils.varUpperCase("varName_05"));
-		assertEquals("VAR_NAME_05", StringUtils.varUpperCase("varName__05"));
+		assertEquals("VAR_5", StringUtils.varUpperCase("var5"));
+		assertEquals("VAR_5_NAME", StringUtils.varUpperCase("var5Name"));
+		assertEquals("VAR_05", StringUtils.varUpperCase("var05"));
+		assertEquals("VAR_05_NAME", StringUtils.varUpperCase("var05Name"));
+		assertEquals("VAR_NAM_E", StringUtils.varUpperCase("VarNamE"));
+		assertEquals("VAR_N_AME", StringUtils.varUpperCase("VarNAme"));
 
 		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.varUpperCase("@"));
-		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.varUpperCase("var@"));
-		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.varUpperCase("VAR@"));
-		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.varUpperCase("05@"));
 	}
 
 	@Test
 	@DisplayName("Insert char inside")
 	public void testInsert() {
+		assertEquals("x", StringUtils.insert("", 'x', 0));
+		assertEquals("xa", StringUtils.insert("a", 'x', 0));
 		assertEquals("xabcd", StringUtils.insert("abcd", 'x', 0));
 		assertEquals("abxcd", StringUtils.insert("abcd", 'x', 2));
 		assertEquals("abcdx", StringUtils.insert("abcd", 'x', 4));
@@ -346,6 +354,8 @@ public class StringUtilsTest {
 		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.insert("abcde", 'x', -1));
 		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.insert("abcde", 'x', 6));
 
+		assertEquals("x", StringUtils.insert("", "x", 0));
+		assertEquals("xa", StringUtils.insert("a", "x", 0));
 		assertEquals("xxxabcd", StringUtils.insert("abcd", "xxx", 0));
 		assertEquals("abxxxcd", StringUtils.insert("abcd", "xxx", 2));
 		assertEquals("abcdxxx", StringUtils.insert("abcd", "xxx", 4));
@@ -365,6 +375,7 @@ public class StringUtilsTest {
 		assertEquals("acd", StringUtils.backspace("abcd", 2));
 		assertEquals("abc", StringUtils.backspace("abcd", 4));
 
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.backspace("abcd", -1));
 		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.backspace("abcd", 5));
 	}
 
@@ -376,6 +387,7 @@ public class StringUtilsTest {
 		assertEquals("abd", StringUtils.delete("abcd", 2));
 		assertEquals("abcd", StringUtils.delete("abcd", 4));
 
+		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.delete("abcd", -1));
 		assertThrows(StringUtilsRuntimeException.class, () -> StringUtils.delete("abcd", 5));
 	}
 
@@ -575,11 +587,20 @@ public class StringUtilsTest {
 				"attributeBoolean", object.attributeBoolean,
 				"attributeString", object.attributeString
 			));
+
+		assertEquals("StringClass[attributeInt=1, attributeWithOutValue]",
+			StringUtils.objectToString(
+				object,
+				"attributeInt", object.attributeInt,
+				"attributeWithOutValue"
+			));
 	}
 
 	@Test
 	@DisplayName("Get simple name of")
 	public void testGetSimpleNameOf() {
+		assertNull(StringUtils.getSimpleNameOf(null));
+		assertNull(StringUtils.getSimpleNameOf(""));
 		assertEquals(StringClass.class.getSimpleName(), StringUtils.getSimpleNameOf(StringClass.class.getName()));
 		assertEquals(StringClass.class.getSimpleName(), StringUtils.getSimpleNameOf(StringClass.class.getSimpleName()));
 		assertEquals(StringUtilsTest.class.getSimpleName(), StringUtils.getSimpleNameOf(StringUtilsTest.class.getName()));
@@ -671,6 +692,7 @@ public class StringUtilsTest {
 		assertEquals("o.d.utils.Scarlet", StringUtils.qualifiedName("org.diverproject.utils.Scarlet", 17, false, 4));
 		assertEquals("o.d.u.Scarlet", StringUtils.qualifiedName("org.diverproject.utils.Scarlet", 16, false, 4));
 		assertEquals("o.d.u.Scarlet", StringUtils.qualifiedName("org.diverproject.utils.Scarlet", 13, false, 4));
+		assertEquals("o.d.u.", StringUtils.qualifiedName("org.diverproject.utils.Scarlet", 6, false, 4));
 	}
 
 	private static class StringClass {

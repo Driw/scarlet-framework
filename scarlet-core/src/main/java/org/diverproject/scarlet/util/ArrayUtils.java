@@ -91,9 +91,7 @@ public final class ArrayUtils {
 
 		@SuppressWarnings("unchecked")
 		T[] sub = (T[]) Array.newInstance(array.getClass().getComponentType(), length);
-
-		if (length >= 0)
-			System.arraycopy(array, offset, sub, 0, length);
+		System.arraycopy(array, offset, sub, 0, length);
 
 		return sub;
 	}
@@ -294,7 +292,7 @@ public final class ArrayUtils {
 	}
 
 	public static <D> void copy(D[] source, D[] destination, int offset, int length) {
-		for (int i = offset; i < source.length && i < destination.length && i < length + offset; i++)
+		for (int i = offset; i < source.length && i < destination.length && i < offset + length; i++)
 			destination[i] = source[i];
 	}
 
