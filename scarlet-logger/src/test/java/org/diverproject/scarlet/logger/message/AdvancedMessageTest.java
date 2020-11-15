@@ -9,8 +9,8 @@ import org.diverproject.scarlet.logger.abstraction.DefaultLogger;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("Advanced Logger Message")
-public class TestAdvancedLoggerMessage {
+@DisplayName("Advanced Message")
+public class AdvancedMessageTest {
 
 	@Test
 	@DisplayName("Get output")

@@ -22,10 +22,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-
 @DisplayName("Default Logger")
-public class TestDefaultLogger {
+public class DefaultLoggerTest {
 
 	private static final String DATE = "2019-07-31 15:11:13";
 	private static final String MESSAGE = "a text log message";
@@ -314,7 +312,7 @@ public class TestDefaultLogger {
 
 			@Override
 			public void log(MessageOutput messageOutput) {
-				TestDefaultLogger.this.lastOutput = messageOutput.getOutput();
+				DefaultLoggerTest.this.lastOutput = messageOutput.getOutput();
 			}
 		};
 	}

@@ -31,7 +31,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 @DisplayName("Default Logger File")
-public class TestDefaultLoggerFile {
+public class DefaultLoggerFileTest {
 	private static final String DATE = "2019-07-31 15:11:13";
 	private static final String MESSAGE = "a text log message";
 	private static final String FORMAT = "a text log message with %s";

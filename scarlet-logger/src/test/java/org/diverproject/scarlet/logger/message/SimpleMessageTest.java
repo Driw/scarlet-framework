@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Simple Message")
-public class TestSimpleMessage {
+public class SimpleMessageTest {
 
 	@Test
 	@DisplayName("Get output")
