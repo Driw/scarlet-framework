@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/scarlet.iml" filepath="$PROJECT_DIR$/scarlet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scarlet-context/scarlet-context.iml" filepath="$PROJECT_DIR$/scarlet-context/scarlet-context.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scarlet-core/scarlet-core.iml" filepath="$PROJECT_DIR$/scarlet-core/scarlet-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scarlet-logger/scarlet-logger.iml" filepath="$PROJECT_DIR$/scarlet-logger/scarlet-logger.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scarlet-stream/scarlet-stream.iml" filepath="$PROJECT_DIR$/scarlet-stream/scarlet-stream.iml" />
+    </modules>
+  </component>
+</project>
