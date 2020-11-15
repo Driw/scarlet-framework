@@ -26,7 +26,8 @@ public class LoggerExceptionError {
 		return new LoggerRuntimeException(e, SCARLET_LOGGER_CLOSE, logger.getName());
 	}
 
-	public static LoggerRuntimeException newLoggerInstanceAtAdd(Exception e, Class<? extends LoggerLanguage> loggerClass) {
+	public static LoggerRuntimeException newLoggerInstanceAtAdd(Exception e, Class<? extends Logger> loggerClass) {
 		return new LoggerRuntimeException(e, NEW_LOGGER_LANGUAGE, loggerClass.getName());
 	}
+
 }

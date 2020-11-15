@@ -7,6 +7,7 @@ import org.diverproject.scarlet.context.reflection.ReflectionInstanceUtils;
 import org.diverproject.scarlet.context.reflection.ReflectionUtils;
 import org.diverproject.scarlet.context.singleton.SingletonContext;
 import org.diverproject.scarlet.language.Language;
+import org.diverproject.scarlet.logger.Logger;
 
 import java.util.Map;
 import java.util.Objects;

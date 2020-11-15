@@ -17,7 +17,6 @@ public enum ScarletContextLanguage implements Language {
 	// -- Exception
 
 	ALREADY_INITIALIZED						("the context already initialized"),
-	LOGGER_INSTANCE_OF_AT_GET_LOGGER		("cannot get manufacture a logger by Context Logger Factory (loggerType: %s, loggerClass: %s)"),
 	GET_INSTANCE_CANNOT_CAST				("cannot cast the get the context instance as informed (key: %s, contextInstance: %s, requestedType: %s)"),
 
 	;

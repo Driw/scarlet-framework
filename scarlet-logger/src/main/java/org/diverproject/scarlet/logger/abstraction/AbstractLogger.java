@@ -14,6 +14,7 @@ import static org.diverproject.scarlet.util.ScarletUtils.nameOf;
 
 import lombok.Data;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.diverproject.scarlet.language.Language;
 import org.diverproject.scarlet.logger.Logger;
 import org.diverproject.scarlet.logger.LoggerLevel;
 import org.diverproject.scarlet.logger.LoggerSubject;
@@ -118,6 +119,24 @@ public abstract class AbstractLogger implements Logger {
 	}
 
 	@Override
+	public void log(LoggerLevel level, Language language, Object... args) {
+		this.upperStackTrace(1);
+		this.log(level, language.getFormat(), args);
+	}
+
+	@Override
+	public void log(Language language) {
+		this.upperStackTrace(1);
+		this.log(NONE, language);
+	}
+
+	@Override
+	public void log(Language language, Object... args) {
+		this.upperStackTrace(1);
+		this.log(NONE, language, args);
+	}
+
+	@Override
 	public void debug(String message) {
 		this.internalLogger(DEBUG, message, this.buildOrigin());
 	}
@@ -125,6 +144,18 @@ public abstract class AbstractLogger implements Logger {
 	@Override
 	public void debug(String format, Object... args) {
 		this.internalLogger(DEBUG, String.format(format, args), this.buildOrigin());
+	}
+
+	@Override
+	public void debug(Language language) {
+		this.upperStackTrace(1);
+		this.debug(language.getFormat());
+	}
+
+	@Override
+	public void debug(Language language, Object... args) {
+		this.upperStackTrace(1);
+		this.debug(language.getFormat(), args);
 	}
 
 	@Override
@@ -138,6 +169,18 @@ public abstract class AbstractLogger implements Logger {
 	}
 
 	@Override
+	public void system(Language language) {
+		this.upperStackTrace(1);
+		this.system(language.getFormat());
+	}
+
+	@Override
+	public void system(Language language, Object... args) {
+		this.upperStackTrace(1);
+		this.system(language.getFormat(), args);
+	}
+
+	@Override
 	public void info(String message) {
 		this.internalLogger(INFO, message, this.buildOrigin());
 	}
@@ -145,6 +188,18 @@ public abstract class AbstractLogger implements Logger {
 	@Override
 	public void info(String format, Object... args) {
 		this.internalLogger(INFO, String.format(format, args), this.buildOrigin());
+	}
+
+	@Override
+	public void info(Language language) {
+		this.upperStackTrace(1);
+		this.info(language.getFormat());
+	}
+
+	@Override
+	public void info(Language language, Object... args) {
+		this.upperStackTrace(1);
+		this.info(language.getFormat(), args);
 	}
 
 	@Override
@@ -158,6 +213,18 @@ public abstract class AbstractLogger implements Logger {
 	}
 
 	@Override
+	public void notice(Language language) {
+		this.upperStackTrace(1);
+		this.notice(language.getFormat());
+	}
+
+	@Override
+	public void notice(Language language, Object... args) {
+		this.upperStackTrace(1);
+		this.notice(language.getFormat(), args);
+	}
+
+	@Override
 	public void packet(String message) {
 		this.internalLogger(PACKET, message, this.buildOrigin());
 	}
@@ -165,6 +232,18 @@ public abstract class AbstractLogger implements Logger {
 	@Override
 	public void packet(String format, Object... args) {
 		this.internalLogger(PACKET, String.format(format, args), this.buildOrigin());
+	}
+
+	@Override
+	public void packet(Language language) {
+		this.upperStackTrace(1);
+		this.packet(language.getFormat());
+	}
+
+	@Override
+	public void packet(Language language, Object... args) {
+		this.upperStackTrace(1);
+		this.packet(language.getFormat(), args);
 	}
 
 	@Override
@@ -178,6 +257,18 @@ public abstract class AbstractLogger implements Logger {
 	}
 
 	@Override
+	public void warn(Language language) {
+		this.upperStackTrace(1);
+		this.warn(language.getFormat());
+	}
+
+	@Override
+	public void warn(Language language, Object... args) {
+		this.upperStackTrace(1);
+		this.warn(language.getFormat(), args);
+	}
+
+	@Override
 	public void error(String message) {
 		this.internalLogger(ERROR, message, this.buildOrigin());
 	}
@@ -188,6 +279,18 @@ public abstract class AbstractLogger implements Logger {
 	}
 
 	@Override
+	public void error(Language language) {
+		this.upperStackTrace(1);
+		this.error(language.getFormat());
+	}
+
+	@Override
+	public void error(Language language, Object... args) {
+		this.upperStackTrace(1);
+		this.error(language.getFormat(), args);
+	}
+
+	@Override
 	public void fatal(String message) {
 		this.internalLogger(FATAL, message, this.buildOrigin());
 	}
@@ -195,6 +298,17 @@ public abstract class AbstractLogger implements Logger {
 	@Override
 	public void fatal(String format, Object... args) {
 		this.internalLogger(FATAL, String.format(format, args), this.buildOrigin());
+	}
+
+	public void fatal(Language language) {
+		this.upperStackTrace(1);
+		this.fatal(language.getFormat());
+	}
+
+	@Override
+	public void fatal(Language language, Object... args) {
+		this.upperStackTrace(1);
+		this.fatal(language.getFormat(), args);
 	}
 
 	@Override
@@ -220,6 +334,30 @@ public abstract class AbstractLogger implements Logger {
 	@Override
 	public void exception(Exception e, String format, Object... args) {
 		this.internalLogger(EXCEPTION, String.format("%s; %s: %s", String.format(format, args), nameOf(e), e.getMessage()), this.buildOrigin());
+	}
+
+	@Override
+	public void exception(Language language) {
+		this.upperStackTrace(1);
+		this.exception(language.getFormat());
+	}
+
+	@Override
+	public void exception(Language language, Object... args) {
+		this.upperStackTrace(1);
+		this.exception(language.getFormat(), args);
+	}
+
+	@Override
+	public void exception(Exception e, Language language) {
+		this.upperStackTrace(1);
+		this.exception(e, language.getFormat());
+	}
+
+	@Override
+	public void exception(Exception e, Language language, Object... args) {
+		this.upperStackTrace(1);
+		this.exception(e, language.getFormat(), args);
 	}
 
 	@Override

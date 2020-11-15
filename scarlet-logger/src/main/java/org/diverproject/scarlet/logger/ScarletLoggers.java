@@ -1,13 +1,15 @@
 package org.diverproject.scarlet.logger;
 
+import org.diverproject.scarlet.logger.language.LoggerLanguage;
+
 import java.lang.reflect.InvocationTargetException;
 
-public class ScarletLoggers implements Loggers<LoggerLanguage> {
+public class ScarletLoggers implements Loggers<Logger> {
 
 	private static final String DEFAULT_LOGGER_NAME = "default";
 	private static final ScarletLoggers INSTANCE = new ScarletLoggers();
 
-	private final MapLogger<LoggerLanguage> mapLogger;
+	private final MapLogger<Logger> mapLogger;
 
 	private ScarletLoggers() {
 		this.mapLogger = new DefaultMapLogger<>();
@@ -18,7 +20,7 @@ public class ScarletLoggers implements Loggers<LoggerLanguage> {
 		return this.mapLogger.contains(name);
 	}
 
-	public <T extends LoggerLanguage> T add(String name, Class<T> loggerClass) {
+	public <T extends Logger> T add(String name, Class<T> loggerClass) {
 		try {
 			T logger = loggerClass.getConstructor(String.class).newInstance(name);
 			this.mapLogger.add(logger);
@@ -29,17 +31,17 @@ public class ScarletLoggers implements Loggers<LoggerLanguage> {
 	}
 
 	@Override
-	public LoggerLanguage get(Class<?> classz) {
+	public Logger get(Class<?> classz) {
 		return this.mapLogger.get(classz.getName());
 	}
 
 	@Override
-	public LoggerLanguage get(String name) {
+	public Logger get(String name) {
 		return this.mapLogger.get(name);
 	}
 
 	@Override
-	public LoggerLanguage getDefault() {
+	public Logger getDefault() {
 		return this.mapLogger.get(DEFAULT_LOGGER_NAME);
 	}
 

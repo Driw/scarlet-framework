@@ -7,7 +7,6 @@ import lombok.experimental.Accessors;
 import org.diverproject.scarlet.context.ContextNameGenerator;
 import org.diverproject.scarlet.context.DefaultInstanceEntry;
 import org.diverproject.scarlet.context.InstanceEntry;
-import org.diverproject.scarlet.context.Logger;
 import org.diverproject.scarlet.context.LoggerFactory;
 import org.diverproject.scarlet.context.reflection.ClassUtils;
 import org.diverproject.scarlet.context.reflection.ReflectionInstanceUtils;
@@ -15,6 +14,7 @@ import org.diverproject.scarlet.context.reflection.ReflectionInterfaceUtils;
 import org.diverproject.scarlet.context.reflection.ReflectionUtils;
 import org.diverproject.scarlet.context.utils.ContextStreamUtils;
 import org.diverproject.scarlet.context.utils.Pair;
+import org.diverproject.scarlet.logger.Logger;
 
 import java.util.Map;
 import java.util.Objects;

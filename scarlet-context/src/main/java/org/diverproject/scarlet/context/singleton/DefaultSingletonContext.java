@@ -13,7 +13,8 @@ import org.diverproject.scarlet.context.reflection.ReflectionInstanceUtils;
 import org.diverproject.scarlet.context.reflection.ReflectionUtils;
 import org.diverproject.scarlet.context.utils.ContextStreamUtils;
 import org.diverproject.scarlet.context.utils.Pair;
-import org.diverproject.scarlet.logger.LoggerLanguage;
+import org.diverproject.scarlet.logger.Logger;
+import org.diverproject.scarlet.logger.language.LoggerLanguage;
 
 import java.util.Map;
 import java.util.Objects;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 @Data
 public class DefaultSingletonContext implements SingletonContext {
 
-	private static final LoggerLanguage logger = LoggerFactory.get(SingletonContext.class);
+	private static final Logger logger = LoggerFactory.get(SingletonContext.class);
 
 	@ToString.Exclude
 	private ScarletContext scarletContext;
