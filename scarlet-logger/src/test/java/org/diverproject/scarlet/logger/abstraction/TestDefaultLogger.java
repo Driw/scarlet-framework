@@ -18,7 +18,7 @@ import org.diverproject.scarlet.language.Language;
 import org.diverproject.scarlet.logger.LoggerObserver;
 import org.diverproject.scarlet.logger.LoggerSubject;
 import org.diverproject.scarlet.logger.MessageOutput;
-import org.diverproject.scarlet.util.StringUtils;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -62,303 +62,235 @@ public class TestDefaultLogger {
 		}
 	};
 	private String lastOutput;
+	private DefaultLogger defaultLogger;
+
+	@BeforeEach
+	void beforeEach() {
+		this.defaultLogger = this.newDefaultLogger();
+	}
 
 	@Test
-	@DisplayName("Build the origin")
 	public void testBuildOrigin() {
-		DefaultLogger defaultLogger = new DefaultLogger("default");
-		StackTraceElement origin = defaultLogger.buildOrigin(0); StackTraceElement stackTraceElement = this.getStackTraceElement();
+		StackTraceElement origin = this.defaultLogger.buildOrigin(0); StackTraceElement stackTraceElement = this.getStackTraceElement();
 
 		assertEquals(origin.getFileName(), stackTraceElement.getFileName());
 		assertEquals(origin.getClassName(), stackTraceElement.getClassName());
 		assertEquals(origin.getMethodName(), stackTraceElement.getMethodName());
 		assertEquals(origin.getLineNumber(), stackTraceElement.getLineNumber());
-
-		try {
-			defaultLogger.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Test
-	@DisplayName("Internal logger")
 	public void testInternalLogger() {
-		DefaultLogger defaultLogger = this.newDefaultLogger();
-
-		defaultLogger.internalLogger(NONE, MESSAGE, null); String origin = this.getOrigin();
+		this.defaultLogger.internalLogger(NONE, MESSAGE, null); String origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("%s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.internalLogger(DEBUG, MESSAGE, null); origin = this.getOrigin();
+		this.defaultLogger.internalLogger(DEBUG, MESSAGE, null); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[DEBUG ] %s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.internalLogger(SYSTEM, MESSAGE, null); origin = this.getOrigin();
+		this.defaultLogger.internalLogger(SYSTEM, MESSAGE, null); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[SYSTEM] %s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.internalLogger(INFO, MESSAGE, null); origin = this.getOrigin();
+		this.defaultLogger.internalLogger(INFO, MESSAGE, null); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[INFO  ] %s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.internalLogger(NOTICE, MESSAGE, null); origin = this.getOrigin();
+		this.defaultLogger.internalLogger(NOTICE, MESSAGE, null); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[NOTICE] %s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.internalLogger(PACKET, MESSAGE, null); origin = this.getOrigin();
+		this.defaultLogger.internalLogger(PACKET, MESSAGE, null); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[PACKET] %s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.internalLogger(WARN, MESSAGE, null); origin = this.getOrigin();
+		this.defaultLogger.internalLogger(WARN, MESSAGE, null); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[WARN  ] %s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.internalLogger(ERROR, MESSAGE, null); origin = this.getOrigin();
+		this.defaultLogger.internalLogger(ERROR, MESSAGE, null); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[ERROR ] %s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.internalLogger(FATAL, MESSAGE, null); origin = this.getOrigin();
+		this.defaultLogger.internalLogger(FATAL, MESSAGE, null); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[FATAL ] %s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.internalLogger(EXCEPTION, MESSAGE, null); origin = this.getOrigin();
+		this.defaultLogger.internalLogger(EXCEPTION, MESSAGE, null); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[EXCEPT] %s | %s - %s", DATE, origin, MESSAGE));
-
-		try {
-			defaultLogger.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Test
-	@DisplayName("Log debug message")
+	public void testLog() {
+		this.defaultLogger.log(MESSAGE); String origin = this.getOrigin();
+		assertEquals(this.lastOutput, String.format("%s | %s - %s", DATE, origin, MESSAGE));
+
+		this.defaultLogger.log(FORMAT, ARGUMENT); origin = this.getOrigin();
+		assertEquals(this.lastOutput, String.format("%s | %s - %s", DATE, origin, MESSAGE_FORMATTED));
+
+		this.defaultLogger.log(LANGUAGE_MESSAGE); origin = this.getOrigin();
+		assertEquals(this.lastOutput, String.format("%s | %s - %s", DATE, origin, MESSAGE));
+
+		this.defaultLogger.log(LANGUAGE_FORMAT, ARGUMENT); origin = this.getOrigin();
+		assertEquals(this.lastOutput, String.format("%s | %s - %s", DATE, origin, MESSAGE_FORMATTED));
+
+		this.defaultLogger.log(DEBUG, MESSAGE); origin = this.getOrigin();
+		assertEquals(this.lastOutput, String.format("[DEBUG ] %s | %s - %s", DATE, origin, MESSAGE));
+	}
+
+	@Test
 	public void testLogDebug() {
-		DefaultLogger defaultLogger = this.newDefaultLogger();
-
-		defaultLogger.debug(MESSAGE); String origin = this.getOrigin();
+		this.defaultLogger.debug(MESSAGE); String origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[DEBUG ] %s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.debug(FORMAT, ARGUMENT); origin = this.getOrigin();
+		this.defaultLogger.debug(FORMAT, ARGUMENT); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[DEBUG ] %s | %s - %s", DATE, origin, MESSAGE_FORMATTED));
 
-		defaultLogger.debug(LANGUAGE_MESSAGE); origin = this.getOrigin();
+		this.defaultLogger.debug(LANGUAGE_MESSAGE); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[DEBUG ] %s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.debug(LANGUAGE_FORMAT, ARGUMENT); origin = this.getOrigin();
+		this.defaultLogger.debug(LANGUAGE_FORMAT, ARGUMENT); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[DEBUG ] %s | %s - %s", DATE, origin, MESSAGE_FORMATTED));
-
-		try {
-			defaultLogger.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Test
-	@DisplayName("Log system message")
 	public void testLogSystem() {
-		DefaultLogger defaultLogger = this.newDefaultLogger();
-
-		defaultLogger.system(MESSAGE); String origin = this.getOrigin();
+		this.defaultLogger.system(MESSAGE); String origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[SYSTEM] %s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.system(FORMAT, ARGUMENT); origin = this.getOrigin();
+		this.defaultLogger.system(FORMAT, ARGUMENT); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[SYSTEM] %s | %s - %s", DATE, origin, MESSAGE_FORMATTED));
 
-		defaultLogger.system(LANGUAGE_MESSAGE); origin = this.getOrigin();
+		this.defaultLogger.system(LANGUAGE_MESSAGE); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[SYSTEM] %s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.system(LANGUAGE_FORMAT, ARGUMENT); origin = this.getOrigin();
+		this.defaultLogger.system(LANGUAGE_FORMAT, ARGUMENT); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[SYSTEM] %s | %s - %s", DATE, origin, MESSAGE_FORMATTED));
-
-		try {
-			defaultLogger.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Test
-	@DisplayName("Log information message")
 	public void testLogInfo() {
-		DefaultLogger defaultLogger = this.newDefaultLogger();
-
-		defaultLogger.info(MESSAGE); String origin = this.getOrigin();
+		this.defaultLogger.info(MESSAGE); String origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[INFO  ] %s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.info(FORMAT, ARGUMENT); origin = this.getOrigin();
+		this.defaultLogger.info(FORMAT, ARGUMENT); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[INFO  ] %s | %s - %s", DATE, origin, MESSAGE_FORMATTED));
 
-		defaultLogger.info(LANGUAGE_MESSAGE); origin = this.getOrigin();
+		this.defaultLogger.info(LANGUAGE_MESSAGE); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[INFO  ] %s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.info(LANGUAGE_FORMAT, ARGUMENT); origin = this.getOrigin();
+		this.defaultLogger.info(LANGUAGE_FORMAT, ARGUMENT); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[INFO  ] %s | %s - %s", DATE, origin, MESSAGE_FORMATTED));
-
-		try {
-			defaultLogger.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Test
-	@DisplayName("Log notice message")
 	public void testLogNotice() {
-		DefaultLogger defaultLogger = this.newDefaultLogger();
-
-		defaultLogger.notice(MESSAGE); String origin = this.getOrigin();
+		this.defaultLogger.notice(MESSAGE); String origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[NOTICE] %s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.notice(FORMAT, ARGUMENT); origin = this.getOrigin();
+		this.defaultLogger.notice(FORMAT, ARGUMENT); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[NOTICE] %s | %s - %s", DATE, origin, MESSAGE_FORMATTED));
 
-		defaultLogger.notice(LANGUAGE_MESSAGE); origin = this.getOrigin();
+		this.defaultLogger.notice(LANGUAGE_MESSAGE); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[NOTICE] %s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.notice(LANGUAGE_FORMAT, ARGUMENT); origin = this.getOrigin();
+		this.defaultLogger.notice(LANGUAGE_FORMAT, ARGUMENT); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[NOTICE] %s | %s - %s", DATE, origin, MESSAGE_FORMATTED));
-
-		try {
-			defaultLogger.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Test
-	@DisplayName("Log packet message")
 	public void testLogPacket() {
-		DefaultLogger defaultLogger = this.newDefaultLogger();
-
-		defaultLogger.packet(MESSAGE); String origin = this.getOrigin();
+		this.defaultLogger.packet(MESSAGE); String origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[PACKET] %s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.packet(FORMAT, ARGUMENT); origin = this.getOrigin();
+		this.defaultLogger.packet(FORMAT, ARGUMENT); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[PACKET] %s | %s - %s", DATE, origin, MESSAGE_FORMATTED));
 
-		defaultLogger.packet(LANGUAGE_MESSAGE); origin = this.getOrigin();
+		this.defaultLogger.packet(LANGUAGE_MESSAGE); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[PACKET] %s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.packet(LANGUAGE_FORMAT, ARGUMENT); origin = this.getOrigin();
+		this.defaultLogger.packet(LANGUAGE_FORMAT, ARGUMENT); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[PACKET] %s | %s - %s", DATE, origin, MESSAGE_FORMATTED));
-
-		try {
-			defaultLogger.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Test
-	@DisplayName("Log warn message")
 	public void testLogWarn() {
-		DefaultLogger defaultLogger = this.newDefaultLogger();
-
-		defaultLogger.warn(MESSAGE); String origin = this.getOrigin();
+		this.defaultLogger.warn(MESSAGE); String origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[WARN  ] %s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.warn(FORMAT, ARGUMENT); origin = this.getOrigin();
+		this.defaultLogger.warn(FORMAT, ARGUMENT); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[WARN  ] %s | %s - %s", DATE, origin, MESSAGE_FORMATTED));
 
-		defaultLogger.warn(LANGUAGE_MESSAGE); origin = this.getOrigin();
+		this.defaultLogger.warn(LANGUAGE_MESSAGE); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[WARN  ] %s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.warn(LANGUAGE_FORMAT, ARGUMENT); origin = this.getOrigin();
+		this.defaultLogger.warn(LANGUAGE_FORMAT, ARGUMENT); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[WARN  ] %s | %s - %s", DATE, origin, MESSAGE_FORMATTED));
-
-		try {
-			defaultLogger.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Test
-	@DisplayName("Log debug message")
 	public void testLogError() {
-		DefaultLogger defaultLogger = this.newDefaultLogger();
-
-		defaultLogger.error(MESSAGE); String origin = this.getOrigin();
+		this.defaultLogger.error(MESSAGE); String origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[ERROR ] %s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.error(FORMAT, ARGUMENT); origin = this.getOrigin();
+		this.defaultLogger.error(FORMAT, ARGUMENT); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[ERROR ] %s | %s - %s", DATE, origin, MESSAGE_FORMATTED));
 
-		defaultLogger.error(LANGUAGE_MESSAGE); origin = this.getOrigin();
+		this.defaultLogger.error(LANGUAGE_MESSAGE); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[ERROR ] %s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.error(LANGUAGE_FORMAT, ARGUMENT); origin = this.getOrigin();
+		this.defaultLogger.error(LANGUAGE_FORMAT, ARGUMENT); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[ERROR ] %s | %s - %s", DATE, origin, MESSAGE_FORMATTED));
-
-		try {
-			defaultLogger.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Test
-	@DisplayName("Log fatal message")
 	public void testLogFatal() {
-		DefaultLogger defaultLogger = this.newDefaultLogger();
-
-		defaultLogger.fatal(MESSAGE); String origin = this.getOrigin();
+		this.defaultLogger.fatal(MESSAGE); String origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[FATAL ] %s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.fatal(FORMAT, ARGUMENT); origin = this.getOrigin();
+		this.defaultLogger.fatal(FORMAT, ARGUMENT); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[FATAL ] %s | %s - %s", DATE, origin, MESSAGE_FORMATTED));
 
-		defaultLogger.fatal(LANGUAGE_MESSAGE); origin = this.getOrigin();
+		this.defaultLogger.fatal(LANGUAGE_MESSAGE); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[FATAL ] %s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.fatal(LANGUAGE_FORMAT, ARGUMENT); origin = this.getOrigin();
+		this.defaultLogger.fatal(LANGUAGE_FORMAT, ARGUMENT); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[FATAL ] %s | %s - %s", DATE, origin, MESSAGE_FORMATTED));
 
 		Exception exception = new Exception(EXCEPTION_MESSAGE);
 
-		defaultLogger.exception(exception); origin = this.getOrigin();
+		this.defaultLogger.exception(LANGUAGE_MESSAGE); origin = this.getOrigin();
+		assertEquals(this.lastOutput, String.format("[EXCEPT] %s | %s - %s", DATE, origin, MESSAGE));
+
+		this.defaultLogger.exception(LANGUAGE_FORMAT, ARGUMENT); origin = this.getOrigin();
+		assertEquals(this.lastOutput, String.format("[EXCEPT] %s | %s - %s", DATE, origin, MESSAGE_FORMATTED));
+
+		this.defaultLogger.exception(exception); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[EXCEPT] %s | %s - %s: %s", DATE, origin, nameOf(exception), exception.getMessage()));
 
-		defaultLogger.exception(exception, LANGUAGE_MESSAGE); origin = this.getOrigin();
+		this.defaultLogger.exception(exception, LANGUAGE_MESSAGE); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[EXCEPT] %s | %s - %s; %s: %s", DATE, origin, MESSAGE, nameOf(exception), exception.getMessage()));
 
-		defaultLogger.exception(exception, LANGUAGE_FORMAT, ARGUMENT); origin = this.getOrigin();
+		this.defaultLogger.exception(exception, LANGUAGE_FORMAT, ARGUMENT); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[EXCEPT] %s | %s - %s; %s: %s", DATE, origin, MESSAGE_FORMATTED, nameOf(exception), exception.getMessage()));
 
-		defaultLogger.trace(exception); origin = this.getOrigin();
+		this.defaultLogger.trace(exception); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[EXCEPT] %s | %s - %s", DATE, origin, ExceptionUtils.getStackTrace(exception)));
-
-		try {
-			defaultLogger.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Test
-	@DisplayName("Log exception message")
 	public void testLogException() {
-		DefaultLogger defaultLogger = this.newDefaultLogger();
-
-		defaultLogger.exception(MESSAGE); String origin = this.getOrigin();
+		this.defaultLogger.exception(MESSAGE); String origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[EXCEPT] %s | %s - %s", DATE, origin, MESSAGE));
 
-		defaultLogger.exception(FORMAT, ARGUMENT); origin = this.getOrigin();
+		this.defaultLogger.exception(FORMAT, ARGUMENT); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[EXCEPT] %s | %s - %s", DATE, origin, MESSAGE_FORMATTED));
 
 		Exception exception = new Exception(EXCEPTION_MESSAGE);
 
-		defaultLogger.exception(exception); origin = this.getOrigin();
+		this.defaultLogger.exception(exception); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[EXCEPT] %s | %s - %s: %s", DATE, origin, nameOf(exception), exception.getMessage()));
 
-		defaultLogger.exception(exception, MESSAGE); origin = this.getOrigin();
+		this.defaultLogger.exception(exception, MESSAGE); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[EXCEPT] %s | %s - %s; %s: %s", DATE, origin, MESSAGE, nameOf(exception), exception.getMessage()));
 
-		defaultLogger.exception(exception, FORMAT, ARGUMENT); origin = this.getOrigin();
+		this.defaultLogger.exception(exception, FORMAT, ARGUMENT); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[EXCEPT] %s | %s - %s; %s: %s", DATE, origin, MESSAGE_FORMATTED, nameOf(exception), exception.getMessage()));
 
-		defaultLogger.trace(exception); origin = this.getOrigin();
+		this.defaultLogger.trace(exception); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[EXCEPT] %s | %s - %s", DATE, origin, ExceptionUtils.getStackTrace(exception)));
-
-		try {
-			defaultLogger.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	private DefaultLogger newDefaultLogger() {
@@ -401,4 +333,5 @@ public class TestDefaultLogger {
 			stackTraceElement.getLineNumber()
 		);
 	}
+
 }

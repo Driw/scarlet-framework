@@ -20,7 +20,6 @@ import org.diverproject.scarlet.logger.LoggerLevel;
 import org.diverproject.scarlet.logger.LoggerSubject;
 import org.diverproject.scarlet.logger.MessageOutput;
 import org.diverproject.scarlet.logger.message.AdvancedMessage;
-import org.diverproject.scarlet.util.StringUtils;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -31,7 +30,6 @@ public abstract class AbstractLogger implements Logger {
 
 	public static final int DEFAULT_OFFSET_TRACE = 2;
 	private static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-	private static final SimpleDateFormat DEFAULT_SIMPLE_DATE_FORMAT = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
 
 	private Date date;
 	private String name;
@@ -41,7 +39,7 @@ public abstract class AbstractLogger implements Logger {
 
 	public AbstractLogger(String name, LoggerSubject loggerOutputSubject) {
 		this.setName(name);
-		this.setSimpleDateFormat(DEFAULT_SIMPLE_DATE_FORMAT);
+		this.setSimpleDateFormat(new SimpleDateFormat(DEFAULT_DATE_FORMAT));
 		this.setDate(new Date());
 		this.setLoggerOutputSubject(loggerOutputSubject);
 	}
@@ -389,12 +387,4 @@ public abstract class AbstractLogger implements Logger {
 		throw LoggerAbstractionError.offsetTrace(offsetTrace);
 	}
 
-	@Override
-	public String toString() {
-		return StringUtils.objectToString(
-			this,
-			"name", this.getName(),
-			"currentDateFormatted", this.getCurrentDateFormatted()
-		);
-	}
 }
