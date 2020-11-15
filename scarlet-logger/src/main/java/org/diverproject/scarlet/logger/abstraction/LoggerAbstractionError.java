@@ -12,7 +12,9 @@ import org.diverproject.scarlet.logger.LoggerObserver;
 import java.io.File;
 import java.io.IOException;
 
-public class LoggerAbstractionError {
+public final class LoggerAbstractionError {
+
+	private LoggerAbstractionError() { }
 
 	public static LoggerAbstractionException cannotRegisterLogger(LoggerObserver loggerObserver) {
 		return new LoggerAbstractionException(CANNOT_REGISTER_LOGGER_OBSERVER, nameOf(loggerObserver));
@@ -33,4 +35,5 @@ public class LoggerAbstractionError {
 	public static LoggerAbstractionException offsetTrace(int offsetTrace) {
 		return new LoggerAbstractionException(OFFSET_TRACE, offsetTrace);
 	}
+
 }

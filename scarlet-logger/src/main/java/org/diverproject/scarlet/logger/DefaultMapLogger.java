@@ -29,7 +29,7 @@ public class DefaultMapLogger<L extends Logger> implements MapLogger<L> {
 	}
 
 	@Override
-	public L get(String name) throws LoggerRuntimeException {
+	public L get(String name) throws LoggerException {
 		L logger = this.getLoggers().get(name);
 
 		if (logger == null)
@@ -39,18 +39,18 @@ public class DefaultMapLogger<L extends Logger> implements MapLogger<L> {
 					Class<? extends L> classz = this.getDefaultClassLogger();
 
 					if (classz == null)
-						throw LoggerExceptionError.defaultClassLoggerNotSet();
+						throw LoggerError.defaultClassLoggerNotSet();
 
 					Constructor<? extends L> constructor = classz.getDeclaredConstructor(String.class);
 
 					logger = constructor.newInstance(name);
 
 				} catch (IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException e) {
-					throw LoggerExceptionError.newLoggerInstance(e, name, this.getDefaultClassLogger());
+					throw LoggerError.newLoggerInstance(e, name, this.getDefaultClassLogger());
 				}
 
 		if (logger == null)
-			throw LoggerExceptionError.loggerNotFound(name);
+			throw LoggerError.loggerNotFound(name);
 
 		return logger;
 	}
@@ -96,7 +96,7 @@ public class DefaultMapLogger<L extends Logger> implements MapLogger<L> {
 			try {
 				logger.close();
 			} catch (IOException e) {
-				throw LoggerExceptionError.closeLogger(e, logger);
+				throw LoggerError.closeLogger(e, logger);
 			}
 		});
 		this.getLoggers().clear();

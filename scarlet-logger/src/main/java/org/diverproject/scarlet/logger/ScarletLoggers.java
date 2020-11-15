@@ -1,7 +1,5 @@
 package org.diverproject.scarlet.logger;
 
-import org.diverproject.scarlet.logger.language.LoggerLanguage;
-
 import java.lang.reflect.InvocationTargetException;
 
 public class ScarletLoggers implements Loggers<Logger> {
@@ -26,7 +24,7 @@ public class ScarletLoggers implements Loggers<Logger> {
 			this.mapLogger.add(logger);
 			return logger;
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-			throw LoggerExceptionError.newLoggerInstanceAtAdd(e, loggerClass);
+			throw LoggerError.newLoggerInstanceAtAdd(e, loggerClass);
 		}
 	}
 

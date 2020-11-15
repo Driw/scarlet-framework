@@ -14,10 +14,6 @@ import static org.diverproject.scarlet.util.ScarletUtils.nameOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.diverproject.scarlet.logger.LoggerObserver;
-import org.diverproject.scarlet.logger.LoggerSubject;
-import org.diverproject.scarlet.logger.MessageOutput;
-import org.diverproject.scarlet.util.StringUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

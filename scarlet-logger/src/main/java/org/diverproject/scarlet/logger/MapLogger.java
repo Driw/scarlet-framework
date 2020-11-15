@@ -6,7 +6,7 @@ public interface MapLogger<L extends Logger> {
 	Set<String> names();
 	boolean isInstanceNewLoggers();
 	Class<? extends L> getDefaultClassLogger();
-	L get(String name) throws LoggerRuntimeException;
+	L get(String name) throws LoggerException;
 	boolean add(L logger);
 	boolean remove(L logger);
 	boolean remove(String name);

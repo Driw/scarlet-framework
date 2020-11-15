@@ -12,6 +12,7 @@ import static org.diverproject.scarlet.logger.abstraction.DefaultLoggerLevel.SYS
 import static org.diverproject.scarlet.logger.abstraction.DefaultLoggerLevel.WARN;
 import static org.diverproject.scarlet.util.ScarletUtils.nameOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.diverproject.scarlet.language.Language;
@@ -289,6 +290,11 @@ public class DefaultLoggerTest {
 
 		this.defaultLogger.trace(exception); origin = this.getOrigin();
 		assertEquals(this.lastOutput, String.format("[EXCEPT] %s | %s - %s", DATE, origin, ExceptionUtils.getStackTrace(exception)));
+	}
+
+	@Test
+	void testGetOrigin() {
+		assertThrows(LoggerAbstractionException.class, () -> AbstractLogger.getOrigin(Integer.MAX_VALUE));
 	}
 
 	private DefaultLogger newDefaultLogger() {

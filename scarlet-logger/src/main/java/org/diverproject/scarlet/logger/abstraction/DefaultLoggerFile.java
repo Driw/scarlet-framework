@@ -11,4 +11,5 @@ public class DefaultLoggerFile extends AbstractLogger {
 	public DefaultLoggerFile(String name, File file) {
 		super(name, new DefaultFileLoggerSubject(file));
 	}
+
 }

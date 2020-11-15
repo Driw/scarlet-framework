@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.diverproject.scarlet.logger.LoggerLevel;
 
-public enum DefaultLoggerLevel implements LoggerLevel
-{
+public enum DefaultLoggerLevel implements LoggerLevel {
+
 	NONE		(""),
 	DEBUG		("DEBUG "),
 	SYSTEM		("SYSTEM"),
@@ -16,7 +16,6 @@ public enum DefaultLoggerLevel implements LoggerLevel
 	ERROR		("ERROR "),
 	FATAL		("FATAL "),
 	EXCEPTION	("EXCEPT"),
-
 	;
 
 	@Getter
@@ -34,6 +33,7 @@ public enum DefaultLoggerLevel implements LoggerLevel
 
 	@Override
 	public int getCode() {
-		return this.ordinal();
+		return this.ordinal() + 1;
 	}
+
 }
