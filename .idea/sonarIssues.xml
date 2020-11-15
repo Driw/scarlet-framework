@@ -3,6 +3,66 @@
   <component name="issues">
     <option name="index">
       <map>
+        <entry key="$PROJECT_DIR$/../arian-framework/arien-core/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../arian-framework/arien-core/src/main/java/br/com/arienframework/core/ArienFramework.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../arian-framework/arien-engine/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../arian-framework/arien-engine/src/main/java/br/com/arienframework/engine/ArienEngine.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../arian-framework/arien-engine/src/main/java/br/com/arienframework/engine/ArienEngineRuntimeException.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../arian-framework/arien-lwjgl/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../arian-framework/arien-lwjgl/src/main/java/br/com/arienframework/lwjgl/Lwjgl.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../arian-framework/arien-lwjgl/src/main/java/br/com/arienframework/lwjgl/LwjglRuntimeException.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../arian-framework/arien-resource/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../arian-framework/arien-resource/src/main/java/br/com/arienframework/resource/Resource.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../arian-framework/arien-resource/src/main/java/br/com/arienframework/resource/ResourceRuntimeException.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../arian-framework/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/pom.xml">
           <value>
             <set />
