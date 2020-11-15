@@ -26,6 +26,6 @@ public enum LoggerLanguage implements Language {
 
 	@Override
 	public int getCode() {
-		return this.ordinal();
+		return this.ordinal() + 1;
 	}
 }
