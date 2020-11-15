@@ -1,5 +1,6 @@
 # Mega
-*/Rubbish
+/Rubbish/*
+/target/*
 
 # Java Binary Builds
 /scarlet-context/target
