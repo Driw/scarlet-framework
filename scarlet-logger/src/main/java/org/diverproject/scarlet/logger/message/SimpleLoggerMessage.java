@@ -11,12 +11,9 @@ import java.time.LocalDateTime;
 @Data
 @Accessors(chain = true)
 public class SimpleLoggerMessage implements LoggerMessage {
-	private LocalDateTime time;
-	private Level level;
 	private LoggerLevel loggerLevel;
 	private String message;
 	private Marker marker;
 	private Throwable throwable;
 	private Object[] arguments;
-	private StackTraceElement source;
 }
