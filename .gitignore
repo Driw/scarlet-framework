@@ -7,3 +7,6 @@
 /scarlet-core/target
 /scarlet-logger/target
 /scarlet-stream/target
+
+# IntelliJ
+/.idea
