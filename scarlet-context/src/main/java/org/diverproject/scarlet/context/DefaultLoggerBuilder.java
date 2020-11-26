@@ -1,6 +1,7 @@
 package org.diverproject.scarlet.context;
 
 import org.diverproject.scarlet.logger.Logger;
+import org.diverproject.scarlet.logger.simple.SimpleLogger;
 
 public class DefaultLoggerBuilder implements LoggerBuilder {
 
@@ -11,7 +12,7 @@ public class DefaultLoggerBuilder implements LoggerBuilder {
 
 	@Override
 	public Class<? extends Logger> generateLoggerClass(Class<?> aClass) {
-		return DefaultLoggerContext.class;
+		return SimpleLogger.class;
 	}
 
 }

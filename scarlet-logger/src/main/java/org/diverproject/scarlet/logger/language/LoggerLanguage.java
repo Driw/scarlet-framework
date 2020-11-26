@@ -8,11 +8,9 @@ import org.diverproject.scarlet.language.LanguageAutoloader;
 @LanguageAutoloader
 public enum LoggerLanguage implements Language {
 
-	DEFAULT_CLASS_LOGGER_NOT_SET	("none default class logger set to new instances"),
-	NEW_LOGGER_INSTANCE				("failure on create a new instance (name: %s, className: %s)"),
-	LOGGER_NOT_FOUND				("logger not found (name: %s)"),
-	SCARLET_LOGGER_CLOSE			("failure on clear ScarletLogger (logger: %s)"),
-	NEW_LOGGER_LANGUAGE				("failure on instance a new logger language from '%s'"),
+	DEFAULT_CLASS_LOGGER_NOT_SET		("none default class logger set to new instances"),
+	SCARLET_LOGGER_CLOSE				("failure on clear ScarletLogger (logger: %s)"),
+	GET_LOGGER_INSTANCE_OF				("failure on get a logger (expected: %s, actual: %s)"),
 
 	;
 

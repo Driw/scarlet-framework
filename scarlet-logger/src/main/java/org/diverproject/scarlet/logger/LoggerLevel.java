@@ -1,7 +1,8 @@
 package org.diverproject.scarlet.logger;
 
-import org.diverproject.scarlet.language.Language;
+import org.apache.log4j.Level;
 
-public interface LoggerLevel extends Language {
+public interface LoggerLevel {
+	Level getLevel();
 	String getLabel();
 }

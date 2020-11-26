@@ -4,7 +4,7 @@ import org.diverproject.scarlet.language.Language;
 
 import java.io.Closeable;
 
-public interface Logger extends Closeable {
+public interface Logger extends Closeable, org.slf4j.Logger {
 	String getName();
 
 	void feedLine();

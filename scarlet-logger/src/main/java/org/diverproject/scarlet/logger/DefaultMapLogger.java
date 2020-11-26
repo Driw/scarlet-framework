@@ -3,10 +3,7 @@ package org.diverproject.scarlet.logger;
 import lombok.Data;
 
 import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 @Data
@@ -24,35 +21,8 @@ public class DefaultMapLogger<L extends Logger> implements MapLogger<L> {
 	}
 
 	@Override
-	public Set<String> names() {
-		return this.getLoggers().keySet();
-	}
-
-	@Override
-	public L get(String name) throws LoggerException {
-		L logger = this.getLoggers().get(name);
-
-		if (logger == null)
-			if (this.isInstanceNewLoggers())
-				try {
-
-					Class<? extends L> classz = this.getDefaultClassLogger();
-
-					if (classz == null)
-						throw LoggerError.defaultClassLoggerNotSet();
-
-					Constructor<? extends L> constructor = classz.getDeclaredConstructor(String.class);
-
-					logger = constructor.newInstance(name);
-
-				} catch (IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException e) {
-					throw LoggerError.newLoggerInstance(e, name, this.getDefaultClassLogger());
-				}
-
-		if (logger == null)
-			throw LoggerError.loggerNotFound(name);
-
-		return logger;
+	public L get(String name) {
+		return this.getLoggers().get(name);
 	}
 
 	@Override
@@ -66,17 +36,7 @@ public class DefaultMapLogger<L extends Logger> implements MapLogger<L> {
 	}
 
 	@Override
-	public boolean remove(Logger logger) {
-		return this.getLoggers().remove(logger.getName()) != null;
-	}
-
-	@Override
-	public boolean remove(String name) {
-		return this.getLoggers().remove(name) != null;
-	}
-
-	@Override
-	public boolean contains(Logger logger) {
+	public boolean contains(L logger) {
 		return this.getLoggers().containsValue(logger);
 	}
 
@@ -92,18 +52,21 @@ public class DefaultMapLogger<L extends Logger> implements MapLogger<L> {
 
 	@Override
 	public void clear() {
-		this.getLoggers().values().forEach(logger -> {
-			try {
-				logger.close();
-			} catch (IOException e) {
-				throw LoggerError.closeLogger(e, logger);
-			}
-		});
+		this.getLoggers().values().forEach(this::closeLogger);
 		this.getLoggers().clear();
+	}
+
+	private void closeLogger(L logger) {
+		try {
+			logger.close();
+		} catch (IOException e) {
+			throw LoggerError.closeLogger(e, logger);
+		}
 	}
 
 	@Override
 	public int size() {
 		return this.getLoggers().size();
 	}
+
 }

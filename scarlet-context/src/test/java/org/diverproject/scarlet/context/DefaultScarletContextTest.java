@@ -14,7 +14,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import java.util.List;
 
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class DefaultScarletContextTest {
 
 	@BeforeAll
@@ -23,8 +22,7 @@ public class DefaultScarletContextTest {
 	}
 
 	@Test
-	@DisplayName("Initialize")
-	public void Test01_Initialize() {
+	void Test01_Initialize() {
 		String[] args = TestUtils.contextArguments();
 		DefaultScarletContext scarletContext = new DefaultScarletContext();
 		scarletContext.initialize(args);
@@ -33,8 +31,7 @@ public class DefaultScarletContextTest {
 	}
 
 	@Test
-	@DisplayName("Register and Get Singleton")
-	public void Test02_RegisterSingleton() {
+	void Test02_RegisterSingleton() {
 		String[] args = TestUtils.contextArguments();
 		DefaultScarletContext scarletContext = new DefaultScarletContext();
 		scarletContext.initialize(args);

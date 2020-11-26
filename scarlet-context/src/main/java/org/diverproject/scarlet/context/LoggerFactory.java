@@ -3,7 +3,7 @@ package org.diverproject.scarlet.context;
 import lombok.Getter;
 import lombok.Setter;
 import org.diverproject.scarlet.logger.Logger;
-import org.diverproject.scarlet.logger.ScarletLoggers;
+import org.diverproject.scarlet.logger.ScarletLoggerParser;
 
 public class LoggerFactory {
 
@@ -14,11 +14,7 @@ public class LoggerFactory {
 	private LoggerFactory() { }
 
 	public static Logger get(Class<?> aClass) {
-		if (ScarletLoggers.getInstance().contains(aClass.getName())) {
-			return ScarletLoggers.getInstance().get(aClass.getName());
-		}
-
-		return ScarletLoggers.getInstance().add(loggerBuilder.generateKey(aClass), loggerBuilder.generateLoggerClass(aClass));
+		return ScarletLoggerParser.get(aClass);
 	}
 
 }

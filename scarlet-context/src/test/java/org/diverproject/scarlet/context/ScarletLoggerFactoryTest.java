@@ -7,17 +7,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.diverproject.scarlet.logger.Logger;
-import org.diverproject.scarlet.logger.ScarletLoggers;
-import org.diverproject.scarlet.logger.abstraction.DefaultLogger;
 import org.junit.jupiter.api.Test;
 
-public class LoggerFactoryTest {
+public class ScarletLoggerFactoryTest {
 
 	@Test
 	public void testGet() {
-		Logger loggerFactoryTest = LoggerFactory.get(LoggerFactoryTest.class);
+		Logger loggerFactoryTest = LoggerFactory.get(ScarletLoggerFactoryTest.class);
 		assertNotNull(loggerFactoryTest);
-		assertEquals(loggerFactoryTest, LoggerFactory.get(LoggerFactoryTest.class));
+		assertEquals(loggerFactoryTest, LoggerFactory.get(ScarletLoggerFactoryTest.class));
 	}
 
 	@Test
