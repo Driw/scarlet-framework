@@ -10,7 +10,6 @@ public enum LoggerLanguage implements Language {
 
 	DEFAULT_CLASS_LOGGER_NOT_SET		("none default class logger set to new instances"),
 	SCARLET_LOGGER_CLOSE				("failure on clear ScarletLogger (logger: %s)"),
-	GET_LOGGER_INSTANCE_OF				("failure on get a logger (expected: %s, actual: %s)"),
 
 	;
 
@@ -26,4 +25,5 @@ public enum LoggerLanguage implements Language {
 	public int getCode() {
 		return this.ordinal() + 1;
 	}
+
 }

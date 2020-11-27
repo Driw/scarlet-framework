@@ -24,4 +24,5 @@ public enum LoggerAbstractionLanguage implements Language {
 	public int getCode() {
 		return this.ordinal() + 1;
 	}
+
 }

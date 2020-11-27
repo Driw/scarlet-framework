@@ -11,11 +11,11 @@ public interface Logger extends Closeable, org.slf4j.Logger {
 
 	void log(String message);
 	void log(String format, Object... args);
+	void log(Language language);
+	void log(Language language, Object... args);
 	void log(LoggerLevel level, String message);
 	void log(LoggerLevel level, String format, Object... args);
 	void log(LoggerLevel level, Language language, Object... args);
-	void log(Language language);
-	void log(Language language, Object... args);
 
 	void debug(String message);
 	void debug(String format, Object... args);

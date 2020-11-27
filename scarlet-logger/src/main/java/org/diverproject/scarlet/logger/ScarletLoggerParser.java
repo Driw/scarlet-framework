@@ -1,32 +1,25 @@
 package org.diverproject.scarlet.logger;
 
-import lombok.Data;
 import org.slf4j.LoggerFactory;
 
-@Data
 public final class ScarletLoggerParser {
 
-	private static boolean initialized;
-	private static final String DEFAULT_LOGGER_NAME = Logger.class.getName();
-	private static Logger defaultLogger;
+	public static final String DEFAULT_LOGGER_NAME = Logger.class.getName();
+
+	private static final Logger defaultLogger;
 
 	static {
-		ScarletLoggerParser.initialize();
+		defaultLogger = get(DEFAULT_LOGGER_NAME);
 	}
 
 	private ScarletLoggerParser() { }
 
-	private static void initialize() {
+	public static Logger get(Class<?> className) {
+		return (Logger) LoggerFactory.getLogger(className);
 	}
 
-	public static Logger get(Class<?> className) {
-		org.slf4j.Logger slf4jLogger = LoggerFactory.getLogger(className);
-
-		if (!(slf4jLogger instanceof Logger)) {
-			throw LoggerError.getLoggerInstanceOf(slf4jLogger);
-		}
-
-		return (Logger) slf4jLogger;
+	public static Logger get(String name) {
+		return (Logger) LoggerFactory.getLogger(name);
 	}
 
 	public static Logger getDefault() {
