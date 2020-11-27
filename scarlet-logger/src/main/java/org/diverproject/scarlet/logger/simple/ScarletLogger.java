@@ -75,12 +75,14 @@ public abstract class ScarletLogger implements Logger {
 
 	protected SimpleLoggerMessage message(String message, Object... args) {
 		return new SimpleLoggerMessage()
+			.setLoggerLevel(DefaultLoggerLevel.NONE)
 			.setMessage(message)
 			.setArguments(args);
 	}
 
 	protected SimpleLoggerMessage message(Language language, Object... args) {
 		return new SimpleLoggerMessage()
+			.setLoggerLevel(DefaultLoggerLevel.NONE)
 			.setMessage(language.getFormat())
 			.setArguments(args);
 	}
@@ -146,6 +148,16 @@ public abstract class ScarletLogger implements Logger {
 	}
 
 	@Override
+	public void log(Language language) {
+		this.handle(this.message(language));
+	}
+
+	@Override
+	public void log(Language language, Object... args) {
+		this.handle(this.message(language, args));
+	}
+
+	@Override
 	public void log(LoggerLevel level, String message) {
 		this.handle(this.message(level, message));
 	}
@@ -158,16 +170,6 @@ public abstract class ScarletLogger implements Logger {
 	@Override
 	public void log(LoggerLevel level, Language language, Object... args) {
 		this.handle(this.message(level, language.getFormat(), args));
-	}
-
-	@Override
-	public void log(Language language) {
-		this.handle(this.message(language));
-	}
-
-	@Override
-	public void log(Language language, Object... args) {
-		this.handle(this.message(language, args));
 	}
 
 	@Override
