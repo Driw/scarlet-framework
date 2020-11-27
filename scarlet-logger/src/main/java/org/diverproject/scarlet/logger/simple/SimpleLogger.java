@@ -28,7 +28,7 @@ public class SimpleLogger extends ScarletLogger {
 	}
 
 	private Level toLog4jLevel(int slf4jLevelInt) {
-		if (slf4jLevelInt < Level.TRACE_INT)
+		if (slf4jLevelInt <= Level.TRACE_INT)
 			return this.isTraceEnabled() ? Level.TRACE : Level.DEBUG;
 
 		if (slf4jLevelInt <= Priority.DEBUG_INT)
