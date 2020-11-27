@@ -12,12 +12,9 @@ public class DefaultMapLogger<L extends Logger> implements MapLogger<L> {
 	public static final String DEFAULT_LOGGER_NAME = "default";
 
 	private Map<String, L> loggers;
-	private boolean instanceNewLoggers;
-	private Class<? extends L> defaultClassLogger;
 
 	public DefaultMapLogger() {
 		this.loggers = new TreeMap<>();
-		this.setInstanceNewLoggers(false);
 	}
 
 	@Override
@@ -31,7 +28,8 @@ public class DefaultMapLogger<L extends Logger> implements MapLogger<L> {
 			if (!this.hasAvailableName(logger.getName()))
 				return false;
 
-			return this.getLoggers().put(logger.getName(), logger) != null;
+			this.getLoggers().put(logger.getName(), logger);
+			return true;
 		}
 	}
 
