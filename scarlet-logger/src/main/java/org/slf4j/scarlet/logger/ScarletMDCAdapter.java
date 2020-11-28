@@ -11,9 +11,10 @@ class ScarletMDCAdapter implements org.slf4j.spi.MDCAdapter {
 	@Getter
 	private static final ScarletMDCAdapter instance = new ScarletMDCAdapter();
 
+	private ScarletMDCAdapter() { }
+
 	@Override
 	public void put(String key, String val) {
-
 	}
 
 	@Override
@@ -23,12 +24,10 @@ class ScarletMDCAdapter implements org.slf4j.spi.MDCAdapter {
 
 	@Override
 	public void remove(String key) {
-
 	}
 
 	@Override
 	public void clear() {
-
 	}
 
 	@Override
@@ -38,7 +37,6 @@ class ScarletMDCAdapter implements org.slf4j.spi.MDCAdapter {
 
 	@Override
 	public void setContextMap(Map<String, String> contextMap) {
-
 	}
 
 }
