@@ -56,11 +56,7 @@ public abstract class ScarletLogger implements Logger {
 
 	@Override
 	public boolean isErrorEnabled() {
-		if (this.getLogger().getLoggerRepository().isDisabled(ScarletLoggerLevel.ERROR_INT)) {
-			return false;
-		}
-
-		return ScarletLoggerLevel.ERROR.level().isGreaterOrEqual(this.getLogger().getEffectiveLevel());
+		return this.canLog(ScarletLoggerLevel.ERROR.level());
 	}
 
 	public abstract void handle(LoggerMessage loggerMessage);
@@ -97,13 +93,6 @@ public abstract class ScarletLogger implements Logger {
 			.setMarker(marker);
 	}
 
-	public SimpleLoggerMessage message(LoggerLevel loggerLevel, Marker marker, Throwable throwable) {
-		return new SimpleLoggerMessage()
-			.setLoggerLevel(loggerLevel)
-			.setThrowable(throwable)
-			.setMarker(marker);
-	}
-
 	public SimpleLoggerMessage message(LoggerLevel loggerLevel, Throwable throwable, String message, Object... args) {
 		return this.message(message, args)
 			.setLoggerLevel(loggerLevel)
@@ -126,7 +115,7 @@ public abstract class ScarletLogger implements Logger {
 
 	@Override
 	public void feedLine() {
-		this.handle(this.message("\n"));
+		this.handle(this.message(System.lineSeparator()));
 	}
 
 	@Override
