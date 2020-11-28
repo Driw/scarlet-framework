@@ -116,7 +116,7 @@ class ScarletLoggerTest {
 	void testHandle() {
 		LoggerMessage loggerMessage = this.simpleLogger.message(ScarletLoggerLevel.ERROR, THROWABLE, MESSAGE_FORMAT, MESSAGE_ARGUMENT);
 		this.simpleLogger.handle(loggerMessage);
-		assertEquals("ERROR - ".concat(MESSAGE), this.lastLogMessage());
+		assertEquals("ERROR - ".concat(MESSAGE).concat(BREAK_LINE).concat(THROWABLE_MESSAGE), this.lastLogMessage());
 
 		this.simpleLogger.getLogger().setLevel(ScarletLoggerLevel.EXCEPTION.level());
 		this.simpleLogger.handle(loggerMessage);
@@ -131,22 +131,22 @@ class ScarletLoggerTest {
 	@Test
 	void testFeedLine() {
 		this.simpleLogger.feedLine();
-		assertEquals(BREAK_LINE, this.lastLogMessage());
+		assertEquals(" - ".concat(BREAK_LINE).concat(BREAK_LINE), this.lastLogMessage());
 	}
 
 	@Test
 	void testLog() {
 		this.simpleLogger.log(MESSAGE);
-		assertEquals("LOG - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
+		assertEquals(" - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 
 		this.simpleLogger.log(MESSAGE_FORMAT, MESSAGE_ARGUMENT);
-		assertEquals("LOG - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
+		assertEquals(" - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 
 		this.simpleLogger.log(LANGUAGE);
-		assertEquals("LOG - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
+		assertEquals(" - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 
 		this.simpleLogger.log(LANGUAGE, MESSAGE_ARGUMENT);
-		assertEquals("LOG - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
+		assertEquals(" - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 
 		this.simpleLogger.log(ScarletLoggerLevel.SYSTEM, MESSAGE);
 		assertEquals("SYSTEM - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());

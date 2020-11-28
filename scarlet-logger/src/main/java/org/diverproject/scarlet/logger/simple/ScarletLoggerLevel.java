@@ -11,7 +11,7 @@ public class ScarletLoggerLevel extends Level implements LoggerLevel {
 	public static final int PACKET_INT = 25000;
 	public static final int EXCEPTION_INT = 60000;
 
-	public static final org.diverproject.scarlet.logger.LoggerLevel NONE		= new ScarletLoggerLevel(NONE_INT, "LOG", 7);
+	public static final org.diverproject.scarlet.logger.LoggerLevel NONE		= new ScarletLoggerLevel(NONE_INT, "", 7);
 	public static final org.diverproject.scarlet.logger.LoggerLevel SYSTEM		= new ScarletLoggerLevel(SYSTEM_INT, "SYSTEM", 7);
 	public static final org.diverproject.scarlet.logger.LoggerLevel TRACE		= new ScarletLoggerLevel(TRACE_INT, "TRACE", 7);
 	public static final org.diverproject.scarlet.logger.LoggerLevel DEBUG		= new ScarletLoggerLevel(DEBUG_INT, "DEBUG", 7);
