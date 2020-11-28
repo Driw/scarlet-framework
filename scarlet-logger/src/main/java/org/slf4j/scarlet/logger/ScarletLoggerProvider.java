@@ -9,7 +9,7 @@ import org.slf4j.spi.SLF4JServiceProvider;
 @Data
 public class ScarletLoggerProvider implements SLF4JServiceProvider {
 
-	public static String REQUESTED_API_VERSION = "1.8.99";
+	public static final String REQUESTED_API_VERSION = "1.8.99";
 
 	private ILoggerFactory loggerFactory;
 	private IMarkerFactory markerFactory;
