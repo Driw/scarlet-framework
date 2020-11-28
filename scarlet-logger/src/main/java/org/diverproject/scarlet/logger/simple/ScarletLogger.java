@@ -99,12 +99,6 @@ public abstract class ScarletLogger implements Logger {
 			.setThrowable(throwable);
 	}
 
-	protected SimpleLoggerMessage message(LoggerLevel loggerLevel, Throwable throwable) {
-		return new SimpleLoggerMessage()
-			.setLoggerLevel(loggerLevel)
-			.setThrowable(throwable);
-	}
-
 	protected SimpleLoggerMessage message(LoggerLevel loggerLevel, Throwable throwable, Language language, Object... args) {
 		return new SimpleLoggerMessage()
 			.setLoggerLevel(loggerLevel)
@@ -555,7 +549,7 @@ public abstract class ScarletLogger implements Logger {
 
 	@Override
 	public void exception(Exception e) {
-		this.handle(this.message(ScarletLoggerLevel.EXCEPTION, e));
+		this.handle(this.message(ScarletLoggerLevel.EXCEPTION, e, e.getMessage()));
 	}
 
 	@Override
@@ -590,7 +584,7 @@ public abstract class ScarletLogger implements Logger {
 
 	@Override
 	public void trace(Exception e) {
-		this.handle(this.message(ScarletLoggerLevel.TRACE, e));
+		this.handle(this.message(ScarletLoggerLevel.TRACE, e, e.getMessage()));
 	}
 
 	@Override

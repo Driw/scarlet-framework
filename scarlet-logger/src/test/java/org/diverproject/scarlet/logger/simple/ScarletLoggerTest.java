@@ -15,7 +15,6 @@ import org.diverproject.scarlet.logger.message.LoggerMessage;
 import org.diverproject.scarlet.logger.message.SimpleLoggerMessage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Marker;
 
@@ -37,9 +36,11 @@ class ScarletLoggerTest {
 	private static final String MESSAGE_ARGUMENT31 = "A";
 	private static final String MESSAGE_ARGUMENT32 = "test";
 	private static final String MESSAGE_ARGUMENT33 = "message";
-	private static final Language LANGUAGE = ScarletLoggerTest.language(MESSAGE);
-	private static final Throwable THROWABLE = new Exception("A test throwable");
+	private static final Language LANGUAGE = ScarletLoggerTest.language();
+	private static final String THROWABLE_MESSAGE_VALUE = "A test throwable";
+	private static final Exception THROWABLE = new Exception(THROWABLE_MESSAGE_VALUE);
 	private static final Marker MARKER = buildMarker();
+	private static final Object[] NO_ARGUMENT = new Object[0];
 
 	private static final String THROWABLE_MESSAGE = ExceptionUtils.getStackTrace(THROWABLE);
 
@@ -145,7 +146,7 @@ class ScarletLoggerTest {
 		this.simpleLogger.log(LANGUAGE);
 		assertEquals(" - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 
-		this.simpleLogger.log(LANGUAGE, MESSAGE_ARGUMENT);
+		this.simpleLogger.log(LANGUAGE, NO_ARGUMENT);
 		assertEquals(" - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 
 		this.simpleLogger.log(ScarletLoggerLevel.SYSTEM, MESSAGE);
@@ -154,7 +155,7 @@ class ScarletLoggerTest {
 		this.simpleLogger.log(ScarletLoggerLevel.SYSTEM, MESSAGE_FORMAT, MESSAGE_ARGUMENT);
 		assertEquals("SYSTEM - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 
-		this.simpleLogger.log(ScarletLoggerLevel.SYSTEM, LANGUAGE, MESSAGE_ARGUMENT);
+		this.simpleLogger.log(ScarletLoggerLevel.SYSTEM, LANGUAGE, NO_ARGUMENT);
 		assertEquals("SYSTEM - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 	}
 
@@ -239,7 +240,7 @@ class ScarletLoggerTest {
 		this.simpleLogger.debug(LANGUAGE);
 		assertEquals("DEBUG - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 
-		this.simpleLogger.debug(LANGUAGE, MESSAGE_ARGUMENT);
+		this.simpleLogger.debug(LANGUAGE, NO_ARGUMENT);
 		assertEquals("DEBUG - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 	}
 
@@ -276,7 +277,7 @@ class ScarletLoggerTest {
 		this.simpleLogger.system(LANGUAGE);
 		assertEquals("SYSTEM - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 
-		this.simpleLogger.system(LANGUAGE, MESSAGE_ARGUMENT);
+		this.simpleLogger.system(LANGUAGE, NO_ARGUMENT);
 		assertEquals("SYSTEM - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 	}
 
@@ -315,7 +316,7 @@ class ScarletLoggerTest {
 		this.simpleLogger.info(LANGUAGE);
 		assertEquals("INFO - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 
-		this.simpleLogger.info(LANGUAGE, MESSAGE_ARGUMENT);
+		this.simpleLogger.info(LANGUAGE, NO_ARGUMENT);
 		assertEquals("INFO - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 	}
 
@@ -352,7 +353,7 @@ class ScarletLoggerTest {
 		this.simpleLogger.notice(LANGUAGE);
 		assertEquals("NOTICE - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 
-		this.simpleLogger.notice(LANGUAGE, MESSAGE_ARGUMENT);
+		this.simpleLogger.notice(LANGUAGE, NO_ARGUMENT);
 		assertEquals("NOTICE - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 	}
 
@@ -376,7 +377,7 @@ class ScarletLoggerTest {
 		this.simpleLogger.packet(LANGUAGE);
 		assertEquals("PACKET - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 
-		this.simpleLogger.packet(LANGUAGE, MESSAGE_ARGUMENT);
+		this.simpleLogger.packet(LANGUAGE, NO_ARGUMENT);
 		assertEquals("PACKET - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 	}
 
@@ -415,7 +416,7 @@ class ScarletLoggerTest {
 		this.simpleLogger.warn(LANGUAGE);
 		assertEquals("WARN - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 
-		this.simpleLogger.warn(LANGUAGE, MESSAGE_ARGUMENT);
+		this.simpleLogger.warn(LANGUAGE, NO_ARGUMENT);
 		assertEquals("WARN - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 	}
 
@@ -468,7 +469,7 @@ class ScarletLoggerTest {
 		this.simpleLogger.error(LANGUAGE);
 		assertEquals("ERROR - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 
-		this.simpleLogger.error(LANGUAGE, MESSAGE_ARGUMENT);
+		this.simpleLogger.error(LANGUAGE, NO_ARGUMENT);
 		assertEquals("ERROR - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 	}
 
@@ -505,7 +506,7 @@ class ScarletLoggerTest {
 		this.simpleLogger.fatal(LANGUAGE);
 		assertEquals("FATAL - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 
-		this.simpleLogger.fatal(LANGUAGE, MESSAGE_ARGUMENT);
+		this.simpleLogger.fatal(LANGUAGE, NO_ARGUMENT);
 		assertEquals("FATAL - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 	}
 
@@ -529,8 +530,23 @@ class ScarletLoggerTest {
 		this.simpleLogger.exception(LANGUAGE);
 		assertEquals("EMERG - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 
-		this.simpleLogger.exception(LANGUAGE, MESSAGE_ARGUMENT);
+		this.simpleLogger.exception(LANGUAGE, NO_ARGUMENT);
 		assertEquals("EMERG - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
+
+		this.simpleLogger.exception(THROWABLE);
+		assertEquals("EMERG - ".concat(THROWABLE_MESSAGE_VALUE).concat(BREAK_LINE).concat(THROWABLE_MESSAGE), this.lastLogMessage());
+
+		this.simpleLogger.exception(THROWABLE, MESSAGE);
+		assertEquals("EMERG - ".concat(MESSAGE).concat(BREAK_LINE).concat(THROWABLE_MESSAGE), this.lastLogMessage());
+
+		this.simpleLogger.exception(THROWABLE, MESSAGE_FORMAT, MESSAGE_ARGUMENT);
+		assertEquals("EMERG - ".concat(MESSAGE).concat(BREAK_LINE).concat(THROWABLE_MESSAGE), this.lastLogMessage());
+
+		this.simpleLogger.exception(THROWABLE, LANGUAGE);
+		assertEquals("EMERG - ".concat(MESSAGE).concat(BREAK_LINE).concat(THROWABLE_MESSAGE), this.lastLogMessage());
+
+		this.simpleLogger.exception(THROWABLE, LANGUAGE, NO_ARGUMENT);
+		assertEquals("EMERG - ".concat(MESSAGE).concat(BREAK_LINE).concat(THROWABLE_MESSAGE), this.lastLogMessage());
 	}
 
 	@Test
@@ -550,7 +566,7 @@ class ScarletLoggerTest {
 		return new String(data);
 	}
 
-	private static Language language(String format) {
+	private static Language language() {
 		return new Language() {
 			@Override
 			public int getCode() {
@@ -559,7 +575,7 @@ class ScarletLoggerTest {
 
 			@Override
 			public String getFormat() {
-				return format;
+				return ScarletLoggerTest.MESSAGE;
 			}
 
 			@Override
