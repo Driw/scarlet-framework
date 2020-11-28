@@ -2,6 +2,7 @@ package org.diverproject.scarlet.logger.simple;
 
 import lombok.Data;
 import org.apache.log4j.Level;
+import org.apache.log4j.Priority;
 import org.diverproject.scarlet.language.Language;
 import org.diverproject.scarlet.logger.Logger;
 import org.diverproject.scarlet.logger.LoggerLevel;
@@ -47,7 +48,7 @@ public abstract class ScarletLogger implements Logger {
 
 	@Override
 	public boolean isWarnEnabled() {
-		if (this.getLogger().getLoggerRepository().isDisabled(ScarletLoggerLevel.WARN_INT)) {
+		if (this.getLogger().getLoggerRepository().isDisabled(Priority.WARN_INT)) {
 			return false;
 		}
 
