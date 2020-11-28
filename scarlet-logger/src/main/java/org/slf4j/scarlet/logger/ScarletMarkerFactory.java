@@ -11,6 +11,8 @@ class ScarletMarkerFactory implements IMarkerFactory {
 	@Getter
 	private static final ScarletMarkerFactory instance = new ScarletMarkerFactory();
 
+	private ScarletMarkerFactory() { }
+
 	@Override
 	public Marker getMarker(String name) {
 		return null;
