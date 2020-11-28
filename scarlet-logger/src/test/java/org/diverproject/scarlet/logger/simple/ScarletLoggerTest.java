@@ -190,6 +190,9 @@ class ScarletLoggerTest {
 
 		this.simpleLogger.trace(MARKER, MESSAGE, THROWABLE);
 		assertEquals("TRACE - ".concat(MESSAGE).concat(BREAK_LINE).concat(THROWABLE_MESSAGE), this.lastLogMessage());
+
+		this.simpleLogger.trace(THROWABLE);
+		assertEquals("TRACE - ".concat(THROWABLE_MESSAGE_VALUE).concat(BREAK_LINE).concat(THROWABLE_MESSAGE), this.lastLogMessage());
 	}
 
 	@Test
