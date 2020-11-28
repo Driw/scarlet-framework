@@ -4,6 +4,7 @@ import lombok.Data;
 import org.apache.log4j.Level;
 import org.diverproject.scarlet.language.Language;
 import org.diverproject.scarlet.logger.Logger;
+import org.diverproject.scarlet.logger.LoggerLevel;
 import org.diverproject.scarlet.logger.message.LoggerMessage;
 import org.diverproject.scarlet.logger.message.SimpleLoggerMessage;
 import org.slf4j.Marker;
