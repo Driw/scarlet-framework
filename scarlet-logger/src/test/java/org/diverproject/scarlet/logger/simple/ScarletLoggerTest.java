@@ -42,7 +42,7 @@ class ScarletLoggerTest {
 
 	private static final String THROWABLE_MESSAGE = ExceptionUtils.getStackTrace(THROWABLE);
 
-	private static final String BREAK_LINE = "\r\n";
+	private static final String BREAK_LINE = System.lineSeparator();
 	private ByteArrayOutputStream output;
 	private SimpleLogger simpleLogger;
 
