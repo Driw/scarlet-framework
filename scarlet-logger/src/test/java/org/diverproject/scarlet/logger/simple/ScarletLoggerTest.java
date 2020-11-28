@@ -11,6 +11,7 @@ import org.apache.log4j.SimpleLayout;
 import org.apache.log4j.WriterAppender;
 import org.diverproject.scarlet.language.Language;
 import org.diverproject.scarlet.logger.MarkerAdapter;
+import org.diverproject.scarlet.logger.message.LoggerMessage;
 import org.diverproject.scarlet.logger.message.SimpleLoggerMessage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -66,26 +67,71 @@ class ScarletLoggerTest {
 
 	@Test
 	void testCanLog() {
-	}
+		this.simpleLogger.getLogger().setLevel(ScarletLoggerLevel.SYSTEM.level());
+		assertTrue(this.simpleLogger.canLog(ScarletLoggerLevel.SYSTEM.level()));
+		assertFalse(this.simpleLogger.canLog(ScarletLoggerLevel.NONE.level()));
 
-	@Test
-	void testIsTraceEnabled() {
-	}
+		this.simpleLogger.getLogger().setLevel(ScarletLoggerLevel.TRACE.level());
+		assertTrue(this.simpleLogger.canLog(ScarletLoggerLevel.TRACE.level()));
+		assertFalse(this.simpleLogger.canLog(ScarletLoggerLevel.SYSTEM.level()));
 
-	@Test
-	void testIsDebugEnabled() {
-	}
+		this.simpleLogger.getLogger().setLevel(ScarletLoggerLevel.DEBUG.level());
+		assertTrue(this.simpleLogger.canLog(ScarletLoggerLevel.DEBUG.level()));
+		assertFalse(this.simpleLogger.canLog(ScarletLoggerLevel.TRACE.level()));
 
-	@Test
-	void testIsInfoEnabled() {
+		this.simpleLogger.getLogger().setLevel(ScarletLoggerLevel.NOTICE.level());
+		assertTrue(this.simpleLogger.canLog(ScarletLoggerLevel.NOTICE.level()));
+		assertFalse(this.simpleLogger.canLog(ScarletLoggerLevel.DEBUG.level()));
+
+		this.simpleLogger.getLogger().setLevel(ScarletLoggerLevel.INFO.level());
+		assertTrue(this.simpleLogger.canLog(ScarletLoggerLevel.INFO.level()));
+		assertFalse(this.simpleLogger.canLog(ScarletLoggerLevel.NOTICE.level()));
+
+		this.simpleLogger.getLogger().setLevel(ScarletLoggerLevel.PACKET.level());
+		assertTrue(this.simpleLogger.canLog(ScarletLoggerLevel.PACKET.level()));
+		assertFalse(this.simpleLogger.canLog(ScarletLoggerLevel.NOTICE.level()));
+
+		this.simpleLogger.getLogger().setLevel(ScarletLoggerLevel.WARN.level());
+		assertTrue(this.simpleLogger.canLog(ScarletLoggerLevel.WARN.level()));
+		assertFalse(this.simpleLogger.canLog(ScarletLoggerLevel.PACKET.level()));
+
+		this.simpleLogger.getLogger().setLevel(ScarletLoggerLevel.ERROR.level());
+		assertTrue(this.simpleLogger.canLog(ScarletLoggerLevel.ERROR.level()));
+		assertFalse(this.simpleLogger.canLog(ScarletLoggerLevel.WARN.level()));
+
+		this.simpleLogger.getLogger().setLevel(ScarletLoggerLevel.FATAL.level());
+		assertTrue(this.simpleLogger.canLog(ScarletLoggerLevel.FATAL.level()));
+		assertFalse(this.simpleLogger.canLog(ScarletLoggerLevel.ERROR.level()));
+
+		this.simpleLogger.getLogger().setLevel(ScarletLoggerLevel.EXCEPTION.level());
+		assertTrue(this.simpleLogger.canLog(ScarletLoggerLevel.EXCEPTION.level()));
+		assertFalse(this.simpleLogger.canLog(ScarletLoggerLevel.FATAL.level()));
+
+		this.simpleLogger.getLogger().setLevel(Level.OFF);
+		assertTrue(this.simpleLogger.canLog(Level.OFF));
+		assertFalse(this.simpleLogger.canLog(ScarletLoggerLevel.EXCEPTION.level()));
 	}
 
 	@Test
 	void testHandle() {
+		LoggerMessage loggerMessage = this.simpleLogger.message(ScarletLoggerLevel.ERROR, THROWABLE, MESSAGE_FORMAT, MESSAGE_ARGUMENT);
+		this.simpleLogger.handle(loggerMessage);
+		assertEquals("ERROR - ".concat(MESSAGE), this.lastLogMessage());
+
+		this.simpleLogger.getLogger().setLevel(ScarletLoggerLevel.EXCEPTION.level());
+		this.simpleLogger.handle(loggerMessage);
+		assertEquals("", this.lastLogMessage());
+
+		this.simpleLogger.getLogger().setLevel(ScarletLoggerLevel.ERROR.level());
+		this.simpleLogger.close();
+		this.simpleLogger.handle(loggerMessage);
+		assertEquals("", this.lastLogMessage());
 	}
 
 	@Test
 	void testFeedLine() {
+		this.simpleLogger.feedLine();
+		assertEquals(BREAK_LINE, this.lastLogMessage());
 	}
 
 	@Test
@@ -146,7 +192,7 @@ class ScarletLoggerTest {
 	}
 
 	@Test
-	void testTestIsTraceEnabled() {
+	void testIsTraceEnabled() {
 		assertTrue(this.simpleLogger.isTraceEnabled());
 		assertTrue(this.simpleLogger.isTraceEnabled(MARKER));
 
@@ -198,7 +244,7 @@ class ScarletLoggerTest {
 	}
 
 	@Test
-	void testTestIsDebugEnabled() {
+	void testIsDebugEnabled() {
 		assertTrue(this.simpleLogger.isDebugEnabled());
 		assertTrue(this.simpleLogger.isDebugEnabled(MARKER));
 
@@ -274,7 +320,7 @@ class ScarletLoggerTest {
 	}
 
 	@Test
-	void testTestIsInfoEnabled() {
+	void testIsInfoEnabled() {
 		assertTrue(this.simpleLogger.isInfoEnabled());
 		assertTrue(this.simpleLogger.isInfoEnabled(MARKER));
 
