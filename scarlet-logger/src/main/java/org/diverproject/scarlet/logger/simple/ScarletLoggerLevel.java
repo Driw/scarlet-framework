@@ -15,8 +15,8 @@ public class ScarletLoggerLevel extends Level implements LoggerLevel {
 	public static final org.diverproject.scarlet.logger.LoggerLevel SYSTEM		= new ScarletLoggerLevel(SYSTEM_INT, "SYSTEM", 7);
 	public static final org.diverproject.scarlet.logger.LoggerLevel TRACE		= new ScarletLoggerLevel(TRACE_INT, "TRACE", 7);
 	public static final org.diverproject.scarlet.logger.LoggerLevel DEBUG		= new ScarletLoggerLevel(DEBUG_INT, "DEBUG", 7);
-	public static final org.diverproject.scarlet.logger.LoggerLevel INFO		= new ScarletLoggerLevel(INFO_INT, "INFO", 6);
 	public static final org.diverproject.scarlet.logger.LoggerLevel NOTICE		= new ScarletLoggerLevel(NOTICE_INT, "NOTICE", 5);
+	public static final org.diverproject.scarlet.logger.LoggerLevel INFO		= new ScarletLoggerLevel(INFO_INT, "INFO", 6);
 	public static final org.diverproject.scarlet.logger.LoggerLevel PACKET		= new ScarletLoggerLevel(PACKET_INT, "PACKET", 5);
 	public static final org.diverproject.scarlet.logger.LoggerLevel WARN		= new ScarletLoggerLevel(WARN_INT, "WARN", 4);
 	public static final org.diverproject.scarlet.logger.LoggerLevel ERROR		= new ScarletLoggerLevel(ERROR_INT, "ERROR", 3);

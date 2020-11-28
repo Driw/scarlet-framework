@@ -24,31 +24,10 @@ public abstract class ScarletLogger implements Logger {
 	}
 
 	protected boolean canLog(Level log4jLevel) {
-		if (Level.OFF.equals(log4jLevel)) {
+		if (this.getLogger().getLoggerRepository().isDisabled(log4jLevel.toInt()))
 			return false;
-		}
 
-		if (Level.FATAL.equals(log4jLevel) || Level.ERROR.equals(log4jLevel)) {
-			return this.isErrorEnabled();
-		}
-
-		if (Level.WARN.equals(log4jLevel)) {
-			return this.isWarnEnabled();
-		}
-
-		if (Level.INFO.equals(log4jLevel)) {
-			return this.isInfoEnabled();
-		}
-
-		if (Level.DEBUG.equals(log4jLevel)) {
-			return this.isDebugEnabled();
-		}
-
-		if (Level.TRACE.equals(log4jLevel)) {
-			return this.isTraceEnabled();
-		}
-
-		return true;
+		return log4jLevel.isGreaterOrEqual(this.getLogger().getEffectiveLevel());
 	}
 
 	@Override
