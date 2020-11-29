@@ -174,6 +174,16 @@ public abstract class ScarletLogger implements Logger {
 	}
 
 	@Override
+	public void trace(Language language) {
+		this.handle(this.message(ScarletLoggerLevel.TRACE, language));
+	}
+
+	@Override
+	public void trace(Language language, Object... arguments) {
+		this.handle(this.message(ScarletLoggerLevel.TRACE, language, arguments));
+	}
+
+	@Override
 	public boolean isTraceEnabled(Marker marker) {
 		return this.isTraceEnabled();
 	}

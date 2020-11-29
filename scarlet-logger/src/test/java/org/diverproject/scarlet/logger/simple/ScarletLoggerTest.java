@@ -193,6 +193,12 @@ class ScarletLoggerTest {
 
 		this.simpleLogger.trace(THROWABLE);
 		assertEquals("TRACE - ".concat(THROWABLE_MESSAGE_VALUE).concat(BREAK_LINE).concat(THROWABLE_MESSAGE), this.lastLogMessage());
+
+		this.simpleLogger.trace(LANGUAGE);
+		assertEquals("TRACE - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
+
+		this.simpleLogger.trace(LANGUAGE, MESSAGE_ARGUMENT);
+		assertEquals("TRACE - ".concat(MESSAGE).concat(BREAK_LINE), this.lastLogMessage());
 	}
 
 	@Test

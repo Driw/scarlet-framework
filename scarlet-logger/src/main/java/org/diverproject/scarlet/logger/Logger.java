@@ -17,6 +17,10 @@ public interface Logger extends Closeable, org.slf4j.Logger {
 	void log(LoggerLevel level, String format, Object... args);
 	void log(LoggerLevel level, Language language, Object... args);
 
+	void trace(Language language);
+	void trace(Language language, Object... args);
+	void trace(Exception e);
+
 	void debug(String message);
 	void debug(String format, Object... args);
 	void debug(Language language);
@@ -65,6 +69,4 @@ public interface Logger extends Closeable, org.slf4j.Logger {
 	void exception(Language language, Object... args);
 	void exception(Exception e, Language language);
 	void exception(Exception e, Language language, Object... args);
-
-	void trace(Exception e);
 }
