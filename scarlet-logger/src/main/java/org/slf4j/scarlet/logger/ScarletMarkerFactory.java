@@ -2,35 +2,14 @@ package org.slf4j.scarlet.logger;
 
 import lombok.Data;
 import lombok.Getter;
-import org.slf4j.IMarkerFactory;
-import org.slf4j.Marker;
+import org.slf4j.helpers.BasicMarkerFactory;
 
 @Data
-class ScarletMarkerFactory implements IMarkerFactory {
+class ScarletMarkerFactory extends BasicMarkerFactory {
 
 	@Getter
 	private static final ScarletMarkerFactory instance = new ScarletMarkerFactory();
 
 	private ScarletMarkerFactory() { }
-
-	@Override
-	public Marker getMarker(String name) {
-		return null;
-	}
-
-	@Override
-	public boolean exists(String name) {
-		return false;
-	}
-
-	@Override
-	public boolean detachMarker(String name) {
-		return false;
-	}
-
-	@Override
-	public Marker getDetachedMarker(String name) {
-		return null;
-	}
 
 }
