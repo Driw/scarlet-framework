@@ -21,12 +21,14 @@ public class DefaultOptionContextTest {
 
 	@Test
 	public void testParseArguments() {
-		List<Pair<String, String>> pairs = this.optionContext.parseArguments(new String[] { "var=textOne", "v=\"text two\"" });
-		assertEquals(2, pairs.size());
+		List<Pair<String, String>> pairs = this.optionContext.parseArguments(new String[] { "var=textOne", "v=\"text two\"", "enable" });
+		assertEquals(3, pairs.size());
 		assertEquals("var", pairs.get(0).getFirstValue());
 		assertEquals("textOne", pairs.get(0).getSecondValue());
 		assertEquals("v", pairs.get(1).getFirstValue());
 		assertEquals("text two", pairs.get(1).getSecondValue());
+		assertEquals("enable", pairs.get(2).getFirstValue());
+		assertEquals("true", pairs.get(2).getSecondValue());
 
 		this.optionContext.setPrefix("prefix_");
 		pairs = this.optionContext.parseArguments(new String[] { "prefix_var=textOne", "prefix_v=\"text two\"" });
@@ -79,6 +81,10 @@ public class DefaultOptionContextTest {
 		assertFalse(this.optionContext.hasBoolean('v'));
 		assertFalse(this.optionContext.hasBoolean('v', true));
 		assertTrue(this.optionContext.hasBoolean('t', true));
+		assertFalse(this.optionContext.hasBoolean("enabled"));
+
+		this.optionContext.initialize(new String[] { "enabled" });
+		assertTrue(this.optionContext.hasBoolean("enabled"));
 	}
 
 }
