@@ -9,6 +9,7 @@ public interface ScarletContext {
 	void initialize(String[] args);
 	Object getInstance(String key);
 	<T> T getInstance(Class<T> classType, String key);
+	void inject(Object object);
 
 	SingletonContext getSingletonContext();
 	ManagerContext getManagerContext();

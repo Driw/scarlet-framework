@@ -2,8 +2,12 @@ package org.diverproject.scarlet.context.reflection;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.diverproject.scarlet.context.Injectable;
+import org.diverproject.scarlet.context.TestUtils;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -11,15 +15,21 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public class ReflectionAnnotationUtilsTest {
+class ReflectionAnnotationUtilsTest {
+
+	@BeforeEach
+	void setUp() {
+		TestUtils.setHereAsPackageReflection();
+	}
 
 	@Test
-	@DisplayName("Get All Annotated By")
-	public void testGetAllAnnotatedBy() {
+	void testGetAllAnnotatedBy() {
 		Set<Class<?>> annotatedClasses = ReflectionAnnotationUtils.getAllAnnotatedBy(TheAnnotation.class);
 		assertEquals(4, annotatedClasses.size());
 		assertTrue(annotatedClasses.containsAll(Arrays.asList(
@@ -31,8 +41,7 @@ public class ReflectionAnnotationUtilsTest {
 	}
 
 	@Test
-	@DisplayName("Get Class with some annotation in target inheritances")
-	public void testGetClassWithAnnotation() {
+	void testGetClassWithAnnotation() {
 		assertFalse(ReflectionAnnotationUtils.getClassWithAnnotation(ClassWithoutTheAnnotation.class, TheAnnotation.class).isPresent());
 		assertFalse(ReflectionAnnotationUtils.getClassWithAnnotation(InterfaceWithoutTheAnnotation.class, TheAnnotation.class).isPresent());
 
@@ -42,6 +51,33 @@ public class ReflectionAnnotationUtilsTest {
 		optional = ReflectionAnnotationUtils.getClassWithAnnotation(ExtendedClassWithTheAnnotation.class, TheAnnotation.class);
 		assertTrue(optional.isPresent());
 		assertEquals(ClassWithTheAnnotation.class, optional.get());
+	}
+
+	@Test
+	void testGetFieldsAnnotatedBy() {
+		List<Field> fields = ReflectionAnnotationUtils.getFieldsAnnotatedBy(AnnotatedFieldClass.class, Injectable.class);
+		assertNotNull(fields);
+		assertEquals(1, fields.size());
+		assertEquals("injectable", fields.get(0).getName());
+
+		fields = ReflectionAnnotationUtils.getFieldsAnnotatedBy(ExtendedAnnotatedFieldClass.class, Injectable.class);
+		assertNotNull(fields);
+		assertEquals(1, fields.size());
+		assertEquals("injectableString", fields.get(0).getName());
+	}
+
+	@Test
+	void testGetAllFieldsAnnotatedBy() {
+		List<Field> fields = ReflectionAnnotationUtils.getAllFieldsAnnotatedBy(AnnotatedFieldClass.class, Injectable.class);
+		assertNotNull(fields);
+		assertEquals(1, fields.size());
+		assertEquals("injectable", fields.get(0).getName());
+
+		fields = ReflectionAnnotationUtils.getAllFieldsAnnotatedBy(ExtendedAnnotatedFieldClass.class, Injectable.class);
+		assertNotNull(fields);
+		assertEquals(2, fields.size());
+		assertEquals("injectable", fields.get(0).getName());
+		assertEquals("injectableString", fields.get(1).getName());
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
@@ -57,5 +93,21 @@ public class ReflectionAnnotationUtilsTest {
 	@TheAnnotation
 	private interface InterfaceWithTheAnnotation { }
 	private interface ExtendedInterfaceWithTheAnnotation extends InterfaceWithTheAnnotation { }
+
+	private static class AnnotatedFieldClass {
+		private static final int STATIC_INT = 0;
+		private int unannotated;
+
+		@Injectable
+		private int injectable;
+	}
+
+	private static class ExtendedAnnotatedFieldClass extends AnnotatedFieldClass {
+		@Injectable
+		private static final int STATIC_INJECTABLE_INT = 0;
+
+		@Injectable
+		private String injectableString;
+	}
 
 }

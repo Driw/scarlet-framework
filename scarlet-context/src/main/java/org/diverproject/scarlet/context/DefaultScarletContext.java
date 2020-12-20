@@ -1,16 +1,26 @@
 package org.diverproject.scarlet.context;
 
+import static org.diverproject.scarlet.util.ScarletUtils.nameOf;
+
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.diverproject.scarlet.context.manager.ManagerContext;
+import org.diverproject.scarlet.context.manager.ManagerUtils;
+import org.diverproject.scarlet.context.reflection.FieldAccess;
+import org.diverproject.scarlet.context.reflection.ReflectionAnnotationUtils;
 import org.diverproject.scarlet.context.reflection.ReflectionInstanceUtils;
+import org.diverproject.scarlet.context.reflection.ReflectionInterfaceUtils;
 import org.diverproject.scarlet.context.reflection.ReflectionUtils;
 import org.diverproject.scarlet.context.singleton.SingletonContext;
+import org.diverproject.scarlet.context.singleton.SingletonUtils;
 import org.diverproject.scarlet.language.Language;
 import org.diverproject.scarlet.logger.Logger;
+import org.diverproject.scarlet.util.StringUtils;
 
+import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.TreeMap;
 
 @Data
@@ -39,6 +49,7 @@ public class DefaultScarletContext implements ScarletContext {
 		this.setInitialized(true);
 		this.getSingletonContext().initialize(this).forEach(this::registerSingleton);
 		this.getManagerContext().initialize().forEach(this::registerManager);
+		this.getInstances().values().forEach(this::inject);
 	}
 
 	@Override
@@ -62,6 +73,16 @@ public class DefaultScarletContext implements ScarletContext {
 		throw ScarletContextError.getInstanceCannotCast(key, instance, classType);
 	}
 
+	@Override
+	public void inject(Object object) {
+		String objectName = nameOf(object);
+
+		logger.trace(ScarletContextLanguage.INJECT_OBJECT, objectName);
+
+		ReflectionAnnotationUtils.getFieldsAnnotatedBy(object.getClass(), Injectable.class)
+			.forEach(field -> this.injectField(object, field));
+	}
+
 	public void registerSingleton(String key, Object singletonInstance) {
 		this.contextInstanceRegister(key, singletonInstance, ScarletContextLanguage.SINGLETON_INSTANCE_REGISTERED);
 	}
@@ -79,4 +100,45 @@ public class DefaultScarletContext implements ScarletContext {
 			logger.warn(ScarletContextLanguage.REPLACING_CONTEXT_INSTANCE, key, oldInstance, contextInstance);
 		}
 	}
+
+	private void injectField(Object object, Field field) {
+		Object value = this.getInjectValueOf(object, field);
+
+		String objectName = nameOf(object);
+		String valueName = nameOf(value);
+
+		new FieldAccess(field)
+			.accessThenSetThenFinish(object, value);
+
+		logger.trace(ScarletContextLanguage.INJECT_FIELD, objectName, field.getName(), valueName);
+	}
+
+	private Object getInjectValueOf(Object object, Field field) {
+		String injectionName = this.injectionNameOf(field);
+
+		if (ManagerUtils.isManagerType(field) || SingletonUtils.isSingleton(field)) {
+			if (StringUtils.isEmpty(injectionName))
+				return this.getInstance(ContextNameGenerator.generateKeyFor(field.getType()));
+
+			return this.getInstance(injectionName);
+		}
+
+		if (StringUtils.isEmpty(injectionName)) {
+			if (field.getType().isInterface())
+				return ReflectionInterfaceUtils.getImplementationOf(field.getType())
+					.map(ReflectionUtils::createInstanceOfEmptyConstructor)
+					.orElseThrow(() -> ScarletContextError.injectableFieldNotImplemented(object, field));
+
+			return ReflectionUtils.createInstanceOfEmptyConstructor(field.getType());
+		}
+
+		return this.getInstance(injectionName);
+	}
+
+	private String injectionNameOf(Field field) {
+		return Optional.ofNullable(field.getAnnotation(Named.class))
+			.map(Named::value)
+			.orElse("");
+	}
+
 }

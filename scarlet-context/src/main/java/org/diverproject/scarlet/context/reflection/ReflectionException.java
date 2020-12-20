@@ -11,4 +11,8 @@ public class ReflectionException extends ScarletRuntimeException {
 		super(language, args);
 	}
 
+	public ReflectionException(Exception e, Language language, Object... args) {
+		super(e, language, args);
+	}
+
 }

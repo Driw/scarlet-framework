@@ -16,6 +16,7 @@ public enum ManagerContextLanguage implements Language {
 	MANAGER_ALREADY_ADDED			("manager already added to manager queue (manager: %s, order: %d)"),
 	MANAGER_ORDER_USED				("manager order used by another manager (order: %d, managerAdding: %s)"),
 	INVALID_MANAGER_INSTANCE_OF		("the manager found cannot be casted (managerClass: %s, key: %s, managerFound: %s)"),
+	INJECT_MANAGER_INSTANCE_OF		("invalid injection of manager instance created (object: %s, field: %s, valueType: %s)"),
 
 	;
 

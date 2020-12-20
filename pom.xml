@@ -14,16 +14,16 @@
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.coverage.jacoco.xmlReportPaths>target/jacoco-ut/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 		<sonar.language>java</sonar.language>
-		<scarlet.version>0.2.0</scarlet.version>
+		<scarlet.version>0.2.1</scarlet.version>
 	</properties>
 
 	<groupId>org.diverproject</groupId>
 	<artifactId>scarlet</artifactId>
-	<version>0.2.0</version>
+	<version>0.2.1</version>
 	<packaging>pom</packaging>
 
-	<name>Scarlet Context</name>
-	<description>Scarlet Context</description>
+	<name>Scarlet Framework</name>
+	<description>Scarlet Framework</description>
 	<url>http://scarlet.diverproject.org</url>
 
 	<organization>

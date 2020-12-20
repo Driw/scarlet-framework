@@ -29,6 +29,7 @@ public class DefaultManagerContextTest {
 	@BeforeAll
 	public static void beforeAll() {
 		TestUtils.initialize();
+		TestUtils.setHereAsPackageReflection();
 	}
 
 	@BeforeEach
