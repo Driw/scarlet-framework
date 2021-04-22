@@ -5,7 +5,7 @@
 
 	<parent>
 		<groupId>org.diverproject</groupId>
-		<artifactId>scarlet</artifactId>
+		<artifactId>scarlet-framework</artifactId>
 		<version>0.2.1</version>
 	</parent>
 

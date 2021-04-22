@@ -31,11 +31,4 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-junit-jupiter:3.5.13" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-inline:3.5.13" level="project" />
   </component>
-  <component name="sonarModuleSettings">
-    <option name="alternativeWorkingDirPath" value="" />
-    <option name="localAnalysisScripName" value="&lt;PROJECT&gt;" />
-    <option name="serverName" value="&lt;PROJECT&gt;" />
-    <option name="useAlternativeWorkingDir" value="false" />
-    <option name="workingDirSelection" value="&lt;MODULE&gt;" />
-  </component>
 </module>
