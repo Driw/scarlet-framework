@@ -1,1 +1,0 @@
-mvn clean validate compile -Dmaven.test.skip=true
