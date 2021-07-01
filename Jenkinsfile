@@ -11,7 +11,7 @@ pipeline {
 		PROJECT_DIR_PATH = "${env.WORKSPACE}"
 		GIT_URL = 'https://github.com/diverproject/scarlet-framework.git'
 		GIT_BRANCH = 'feature/AE-1-base'
-		SONAR_QUBE_ENV = 'sonar-driw'
+		SONAR_QUBE_ENV = 'sonar'
 		NEXUS_VERSION = 'nexus3'
 		NEXUS_PROTOCOL = 'http'
 		NEXUS_URL = 'kubernetes.docker.internal:60003'
