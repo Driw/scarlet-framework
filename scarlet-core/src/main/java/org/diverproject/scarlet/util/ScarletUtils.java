@@ -76,4 +76,12 @@ public final class ScarletUtils {
 		}
 	}
 
+	public static <T> boolean in(T target, T... values) {
+		for (T value : values) {
+			if (Objects.equals(target, value))
+				return true;
+		}
+
+		return false;
+	}
 }
