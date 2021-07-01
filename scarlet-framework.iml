@@ -28,8 +28,4 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-junit-jupiter:3.5.13" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-inline:3.5.13" level="project" />
   </component>
-  <component name="sonarModuleSettings">
-    <option name="localAnalysisScripName" value="&lt;PROJECT&gt;" />
-    <option name="serverName" value="&lt;PROJECT&gt;" />
-  </component>
 </module>
