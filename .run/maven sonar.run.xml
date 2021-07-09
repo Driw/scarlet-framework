@@ -13,7 +13,7 @@
               <option value="clean" />
               <option value="test" />
               <option value="sonar:sonar" />
-              <option value="-Dsonar.host.url=http://kubernetes.docker.internal:33002/" />
+              <option value="-Dsonar.host.url=http://kubernetes.docker.internal:60002/" />
               <option value="-Dsonar.login=admin" />
               <option value="-Dsonar.password=admin" />
               <option value="-Dmaven.test.redirectTestOutputToFile=true" />
