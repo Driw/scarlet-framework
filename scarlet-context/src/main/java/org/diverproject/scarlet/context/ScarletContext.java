@@ -21,5 +21,4 @@ public interface ScarletContext {
 
 		return scarletContext;
 	}
-
 }

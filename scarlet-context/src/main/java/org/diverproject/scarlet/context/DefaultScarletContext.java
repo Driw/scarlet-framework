@@ -95,9 +95,9 @@ public class DefaultScarletContext implements ScarletContext {
 		Object oldInstance = this.getInstances().put(key, contextInstance);
 
 		if (Objects.isNull(oldInstance)) {
-			logger.notice(successfullyMessage, key, contextInstance);
+			logger.notice(successfullyMessage, key, nameOf(contextInstance));
 		} else {
-			logger.warn(ScarletContextLanguage.REPLACING_CONTEXT_INSTANCE, key, oldInstance, contextInstance);
+			logger.warn(ScarletContextLanguage.REPLACING_CONTEXT_INSTANCE, key, oldInstance, nameOf(contextInstance));
 		}
 	}
 

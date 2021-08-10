@@ -26,5 +26,4 @@ public class ScarletLoggerProvider implements SLF4JServiceProvider {
 		this.setMarkerFactory(ScarletMarkerFactory.getInstance());
 		this.setMDCAdapter(ScarletMDCAdapter.getInstance());
 	}
-
 }

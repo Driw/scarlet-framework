@@ -50,10 +50,10 @@ public class DefaultManagerContext implements ManagerContext {
 	public void register(InstanceEntry<String, Manager> instanceEntry) {
 		Manager oldManager = this.getManagerInstances().put(instanceEntry.getKey(), instanceEntry.getValue());
 
-		logger.notice(ManagerContextLanguage.MANAGER_REGISTERED_SUCCESSFULLY, instanceEntry.getKey(), instanceEntry.getValue());
+		logger.notice(ManagerContextLanguage.MANAGER_REGISTERED_SUCCESSFULLY, instanceEntry.getKey(), nameOf(instanceEntry.getValue()));
 
 		if (Objects.nonNull(oldManager)) {
-			logger.info(ManagerContextLanguage.MANAGER_REPLACED_BY_ANOTHER, instanceEntry.getKey(), instanceEntry.getValue(), nameOf(oldManager));
+			logger.info(ManagerContextLanguage.MANAGER_REPLACED_BY_ANOTHER, instanceEntry.getKey(), nameOf(instanceEntry.getValue()), nameOf(oldManager));
 		}
 
 		this.getManagerQueue().add(instanceEntry.getValue());

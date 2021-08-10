@@ -73,13 +73,11 @@ public class DefaultManager implements Manager {
 
 	@Override
 	public int compareTo(Manager manager) {
-		if (manager.getOrder() == 0 && this.getOrder() > 0) {
+		if (manager.getOrder() == 0 && this.getOrder() > 0)
 			return COMPARABLE_MINOR;
-		}
 
-		if (this.getOrder() == 0 && manager.getOrder() > 0) {
+		if (this.getOrder() == 0 && manager.getOrder() > 0)
 			return COMPARABLE_MAJOR;
-		}
 
 		return Integer.compare(this.getOrder(), manager.getOrder());
 	}
@@ -89,5 +87,4 @@ public class DefaultManager implements Manager {
 	public void onRestarting() { }
 	public void onStop() { }
 	public void onFinish() { }
-
 }
