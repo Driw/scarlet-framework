@@ -12,6 +12,7 @@ public final class ContextStreamUtils {
 
 	private ContextStreamUtils() { }
 
+	@SuppressWarnings("java:S1452")
 	public static <K, V> Collector<Pair<K, V>, ?, Map<K, V>> mapPair() {
 		return Collectors.toMap(Pair::getFirstValue, Pair::getSecondValue);
 	}

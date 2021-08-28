@@ -1,14 +1,19 @@
 package org.diverproject.scarlet.context.manager;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+import org.diverproject.scarlet.context.LoggerFactory;
+import org.diverproject.scarlet.logger.Logger;
+
 import static org.diverproject.scarlet.context.ScarletContextConstants.COMPARABLE_MAJOR;
 import static org.diverproject.scarlet.context.ScarletContextConstants.COMPARABLE_MINOR;
-
-import lombok.Data;
-import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
 public class DefaultManager implements Manager {
+
+	private static final Logger logger = LoggerFactory.get(Manager.class);
 
 	private int order;
 	private ManagerStatus status;
@@ -22,7 +27,6 @@ public class DefaultManager implements Manager {
 		switch (this.getStatus()) {
 			case STARTING:
 				this.onStarting();
-				this.setStatus(ManagerStatus.RUNNING);
 				break;
 
 			case RUNNING:
@@ -31,18 +35,18 @@ public class DefaultManager implements Manager {
 
 			case RESTARTING:
 				this.onRestarting();
-				this.start();
 				break;
 
 			case STOPPING:
 				this.onStop();
-				this.setStatus(ManagerStatus.STOPPED);
 				break;
 
 			case FINISHING:
 				this.onFinish();
-				this.setStatus(ManagerStatus.FINISHED);
 				break;
+
+			default:
+				logger.warn(ManagerContextLanguage.UNEXPECTED_TICK_STATUS, this.getStatus());
 		}
 	}
 
@@ -67,11 +71,6 @@ public class DefaultManager implements Manager {
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		return object == this;
-	}
-
-	@Override
 	public int compareTo(Manager manager) {
 		if (manager.getOrder() == 0 && this.getOrder() > 0)
 			return COMPARABLE_MINOR;
@@ -82,9 +81,38 @@ public class DefaultManager implements Manager {
 		return Integer.compare(this.getOrder(), manager.getOrder());
 	}
 
-	public void onStarting() { }
-	public void onRunning() { }
-	public void onRestarting() { }
-	public void onStop() { }
-	public void onFinish() { }
+	@Override
+	public boolean equals(Object o) {
+		return super.equals(o);
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
+	protected void onStarting() {
+		this.setStatus(ManagerStatus.RUNNING);
+	}
+
+	protected void onRunning() {
+		this.update();
+	}
+
+	protected void onRestarting() {
+		this.setStatus(ManagerStatus.STARTING);
+		this.start();
+	}
+
+	protected void onStop() {
+		this.setStatus(ManagerStatus.STOPPED);
+	}
+
+	protected void onFinish() {
+		this.setStatus(ManagerStatus.FINISHED);
+	}
+
+	protected void update() {
+		// default implementation ignored
+	}
 }

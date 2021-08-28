@@ -10,6 +10,7 @@ public enum ManagerContextLanguage implements Language {
 
 	MANAGER_REGISTERED_SUCCESSFULLY	("a new manager was registered with successfully (key: {}, manager: {})"),
 	MANAGER_REPLACED_BY_ANOTHER		("the manager key is already used, manager replaced (keY: %s, newManager: %s, oldManager: %s)"),
+	UNEXPECTED_TICK_STATUS			("unexpected status on manager tick (status: {})"),
 
 	// -- Exception
 

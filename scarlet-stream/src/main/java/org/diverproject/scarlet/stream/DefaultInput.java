@@ -1,16 +1,15 @@
 package org.diverproject.scarlet.stream;
 
-import static org.diverproject.scarlet.stream.language.StreamLanguage.GET_OBJECT_CONSTRUCTOR;
-import static org.diverproject.scarlet.stream.language.StreamLanguage.GET_OBJECT_FIELD_SET;
-import static org.diverproject.scarlet.stream.language.StreamLanguage.GET_OBJECT_INSTANCE;
-
 import lombok.NoArgsConstructor;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.function.Supplier;
+
+import static org.diverproject.scarlet.stream.language.StreamLanguage.GET_OBJECT_CONSTRUCTOR;
+import static org.diverproject.scarlet.stream.language.StreamLanguage.GET_OBJECT_FIELD_SET;
+import static org.diverproject.scarlet.stream.language.StreamLanguage.GET_OBJECT_INSTANCE;
 
 @NoArgsConstructor
 public abstract class DefaultInput implements Input {
@@ -218,19 +217,23 @@ public abstract class DefaultInput implements Input {
 
 			Constructor<D> constructor = objectClass.getConstructor();
 
-			try {
-
-				D object = constructor.newInstance();
-				this.getObject(object);
-
-				return object;
-
-			} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-				throw new StreamRuntimeException(e, GET_OBJECT_CONSTRUCTOR, objectClass.getName());
-			}
+			return getObjectNewInstance(objectClass, constructor);
 
 		} catch (NoSuchMethodException e) {
 			throw new StreamRuntimeException(e, GET_OBJECT_INSTANCE, objectClass.getName());
+		}
+	}
+
+	private <D> D getObjectNewInstance(Class<D> objectClass, Constructor<D> constructor) {
+		try {
+
+			D object = constructor.newInstance();
+			this.getObject(object);
+
+			return object;
+
+		} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+			throw new StreamRuntimeException(e, GET_OBJECT_CONSTRUCTOR, objectClass.getName());
 		}
 	}
 
@@ -252,35 +255,31 @@ public abstract class DefaultInput implements Input {
 		for (Field field : object.getClass().getDeclaredFields()) {
 			try {
 				field.setAccessible(true);
-				{
-					streamField.setField(field).reset();
+				streamField.setField(field).reset();
 
-					if (field.getType().isArray()) {
-						streamField
-							.is(Byte[].class, Byte.TYPE).thenDo((c) -> this.getBytes((byte[]) c))
-							.is(Short[].class, Short.TYPE).thenDo((c) -> this.getShorts((short[]) c))
-							.is(Integer[].class, Integer.TYPE).thenDo((c) -> this.getInts((int[]) c))
-							.is(Long[].class, Long.TYPE).thenDo((c) -> this.getLongs((long[]) c))
-							.is(Float[].class, Float.TYPE).thenDo((c) -> this.getFloats((float[]) c))
-							.is(Double[].class, Double.TYPE).thenDo((c) -> this.getDoubles((double[]) c))
-							.is(Boolean[].class, Boolean.TYPE).thenDo((c) -> this.getBooleans((boolean[]) c))
-							.is(Character[].class).thenDo((c) -> this.getChars((char[]) c))
-							.is(String[].class).thenDo((c) -> this.getStrings((String[]) c));
-					} else {
-						streamField
-							.is(Byte.class, Byte.TYPE).thenDo(this::getByte)
-							.is(Short.class, Short.TYPE).thenDo(this::getShort)
-							.is(Integer.class, Integer.TYPE).thenDo(this::getInt)
-							.is(Long.class, Long.TYPE).thenDo(this::getLong)
-							.is(Float.class, Float.TYPE).thenDo(this::getFloat)
-							.is(Double.class, Double.TYPE).thenDo(this::getDouble)
-							.is(Boolean.class, Boolean.TYPE).thenDo(this::getBoolean)
-							.is(Character.class, Character.TYPE).thenDo(this::getChar)
-							.is(String.class).thenDo((Supplier<String>) this::getString)
-							.is(Object.class).thenDo(() -> {
-							return this.getBoolean() ? this.getObject(field.getType()) : null;
-						});
-					}
+				if (field.getType().isArray()) {
+					streamField
+						.is(Byte[].class, Byte.TYPE).thenDo(c -> this.getBytes((byte[]) c))
+						.is(Short[].class, Short.TYPE).thenDo(c -> this.getShorts((short[]) c))
+						.is(Integer[].class, Integer.TYPE).thenDo(c -> this.getInts((int[]) c))
+						.is(Long[].class, Long.TYPE).thenDo(c -> this.getLongs((long[]) c))
+						.is(Float[].class, Float.TYPE).thenDo(c -> this.getFloats((float[]) c))
+						.is(Double[].class, Double.TYPE).thenDo(c -> this.getDoubles((double[]) c))
+						.is(Boolean[].class, Boolean.TYPE).thenDo(c -> this.getBooleans((boolean[]) c))
+						.is(Character[].class).thenDo(c -> this.getChars((char[]) c))
+						.is(String[].class).thenDo(c -> this.getStrings((String[]) c));
+				} else {
+					streamField
+						.is(Byte.class, Byte.TYPE).thenDo(this::getByte)
+						.is(Short.class, Short.TYPE).thenDo(this::getShort)
+						.is(Integer.class, Integer.TYPE).thenDo(this::getInt)
+						.is(Long.class, Long.TYPE).thenDo(this::getLong)
+						.is(Float.class, Float.TYPE).thenDo(this::getFloat)
+						.is(Double.class, Double.TYPE).thenDo(this::getDouble)
+						.is(Boolean.class, Boolean.TYPE).thenDo(this::getBoolean)
+						.is(Character.class, Character.TYPE).thenDo(this::getChar)
+						.is(String.class).thenDo(() -> this.getString())
+						.is(Object.class).thenDo(() -> this.getBoolean() ? this.getObject(field.getType()) : null);
 				}
 				field.setAccessible(false);
 			} catch (IllegalAccessException e) {

@@ -1,23 +1,19 @@
 package org.diverproject.scarlet.context.options;
 
-import static org.diverproject.scarlet.util.StringUtils.nvl;
-import static org.diverproject.scarlet.util.StringUtils.varUpperCase;
-
 import lombok.Data;
 import org.diverproject.scarlet.context.utils.Pair;
 import org.diverproject.scarlet.util.BooleanUtils;
 import org.diverproject.scarlet.util.FloatUtils;
 import org.diverproject.scarlet.util.IntegerUtils;
-import org.diverproject.scarlet.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import static org.diverproject.scarlet.util.StringUtils.nvl;
 
 @Data
 public class DefaultOptionContext implements OptionContext {

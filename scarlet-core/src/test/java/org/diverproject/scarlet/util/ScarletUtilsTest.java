@@ -2,8 +2,10 @@ package org.diverproject.scarlet.util;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +24,7 @@ public class ScarletUtilsTest {
 	@Test
 	@DisplayName("Name of Object or Class")
 	public void testNameOf() {
+		assertNull(ScarletUtils.nameOf(null));
 		assertEquals("Object", ScarletUtils.nameOf(new Object()));
 		assertEquals("Object", ScarletUtils.nameOf(Object.class));
 	}
@@ -81,11 +84,17 @@ public class ScarletUtilsTest {
 		assertDoesNotThrow(() -> ScarletUtils.waitUntil(() -> !thread.isAlive(), 1, 3));
 	}
 
+	@Test
+	void in() {
+		Integer[] values = {1, 2, 3, 4, 5};
+		assertTrue(ScarletUtils.in(5, values));
+		assertFalse(ScarletUtils.in(0, values));
+	}
+
 	@Data
 	@AllArgsConstructor
 	private static class NullLanguage implements Language {
 		private int code;
 		private String format;
 	}
-
 }

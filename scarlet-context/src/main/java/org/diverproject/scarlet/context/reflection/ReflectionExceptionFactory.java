@@ -9,7 +9,7 @@ public final class ReflectionExceptionFactory {
 	private ReflectionExceptionFactory() { }
 
 	public static ReflectionException emptyConstructorException(NoSuchMethodException e, Class<?> classType) {
-		return new ReflectionException(ReflectionError.EMPTY_CONSTRUCTOR_EXCEPTION, nameOf(classType));
+		return new ReflectionException(e, ReflectionError.EMPTY_CONSTRUCTOR_EXCEPTION, nameOf(classType));
 	}
 
 	public static ReflectionException failureOnCreateAInstance(Class<?> classType) {

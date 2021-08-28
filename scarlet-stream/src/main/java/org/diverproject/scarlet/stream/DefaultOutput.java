@@ -1,15 +1,14 @@
 package org.diverproject.scarlet.stream;
 
-import static org.diverproject.scarlet.stream.language.StreamLanguage.GET_OBJECT_FIELD_SET;
-import static org.diverproject.scarlet.stream.language.StreamLanguage.PUT_OBJECT_NULL;
-import static org.diverproject.scarlet.stream.language.StreamLanguage.PUT_STRING_LENGTH;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.lang.reflect.Field;
 import java.util.Optional;
-import java.util.function.Consumer;
+
+import static org.diverproject.scarlet.stream.language.StreamLanguage.GET_OBJECT_FIELD_SET;
+import static org.diverproject.scarlet.stream.language.StreamLanguage.PUT_OBJECT_NULL;
+import static org.diverproject.scarlet.stream.language.StreamLanguage.PUT_STRING_LENGTH;
 
 @Data
 @NoArgsConstructor
@@ -96,7 +95,6 @@ public abstract class DefaultOutput implements Output {
 	public void put(boolean[] values) {
 		for (boolean value : values)
 			this.put(value);
-
 	}
 
 	@Override
@@ -138,35 +136,31 @@ public abstract class DefaultOutput implements Output {
 			try {
 
 				field.setAccessible(true);
-				{
-					streamField.setField(field).of(value);
+				streamField.setField(field).of(value);
 
-					if (field.getType().isArray()) {
-						streamField
-							.is(Byte[].class).thenDo((v) -> this.put((byte[]) v))
-							.is(Short[].class).thenDo((v) -> this.put((short[]) v))
-							.is(Integer[].class).thenDo((v) -> this.put((int[]) v))
-							.is(Long[].class).thenDo((v) -> this.put((long[]) v))
-							.is(Float[].class).thenDo((v) -> this.put((float[]) v))
-							.is(Double[].class).thenDo((v) -> this.put((double[]) v))
-							.is(Boolean[].class).thenDo((v) -> this.put((boolean[]) v))
-							.is(Character[].class).thenDo((v) -> this.put((char[]) v))
-							.is(String[].class).thenDo((v) -> this.put((String[]) v))
-						;
-					} else {
-						streamField
-							.is(Byte.class).thenDo((v) -> this.put((byte) v))
-							.is(Short.class).thenDo((v) -> this.put((short) v))
-							.is(Integer.class).thenDo((v) -> this.put((int) v))
-							.is(Long.class).thenDo((v) -> this.put((long) v))
-							.is(Float.class).thenDo((v) -> this.put((float) v))
-							.is(Double.class).thenDo((v) -> this.put((double) v))
-							.is(Boolean.class).thenDo((v) -> this.put((boolean) v))
-							.is(Character.class).thenDo((v) -> this.put((char) v))
-							.is(String.class).thenDo((v) -> this.put((String) v))
-							.is(Object.class).thenDo((Consumer<Object>) this::put)
-						;
-					}
+				if (field.getType().isArray()) {
+					streamField
+						.is(Byte[].class).thenDo(v -> this.put((byte[]) v))
+						.is(Short[].class).thenDo(v -> this.put((short[]) v))
+						.is(Integer[].class).thenDo(v -> this.put((int[]) v))
+						.is(Long[].class).thenDo(v -> this.put((long[]) v))
+						.is(Float[].class).thenDo(v -> this.put((float[]) v))
+						.is(Double[].class).thenDo(v -> this.put((double[]) v))
+						.is(Boolean[].class).thenDo(v -> this.put((boolean[]) v))
+						.is(Character[].class).thenDo(v -> this.put((char[]) v))
+						.is(String[].class).thenDo(v -> this.put((String[]) v));
+				} else {
+					streamField
+						.is(Byte.class).thenDo(v -> this.put((byte) v))
+						.is(Short.class).thenDo(v -> this.put((short) v))
+						.is(Integer.class).thenDo(v -> this.put((int) v))
+						.is(Long.class).thenDo(v -> this.put((long) v))
+						.is(Float.class).thenDo(v -> this.put((float) v))
+						.is(Double.class).thenDo(v -> this.put((double) v))
+						.is(Boolean.class).thenDo(v -> this.put((boolean) v))
+						.is(Character.class).thenDo(v -> this.put((char) v))
+						.is(String.class).thenDo(v -> this.put((String) v))
+						.is(Object.class).thenDo(this::put);
 				}
 				field.setAccessible(false);
 

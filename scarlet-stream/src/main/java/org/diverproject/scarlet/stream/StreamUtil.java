@@ -2,7 +2,9 @@ package org.diverproject.scarlet.stream;
 
 import org.diverproject.scarlet.util.IntegerUtils;
 
-public class StreamUtil {
+public final class StreamUtil {
+
+	private StreamUtil() { }
 
 	public static char charOf(byte... bytes) {
 		char value = 0;

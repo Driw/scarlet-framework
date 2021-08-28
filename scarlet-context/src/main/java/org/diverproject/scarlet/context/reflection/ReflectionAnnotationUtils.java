@@ -37,16 +37,4 @@ public final class ReflectionAnnotationUtils {
 			.filter(field -> !Modifier.isStatic(field.getModifiers()))
 			.collect(Collectors.toList());
 	}
-
-	public static <T extends Annotation> List<Field> getAllFieldsAnnotatedBy(Class<?> aClass, Class<T> annotation) {
-		List<Field> fields = ReflectionUtils.getAllInheritancesClasses(aClass)
-			.stream()
-			.filter(inheritance -> !inheritance.isInterface())
-			.flatMap(inheritance -> getFieldsAnnotatedBy(inheritance, annotation).stream())
-			.collect(Collectors.toList());
-		fields.addAll(getFieldsAnnotatedBy(aClass, annotation));
-
-		return fields;
-	}
-
 }

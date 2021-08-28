@@ -11,6 +11,7 @@ public class ScarletContextTest {
 	@BeforeAll
 	public static void beforeAll() {
 		TestUtils.initialize();
+		TestUtils.setHereAsPackageReflection();
 	}
 
 	@Test
@@ -19,5 +20,4 @@ public class ScarletContextTest {
 		assertNotNull(scarletContext);
 		assertTrue(scarletContext.isInitialized());
 	}
-
 }

@@ -4,6 +4,7 @@ import org.diverproject.scarlet.language.Language;
 
 import java.io.Closeable;
 
+@SuppressWarnings("java:S2176")
 public interface Logger extends Closeable, org.slf4j.Logger {
 	String getName();
 

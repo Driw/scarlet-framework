@@ -22,6 +22,16 @@ public class TestDefaultBufferOutput {
 	private static final byte[] BYTES = new byte[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
 	@Test
+	@DisplayName("Invert buffer")
+	void testInvert() {
+		DefaultBufferOutput defaultBufferOutput = getDefaultBufferOutput(new byte[BYTES.length]);
+		assertFalse(defaultBufferOutput.getBufferWriter().isInverted());
+
+		defaultBufferOutput.invert();
+		assertTrue(defaultBufferOutput.getBufferWriter().isInverted());
+	}
+
+	@Test
 	@DisplayName("Flush buffer")
 	public void testFlush() {
 		DefaultBufferOutput defaultBufferOutput = getDefaultBufferOutput(new byte[BYTES.length]);

@@ -1,14 +1,8 @@
 package org.diverproject.scarlet.context.reflection;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.diverproject.scarlet.context.Injectable;
 import org.diverproject.scarlet.context.TestUtils;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.lang.annotation.ElementType;
@@ -20,6 +14,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ReflectionAnnotationUtilsTest {
 
@@ -66,20 +65,6 @@ class ReflectionAnnotationUtilsTest {
 		assertEquals("injectableString", fields.get(0).getName());
 	}
 
-	@Test
-	void testGetAllFieldsAnnotatedBy() {
-		List<Field> fields = ReflectionAnnotationUtils.getAllFieldsAnnotatedBy(AnnotatedFieldClass.class, Injectable.class);
-		assertNotNull(fields);
-		assertEquals(1, fields.size());
-		assertEquals("injectable", fields.get(0).getName());
-
-		fields = ReflectionAnnotationUtils.getAllFieldsAnnotatedBy(ExtendedAnnotatedFieldClass.class, Injectable.class);
-		assertNotNull(fields);
-		assertEquals(2, fields.size());
-		assertEquals("injectable", fields.get(0).getName());
-		assertEquals("injectableString", fields.get(1).getName());
-	}
-
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.TYPE)
 	private @interface TheAnnotation { }
@@ -109,5 +94,4 @@ class ReflectionAnnotationUtilsTest {
 		@Injectable
 		private String injectableString;
 	}
-
 }

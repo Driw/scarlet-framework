@@ -4,10 +4,9 @@ import static org.diverproject.scarlet.util.ScarletUtils.nameOf;
 
 import java.lang.reflect.Field;
 
-public class ManagerContextError {
+public final class ManagerContextError {
 
-	private ManagerContextError() {
-	}
+	private ManagerContextError() { }
 
 	public static ManagerContextException managerAlreadyAdded(Manager manager) {
 		return new ManagerContextException(ManagerContextLanguage.MANAGER_ALREADY_ADDED, nameOf(manager), manager.getOrder());
@@ -24,5 +23,4 @@ public class ManagerContextError {
 	public static ManagerContextException injectManagerInstanceOf(Object object, Field field, Object value) {
 		return new ManagerContextException(ManagerContextLanguage.INJECT_MANAGER_INSTANCE_OF, nameOf(object), field.getName(), nameOf(value));
 	}
-
 }

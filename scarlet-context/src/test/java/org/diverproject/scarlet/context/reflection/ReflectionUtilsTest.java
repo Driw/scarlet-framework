@@ -1,11 +1,5 @@
 package org.diverproject.scarlet.context.reflection;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.diverproject.scarlet.context.Priority;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,6 +11,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class ReflectionUtilsTest {
 
 	@Test
@@ -25,16 +25,16 @@ public class ReflectionUtilsTest {
 		List<Class<?>> classes = Stream.of(FirstPriority.class, SecondPriority.class)
 			.sorted(ReflectionUtils.compareByPriorityAnnotation())
 			.collect(Collectors.toList());
-		assertEquals(classes.size(), 2);
-		assertEquals(classes.get(0), SecondPriority.class);
-		assertEquals(classes.get(1), FirstPriority.class);
+		assertEquals(2, classes.size());
+		assertEquals(SecondPriority.class, classes.get(0));
+		assertEquals(FirstPriority.class, classes.get(1));
 
 		classes = Stream.of(SecondPriority.class, FirstPriority.class)
 			.sorted(ReflectionUtils.compareByPriorityAnnotation())
 			.collect(Collectors.toList());
-		assertEquals(classes.size(), 2);
-		assertEquals(classes.get(0), SecondPriority.class);
-		assertEquals(classes.get(1), FirstPriority.class);
+		assertEquals(2, classes.size());
+		assertEquals(SecondPriority.class, classes.get(0));
+		assertEquals(FirstPriority.class, classes.get(1));
 	}
 
 	@Test
@@ -148,19 +148,19 @@ public class ReflectionUtilsTest {
 	private static class PrivateConstructor { private PrivateConstructor() { } }
 	private static class ProtectedConstructor { protected ProtectedConstructor() { } }
 	private static class PublicConstructor { public PublicConstructor() { } }
-	private static class NonEmptyConstructor { public NonEmptyConstructor(Object... args) { } }
+	private static class NonEmptyConstructor { public NonEmptyConstructor(String... args) { } }
 	private static class ConstructorWithException { public ConstructorWithException() { throw new RuntimeException(); } }
-	private static interface NonExtendedInterface { }
-	private static interface ThirdChildInterface { }
-	private static interface SecondChildInterface extends ThirdChildInterface { }
-	private static interface FirstChildInterface extends SecondChildInterface { }
+	private interface NonExtendedInterface { }
+	private interface ThirdChildInterface { }
+	private interface SecondChildInterface extends ThirdChildInterface { }
+	private interface FirstChildInterface extends SecondChildInterface { }
 	private static class NonExtendedClass { }
 	private static class NonExtendedClassWithInterface implements NonExtendedInterface { }
 	private static class ThirdChildClass implements ThirdChildInterface { }
 	private static class SecondChildClass extends ThirdChildClass implements SecondChildInterface { }
 	private static class FirstChildClass extends SecondChildClass implements FirstChildInterface { }
-	private static interface FirstDoubleInterface { }
-	private static interface SecondDoubleInterface { }
-	private static interface DoubleInterfaceExtended extends FirstDoubleInterface, SecondDoubleInterface { 	}
+	private interface FirstDoubleInterface { }
+	private interface SecondDoubleInterface { }
+	private interface DoubleInterfaceExtended extends FirstDoubleInterface, SecondDoubleInterface { 	}
 	private static class DoubleInterfaceImplementation implements DoubleInterfaceExtended {	}
 }

@@ -3,9 +3,11 @@ package org.diverproject.scarlet.context.reflection;
 import lombok.Data;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 @Data
 public class FieldAccess {
+
 	private Field field;
 	private boolean accessible;
 
@@ -14,7 +16,7 @@ public class FieldAccess {
 	}
 
 	public FieldAccess access() {
-		this.setAccessible(field.isAccessible());
+		this.setAccessible(Modifier.isPublic(field.getModifiers()));
 		field.setAccessible(true);
 		return this;
 	}
@@ -28,9 +30,10 @@ public class FieldAccess {
 		return this;
 	}
 
-	public void finish() {
+	public FieldAccess finish() {
 		if (!this.isAccessible())
 			field.setAccessible(false);
+		return this;
 	}
 
 	public void accessThenSetThenFinish(Object object, Object value) {

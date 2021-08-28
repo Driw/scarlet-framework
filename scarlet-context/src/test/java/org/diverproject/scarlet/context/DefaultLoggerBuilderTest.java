@@ -1,10 +1,10 @@
 package org.diverproject.scarlet.context;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.diverproject.scarlet.logger.simple.SimpleLogger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DefaultLoggerBuilderTest {
 

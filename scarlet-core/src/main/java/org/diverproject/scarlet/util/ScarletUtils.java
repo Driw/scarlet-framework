@@ -11,6 +11,9 @@ public final class ScarletUtils {
 	private ScarletUtils() { }
 
 	public static String nameOf(Object obj) {
+		if (Objects.isNull(obj))
+			return null;
+
 		if (obj instanceof Class)
 			return StringUtils.getSimpleNameOf(((Class<?>) obj).getName());
 

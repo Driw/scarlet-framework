@@ -15,10 +15,10 @@ public class BufferFactory {
 	}
 
 	public static BufferInput inputOf(byte[] bytes) {
-		return new DefaultBufferInput().setBufferReader(
-			new DefaultBufferReader()
+		return new DefaultBufferInput()
+			.setBufferReader(new DefaultBufferReader()
 				.setByteBuffer(new DefaultByteBuffer(bytes))
-		);
+			);
 	}
 
 	public static BufferInput inputOf(String filename) {
@@ -27,12 +27,12 @@ public class BufferFactory {
 
 	public static BufferInput inputOf(File file) {
 		try {
-			return new DefaultBufferInput().setBufferReader(
-				new DefaultBufferReader()
+			return new DefaultBufferInput()
+				.setBufferReader(new DefaultBufferReader()
 					.setByteBuffer(new DefaultByteBuffer(
 						Files.readAllBytes(file.toPath())
 					))
-			);
+				);
 		} catch (IOException e) {
 			throw new BufferRuntimeException(e, BUFFER_FACTORY_IO_EXCEPTION, file.getAbsolutePath());
 		}
@@ -43,9 +43,9 @@ public class BufferFactory {
 	}
 
 	public static BufferOutput outputOf(byte[] bytes) {
-		return new DefaultBufferOutput().setBufferWriter(
-			new DefaultBufferWriter()
+		return new DefaultBufferOutput()
+			.setBufferWriter(new DefaultBufferWriter()
 				.setByteBuffer(new DefaultByteBuffer(bytes))
-		);
+			);
 	}
 }

@@ -13,17 +13,22 @@ public class ScarletLoggerProvider implements SLF4JServiceProvider {
 
 	private ILoggerFactory loggerFactory;
 	private IMarkerFactory markerFactory;
-	private MDCAdapter MDCAdapter;
-
-	@Override
-	public String getRequesteApiVersion() {
-		return REQUESTED_API_VERSION;
-	}
+	private MDCAdapter mdcAdapter;
 
 	@Override
 	public void initialize() {
 		this.setLoggerFactory(ScarletLoggerFactory.getInstance());
 		this.setMarkerFactory(ScarletMarkerFactory.getInstance());
-		this.setMDCAdapter(ScarletMDCAdapter.getInstance());
+		this.setMdcAdapter(ScarletMDCAdapter.getInstance());
+	}
+
+	@Override
+	public MDCAdapter getMDCAdapter() {
+		return this.mdcAdapter;
+	}
+
+	@Override
+	public String getRequesteApiVersion() {
+		return REQUESTED_API_VERSION;
 	}
 }

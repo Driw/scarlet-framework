@@ -2,9 +2,11 @@ package org.diverproject.scarlet.context.reflection;
 
 import static org.diverproject.scarlet.util.ScarletUtils.nameOf;
 
-public class ReflectionInterfaceExceptionFactory {
+public final class ReflectionInterfaceExceptionFactory {
 
-    public static ReflectionInterfaceException classIsNotAInterface(Class<?> className) {
+	private ReflectionInterfaceExceptionFactory() { }
+
+	public static ReflectionInterfaceException classIsNotAInterface(Class<?> className) {
         return new ReflectionInterfaceException(ReflectionInterfaceError.CLASS_IS_NOT_A_INTERFACE, nameOf(className));
     }
 

@@ -30,10 +30,8 @@ public class DefaultManagerQueue implements ManagerQueue {
 			throw ManagerContextError.managerAlreadyAdded(manager);
 		}
 
-		if (this.isUniqueOrder()) {
-			if (this.hasOrderUsed(manager.getOrder())) {
-				throw ManagerContextError.managerOrderUsed(manager);
-			}
+		if (this.isUniqueOrder() && this.hasOrderUsed(manager.getOrder())) {
+			throw ManagerContextError.managerOrderUsed(manager);
 		}
 
 		return this.findOrderIndex(manager)

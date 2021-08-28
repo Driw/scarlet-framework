@@ -83,9 +83,9 @@ public class DefaultManagerContext implements ManagerContext {
 
 	@Override
 	public void start() {
-		Thread thread = this.getThread(); // TODO add as specification
+		Thread managerContextThread = this.getThread(); // TODO add as specification
 
-		if (!Objects.isNull(thread) && Thread.currentThread().equals(thread)) {
+		if (!Objects.isNull(managerContextThread) && Thread.currentThread().equals(managerContextThread)) {
 			this.run();
 		} else {
 			this.startAsParallelThread();
