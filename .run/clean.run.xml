@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="maven build" type="MavenRunConfiguration" factoryName="Maven" folderName="scarlet-framework">
+  <configuration default="false" name="clean" type="MavenRunConfiguration" factoryName="Maven">
     <MavenSettings>
       <option name="myGeneralSettings" />
       <option name="myRunnerSettings" />
@@ -11,10 +11,6 @@
           <option name="goals">
             <list>
               <option value="clean" />
-              <option value="validate" />
-              <option value="package" />
-              <option value="install" />
-              <option value="-Dmaven.test.skip=true" />
             </list>
           </option>
           <option name="pomFileName" />
@@ -22,7 +18,7 @@
             <map />
           </option>
           <option name="resolveToWorkspace" value="false" />
-          <option name="workingDirPath" value="$PROJECT_DIR$/../scarlet-framework" />
+          <option name="workingDirPath" value="$PROJECT_DIR$" />
         </MavenRunnerParameters>
       </option>
     </MavenSettings>
