@@ -63,7 +63,7 @@ pipeline {
 					for (module in modules()) {
 						dir("${env.WORKSPACE}/${module}") {
 							script {
-								timeout(time: 30, unit: 'SECONDS') {
+								timeout(time: 5, unit: 'MINUTES') {
 									def response = waitForQualityGate()
 									if (response.status != 'OK') {
 										error "Pipeline aborted due to quality gate failure: ${qg.status}"
