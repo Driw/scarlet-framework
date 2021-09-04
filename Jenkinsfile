@@ -7,18 +7,6 @@ def modules() {
 pipeline {
 	agent any
 
-	environment {
-		PROJECT_DIR_PATH = "${env.WORKSPACE}"
-		GIT_URL = 'https://github.com/diverproject/scarlet-framework.git'
-		GIT_BRANCH = 'feature/AE-1-base'
-		SONAR_QUBE_ENV = 'sonar'
-		NEXUS_VERSION = 'nexus3'
-		NEXUS_PROTOCOL = 'http'
-		NEXUS_URL = 'kubernetes.docker.internal:60003'
-		NEXUS_REPOSITORY = 'maven-releases'
-		NEXUS_CREDENTIAL_ID = 'nexus3-login'
-	}
-
 	tools {
 		maven "maven-3.6.3"
 	}
@@ -26,14 +14,14 @@ pipeline {
 	stages {
 		stage('Checkout') {
 			steps {
-				git branch: "${env.GIT_BRANCH}", url: "${env.GIT_URL}"
+				git branch: "${env.BRANCH_NAME}", url: "${env.GIT_URL}"
 			}
 		}
 
 		stage('Build') {
 			steps {
 				script {
-					sh "mvn clean validate compile package install -Dmaven.test.skip=true"
+					sh "mvn clean validate compile package install -Dmaven.test.skip=true -e"
 				}
 			}
 		}
@@ -59,9 +47,9 @@ pipeline {
 			steps {
 				script {
 					for (module in modules()) {
-						dir("${env.PROJECT_DIR_PATH}/${module}") {
-							withSonarQubeEnv("${env.SONAR_QUBE_ENV}") {
-								sh "mvn sonar:sonar"
+						dir("${env.WORKSPACE}/${module}") {
+							withSonarQubeEnv("sonarqube-server") {
+								sh "mvn sonar:sonar -e"
 							}
 						}
 					}
@@ -73,7 +61,7 @@ pipeline {
 			steps {
 				script {
 					for (module in modules()) {
-						dir("${env.PROJECT_DIR_PATH}/${module}") {
+						dir("${env.WORKSPACE}/${module}") {
 							script {
 								timeout(time: 30, unit: 'SECONDS') {
 									def response = waitForQualityGate()
@@ -92,7 +80,7 @@ pipeline {
 			steps {
 				script {
 					for (module in modules()) {
-						dir("${env.PROJECT_DIR_PATH}/${module}") {
+						dir("${env.WORKSPACE}/${module}") {
 							script {
 								pom = readMavenPom file: "pom.xml";
 								filesByGlob = findFiles(glob: "target/*.${pom.packaging}");
