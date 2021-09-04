@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.diverproject.scarlet.context.Priority;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -13,6 +14,11 @@ import java.util.Optional;
 import java.util.Set;
 
 public class ReflectionInterfaceUtilsTest {
+
+	@BeforeAll
+	static void beforeAll() {
+		ReflectionConfig.setPackage(null);
+	}
 
 	@Test
 	@DisplayName("Get All Implementations Of")
