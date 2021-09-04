@@ -48,7 +48,7 @@ pipeline {
 				script {
 					for (module in modules()) {
 						dir("${env.WORKSPACE}/${module}") {
-							withSonarQubeEnv("sonarqube-server") {
+							withSonarQubeEnv('SonarQube Server') {
 								sh "mvn sonar:sonar -e"
 							}
 						}
