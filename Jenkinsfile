@@ -49,7 +49,7 @@ pipeline {
 					for (module in modules()) {
 						dir("${env.WORKSPACE}/${module}") {
 							withSonarQubeEnv("sonarqube-server") {
-								sh "mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=admin -e -X"
+								sh "mvn sonar:sonar -e"
 							}
 						}
 					}
