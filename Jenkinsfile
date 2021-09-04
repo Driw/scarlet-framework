@@ -29,7 +29,7 @@ pipeline {
 		stage('JUnit') {
 			steps {
 				script {
-					sh "mvn test"
+					sh "mvn test -Dmaven.test.redirectTestOutputToFile=true -e"
 				}
 			}
 			post {
@@ -88,28 +88,7 @@ pipeline {
 								artifactPath = filesByGlob[0].path;
 								artifactExists = fileExists artifactPath;
 								if(artifactExists) {
-									nexusArtifactUploader(
-										nexusVersion: "${env.NEXUS_VERSION}",
-										protocol: "${env.NEXUS_PROTOCOL}",
-										nexusUrl: "${env.NEXUS_URL}",
-										groupId: pom.parent.groupId,
-										version: pom.version,
-										repository: "${env.NEXUS_REPOSITORY}",
-										credentialsId: "${env.NEXUS_CREDENTIAL_ID}",
-										artifacts: [
-											[
-												artifactId: pom.artifactId,
-												classifier: '',
-												file: artifactPath,
-												type: pom.packaging
-											],[
-												artifactId: pom.artifactId,
-												classifier: '',
-												file: "pom.xml",
-												type: "pom"
-											]
-										]
-									);
+									nexusPublisher nexusInstanceId: 'nexus3-login', nexusRepositoryId: 'maven-releases', packages: [[$class: 'MavenPackage', mavenAssetList: [], mavenCoordinate: [artifactId: pom.artifactId, groupId: pom.parent.groupId, packaging: pom.packaging, version: pom.version]]]
 								} else {
 									error "*** File: ${artifactPath}, could not be found";
 								}
