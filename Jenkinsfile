@@ -48,7 +48,7 @@ pipeline {
 				script {
 					for (module in modules()) {
 						dir("${env.WORKSPACE}/${module}") {
-							withSonarQubeEnv('SonarQube Server') {
+							withSonarQubeEnv('sonarqube-server') {
 								sh "mvn sonar:sonar -e"
 							}
 						}
@@ -78,7 +78,7 @@ pipeline {
 								artifactPath = filesByGlob[0].path;
 								artifactExists = fileExists artifactPath;
 								if(artifactExists) {
-									nexusPublisher nexusInstanceId: 'nexus3-login', nexusRepositoryId: 'maven-releases', packages: [[$class: 'MavenPackage', mavenAssetList: [], mavenCoordinate: [artifactId: pom.artifactId, groupId: pom.parent.groupId, packaging: pom.packaging, version: pom.version]]]
+									nexusPublisher nexusInstanceId: 'nexus3-repository-server', nexusRepositoryId: 'maven-releases', packages: [[$class: 'MavenPackage', mavenAssetList: [], mavenCoordinate: [artifactId: pom.artifactId, groupId: pom.parent.groupId, packaging: pom.packaging, version: pom.version]]]
 								} else {
 									error "*** File: ${artifactPath}, could not be found";
 								}
