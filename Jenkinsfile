@@ -7,33 +7,21 @@ def modules() {
 pipeline {
 	agent any
 
-	environment {
-		PROJECT_DIR_PATH = "${env.WORKSPACE}"
-		GIT_URL = 'https://github.com/diverproject/scarlet-framework.git'
-		GIT_BRANCH = 'feature/AE-1-base'
-		SONAR_QUBE_ENV = 'sonar'
-		NEXUS_VERSION = 'nexus3'
-		NEXUS_PROTOCOL = 'http'
-		NEXUS_URL = 'kubernetes.docker.internal:60003'
-		NEXUS_REPOSITORY = 'maven-releases'
-		NEXUS_CREDENTIAL_ID = 'nexus3-login'
-	}
-
 	tools {
-		maven "maven-3.6.3"
+		maven "maven"
 	}
 
 	stages {
 		stage('Checkout') {
 			steps {
-				git branch: "${env.GIT_BRANCH}", url: "${env.GIT_URL}"
+				git branch: "${env.BRANCH_NAME}", url: "${env.GIT_URL}"
 			}
 		}
 
 		stage('Build') {
 			steps {
 				script {
-					sh "mvn clean validate compile package install -Dmaven.test.skip=true"
+					sh "mvn clean validate compile package install -Dmaven.test.skip=true -e"
 				}
 			}
 		}
@@ -41,7 +29,7 @@ pipeline {
 		stage('JUnit') {
 			steps {
 				script {
-					sh "mvn test"
+					sh "mvn test -Dmaven.test.redirectTestOutputToFile=true -e"
 				}
 			}
 			post {
@@ -55,34 +43,24 @@ pipeline {
 			}
 		}
 
-		stage('SonarQube Scan') {
+		stage('SonarQube Scan & Quality Gate') {
 			steps {
 				script {
 					for (module in modules()) {
-						dir("${env.PROJECT_DIR_PATH}/${module}") {
-							withSonarQubeEnv("${env.SONAR_QUBE_ENV}") {
-								sh "mvn sonar:sonar"
+						dir("${env.WORKSPACE}/${module}") {
+							withSonarQubeEnv('sonarqube-server') {
+								sh "mvn sonar:sonar -e"
 							}
 						}
-					}
-				}
-			}
-		}
 
-		stage("SonarQube Quality Gate") {
-			steps {
-				script {
-					for (module in modules()) {
-						dir("${env.PROJECT_DIR_PATH}/${module}") {
-							script {
-								timeout(time: 30, unit: 'SECONDS') {
-									def response = waitForQualityGate()
-									if (response.status != 'OK') {
-										error "Pipeline aborted due to quality gate failure: ${qg.status}"
-									}
-								}
-							}
-						}
+                        script {
+                            timeout(time: 5, unit: 'MINUTES') {
+                                def response = waitForQualityGate()
+                                if (response.status != 'OK') {
+                                    error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                                }
+                            }
+                        }
 					}
 				}
 			}
@@ -92,7 +70,7 @@ pipeline {
 			steps {
 				script {
 					for (module in modules()) {
-						dir("${env.PROJECT_DIR_PATH}/${module}") {
+						dir("${env.WORKSPACE}/${module}") {
 							script {
 								pom = readMavenPom file: "pom.xml";
 								filesByGlob = findFiles(glob: "target/*.${pom.packaging}");
@@ -100,28 +78,7 @@ pipeline {
 								artifactPath = filesByGlob[0].path;
 								artifactExists = fileExists artifactPath;
 								if(artifactExists) {
-									nexusArtifactUploader(
-										nexusVersion: "${env.NEXUS_VERSION}",
-										protocol: "${env.NEXUS_PROTOCOL}",
-										nexusUrl: "${env.NEXUS_URL}",
-										groupId: pom.parent.groupId,
-										version: pom.version,
-										repository: "${env.NEXUS_REPOSITORY}",
-										credentialsId: "${env.NEXUS_CREDENTIAL_ID}",
-										artifacts: [
-											[
-												artifactId: pom.artifactId,
-												classifier: '',
-												file: artifactPath,
-												type: pom.packaging
-											],[
-												artifactId: pom.artifactId,
-												classifier: '',
-												file: "pom.xml",
-												type: "pom"
-											]
-										]
-									);
+									nexusPublisher nexusInstanceId: 'nexus3-repository-server', nexusRepositoryId: 'maven-releases', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: "target/${pom.artifactId}-${pom.version}.${pom.packaging}"]], mavenCoordinate: [artifactId: pom.artifactId, groupId: pom.parent.groupId, packaging: pom.packaging, version: pom.version]]]
 								} else {
 									error "*** File: ${artifactPath}, could not be found";
 								}
