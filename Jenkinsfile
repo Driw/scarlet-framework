@@ -43,7 +43,7 @@ pipeline {
 			}
 		}
 
-		stage('SonarQube Scan') {
+		stage('SonarQube Scan & Quality Gate') {
 			steps {
 				script {
 					for (module in modules()) {
@@ -52,25 +52,15 @@ pipeline {
 								sh "mvn sonar:sonar -e"
 							}
 						}
-					}
-				}
-			}
-		}
 
-		stage("SonarQube Quality Gate") {
-			steps {
-				script {
-					for (module in modules()) {
-						dir("${env.WORKSPACE}/${module}") {
-							script {
-								timeout(time: 5, unit: 'MINUTES') {
-									def response = waitForQualityGate()
-									if (response.status != 'OK') {
-										error "Pipeline aborted due to quality gate failure: ${qg.status}"
-									}
-								}
-							}
-						}
+                        script {
+                            timeout(time: 5, unit: 'MINUTES') {
+                                def response = waitForQualityGate()
+                                if (response.status != 'OK') {
+                                    error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                                }
+                            }
+                        }
 					}
 				}
 			}
