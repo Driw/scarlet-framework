@@ -78,7 +78,7 @@ pipeline {
 								artifactPath = filesByGlob[0].path;
 								artifactExists = fileExists artifactPath;
 								if(artifactExists) {
-									nexusPublisher nexusInstanceId: 'nexus3-repository-server', nexusRepositoryId: 'maven-releases', packages: [[$class: 'MavenPackage', mavenAssetList: [], mavenCoordinate: [artifactId: pom.artifactId, groupId: pom.parent.groupId, packaging: pom.packaging, version: pom.version]]]
+									nexusPublisher nexusInstanceId: 'nexus3-repository-server', nexusRepositoryId: 'maven-releases', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: "target/${pom.artifactId}-${pom.version}.${pom.packaging}"]], mavenCoordinate: [artifactId: pom.artifactId, groupId: pom.parent.groupId, packaging: pom.packaging, version: pom.version]]]
 								} else {
 									error "*** File: ${artifactPath}, could not be found";
 								}
